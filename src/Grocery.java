@@ -10,6 +10,11 @@ public class Grocery {
         this.nutrition = nutrition;
     }
 
+    public Nutrition getNutrition() {
+        return nutrition;
+    }
+
+
     @Override
     public int hashCode() {
         return Objects.hash(name, nutrition);
