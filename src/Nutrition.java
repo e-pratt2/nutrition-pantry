@@ -55,6 +55,9 @@ public class Nutrition {
     public static Nutrition divide(Nutrition a, double div) {
         return Nutrition.multiply(a, 1.0/div);
     }
+    //TODO:
+    //public static Nutrition getTotal(???<Nutrition>);
+    //public static Nutrition getAverage(???<Nutrition>);
 
     @Override
     public int hashCode() {
