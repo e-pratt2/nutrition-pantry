@@ -14,6 +14,9 @@ public class Grocery {
         return nutrition;
     }
 
+    public String getName() {
+        return name;
+    }
 
     @Override
     public int hashCode() {
