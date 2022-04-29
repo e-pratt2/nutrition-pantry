@@ -23,4 +23,9 @@ public class Receipt {
     public void addGrocery(Grocery g, double quantity) {
         this.groceryQuantity.put(g, this.getQuantityOf(g) + quantity);
     }
+
+    public Nutrition getTotalNutrition() {
+        Nutrition total;
+        return null; // TODO
+    }
 }
