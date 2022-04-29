@@ -36,6 +36,26 @@ public class Nutrition {
         return sugar;
     }
 
+    public static Nutrition add(Nutrition a, Nutrition b) {
+        return new Nutrition(a.calories + b.calories,
+                a.fat + b.fat,
+                a.sugar + b.sugar,
+                a.fiber + b.fiber,
+                a.protein + b.protein,
+                a.sodium + b.sodium);
+    }
+    public static Nutrition multiply(Nutrition a, double mul) {
+        return new Nutrition(a.calories * mul,
+                a.fat * mul,
+                a.sugar * mul,
+                a.fiber * mul,
+                a.protein * mul,
+                a.sodium * mul);
+    }
+    public static Nutrition divide(Nutrition a, double div) {
+        return Nutrition.multiply(a, 1.0/div);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(calories, fat, sugar, fiber, protein, sodium);
