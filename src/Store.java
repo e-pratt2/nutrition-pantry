@@ -7,14 +7,14 @@ public class Store {
     private String name;
 
     public void Store(String name){
-        this.groceryPrices = new HashMap<Grocery, Double>();
-        this.receipts = new ArrayList<Receipt>();
+        this.groceryPrices = new HashMap<>();
+        this.receipts = new ArrayList<>();
         this.name = name;
     }
 
     public double getPriceOf(Grocery grocery){
         Double price = groceryPrices.get(grocery);
-        return price == null ? 0.0 : price.doubleValue();
+        return price == null ? 0.0 : price;
     }
 
     public void addR(Receipt receipt){
