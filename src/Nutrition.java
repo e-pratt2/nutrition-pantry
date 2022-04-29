@@ -16,6 +16,26 @@ public class Nutrition {
         return this.calories;
     }
 
+    public double getFat() {
+        return fat;
+    }
+
+    public double getFiber() {
+        return fiber;
+    }
+
+    public double getProtein() {
+        return protein;
+    }
+
+    public double getSodium() {
+        return sodium;
+    }
+
+    public double getSugar() {
+        return sugar;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(calories, fat, sugar, fiber, protein, sodium);
