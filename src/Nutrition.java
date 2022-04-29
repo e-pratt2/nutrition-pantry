@@ -12,8 +12,8 @@ public class Nutrition {
         this.sodium = sodium;
     }
 
-    public double getCalories(double calories){
-        this.calories = calories;
+    public double getCalories(){
+        return this.calories;
     }
 
     @Override
