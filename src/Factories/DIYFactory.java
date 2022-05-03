@@ -18,7 +18,7 @@ public class DIYFactory implements GroceryFactory{
         return null;//TODO::
     }
 
-    private double promt(String string){
+    private double prompt(String string){
         return 0.0;//TODO::
     }
 }
