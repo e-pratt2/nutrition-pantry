@@ -8,7 +8,7 @@ public class Store {
     private ArrayList<Receipt> receipts;
     private String name;
 
-    public void Store(String name){
+    public Store(String name){
         this.groceryPrices = new HashMap<>();
         this.receipts = new ArrayList<>();
         this.name = name;
