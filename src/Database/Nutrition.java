@@ -1,3 +1,5 @@
+package Database;
+
 import java.util.Objects;
 
 public class Nutrition {
@@ -76,8 +78,8 @@ public class Nutrition {
         return Nutrition.multiply(a, 1.0/div);
     }
     //TODO:
-    //public static Nutrition getTotal(???<Nutrition>);
-    //public static Nutrition getAverage(???<Nutrition>);
+    //public static Database.Nutrition getTotal(???<Database.Nutrition>);
+    //public static Database.Nutrition getAverage(???<Database.Nutrition>);
 
     @Override
     public int hashCode() {
