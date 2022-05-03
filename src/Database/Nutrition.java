@@ -1,8 +1,9 @@
 package Database;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Nutrition {
+public class Nutrition implements Serializable {
     private double calories, fat, sugar, fiber, protein, sodium;
 
     public Nutrition(double calories, double fat, double sugar, double fiber, double protein, double sodium) {

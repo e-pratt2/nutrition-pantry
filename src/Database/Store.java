@@ -1,9 +1,10 @@
 package Database;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Store {
+public class Store implements Serializable {
     private HashMap<Grocery, Double> groceryPrices;
     private ArrayList<Receipt> receipts;
     private String name;

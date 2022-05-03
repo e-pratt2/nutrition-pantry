@@ -1,9 +1,10 @@
 package Database;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.time.LocalDate;
 
-public class Receipt {
+public class Receipt implements Serializable {
 
     private HashMap<Grocery, Double> groceryQuantity;
     private LocalDate date;

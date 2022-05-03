@@ -1,8 +1,9 @@
 package Database;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Grocery {
+public class Grocery implements Serializable {
 
     private String name;
     private Nutrition nutrition;
