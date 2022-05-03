@@ -19,7 +19,7 @@ public class Store {
         return price == null ? 0.0 : price;
     }
 
-    public void addR(Receipt receipt){
+    public void addReceipt(Receipt receipt){
         this.receipts.add(receipt);
     }
 }
