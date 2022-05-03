@@ -82,6 +82,17 @@ public class Nutrition implements Serializable {
     //public static Database.Nutrition getTotal(???<Database.Nutrition>);
     //public static Database.Nutrition getAverage(???<Database.Nutrition>);
 
+
+    @Override
+    public String toString() {
+        return "Nutrition{Calories: " + calories
+                + ", Fat: " + fat
+                + ", Sugar: " + sugar
+                + ", Fiber: " + fiber
+                + ", Protein: " + protein
+                + ", Sodium: " + sodium + "}";
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(calories, fat, sugar, fiber, protein, sodium);
