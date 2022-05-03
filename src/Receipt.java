@@ -25,7 +25,10 @@ public class Receipt {
     }
 
     public Nutrition getTotalNutrition() {
-        Nutrition total;
-        return null; // TODO
+        Nutrition total = new Nutrition();
+        groceryQuantity.forEach(
+                (Grocery g, Double d) -> total.add(g.getNutrition())
+        );
+        return total;
     }
 }

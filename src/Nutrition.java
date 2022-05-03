@@ -11,6 +11,9 @@ public class Nutrition {
         this.protein = protein;
         this.sodium = sodium;
     }
+    public Nutrition(){
+        this(0,0,0,0,0,0);
+    }
 
     public double getCalories(){
         return this.calories;
@@ -43,6 +46,14 @@ public class Nutrition {
                 a.fiber + b.fiber,
                 a.protein + b.protein,
                 a.sodium + b.sodium);
+    }
+    public void add(Nutrition a) {
+        this.calories += a.calories;
+        this.fat += a.fat;
+        this.sugar += a.sugar;
+        this.fiber += a.fiber;
+        this.protein += a.protein;
+        this.sodium += a.sodium;
     }
     public static Nutrition multiply(Nutrition a, double mul) {
         return new Nutrition(a.calories * mul,
