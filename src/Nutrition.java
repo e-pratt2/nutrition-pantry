@@ -63,6 +63,15 @@ public class Nutrition {
                 a.protein * mul,
                 a.sodium * mul);
     }
+    public Nutrition multiply(double mul) {
+        this.calories *= mul;
+        this.fat *= mul;
+        this.sugar *= mul;
+        this.fiber *= mul;
+        this.protein *= mul;
+        this.sodium *= mul;
+        return this;
+    }
     public static Nutrition divide(Nutrition a, double div) {
         return Nutrition.multiply(a, 1.0/div);
     }
