@@ -2,22 +2,23 @@ package Factories;
 
 import Database.Grocery;
 import Database.Nutrition;
+import UI.UIHelpers;
 
 public class DIYFactory implements GroceryFactory{
 
     @Override
     public Grocery createGrocery(){
-        return null;//TODO::
+        String name = promptName();
+        Nutrition n = getNutrition();
+
+        return new Grocery(name, n);
     }
 
     private String promptName(){
+        return UIHelpers.promptString("Grocery name: \n");
     }
 
     private Nutrition getNutrition(){
         return null;//TODO::
-    }
-
-    private double prompt(String string){
-        return 0.0;//TODO::
     }
 }
