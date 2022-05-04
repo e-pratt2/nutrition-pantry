@@ -20,7 +20,7 @@ public class UPCGroceryFactory implements GroceryFactory {
 
         return new Grocery(name, n);
     }
-    private static String promptUPC() {
+    private static String promptCode() {
         String upc;
         upc = UIHelpers.promptString("Enter the product UPC: \n");
         while(!validateCode(upc)){
@@ -32,7 +32,7 @@ public class UPCGroceryFactory implements GroceryFactory {
         return UIHelpers.promptString("Grocery name: \n");
     }
     private Nutrition promptAndParseUPC() {
-        String upc = promptUPC();
+        String upc = promptCode();
         String json = getOpenFoodFactsJSON(upc);
         return parseJSON(json);
     }
@@ -42,14 +42,14 @@ public class UPCGroceryFactory implements GroceryFactory {
      * @return whether the UPC represents a valid code according to the UPC-12 standard
      */
     public static boolean validateCode(String upc) {
-        //UPC-12 must be 12 digits
-        if(upc.length() != 12) {
+        //UPC-12 must be 12 digits, EAN must be 13.
+        if(upc.length() < 12 || upc.length() > 13) {
             return false;
         }
 
         //Sum up the digits...
         int digitSum = 0;
-        for(int i = 0; i < 11; ++i) {
+        for(int i = 0; i < upc.length(); ++i) {
             //Get the digit at the current index
             char c = upc.charAt(i);
             int digit = Character.digit(c, 10);
@@ -67,7 +67,7 @@ public class UPCGroceryFactory implements GroceryFactory {
         //sum a multiple of 10
         int desiredCheckDigit = 10 - digitSum % 10;
         //Return if the actual check digit matches our theoretical checksum
-        char checkChar = upc.charAt(11);
+        char checkChar = upc.charAt(upc.length() - 1);
         return Character.digit(checkChar, 10) == desiredCheckDigit;
     }
     public static String getOpenFoodFactsJSON(String upc) {

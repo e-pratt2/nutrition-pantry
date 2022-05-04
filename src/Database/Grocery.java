@@ -28,6 +28,6 @@ public class Grocery implements Serializable {
 
     @Override
     public String toString() {
-        return "Grocery{" + name + ", Nutrition" + nutrition.toString() + "}";
+        return "Grocery{" + name + ", " + nutrition.toString() + "}";
     }
 }
