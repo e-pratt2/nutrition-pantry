@@ -24,6 +24,8 @@ public class UPCGroceryFactory implements GroceryFactory {
      * @param upc A 12-digit numeric UPC string to checksum for validity
      * @return whether the UPC represents a valid code according to the UPC-12 standard
      */
+
+    //TODO: add more than UPC-12
     public static boolean validateUPC(String upc) {
         //UPC-12 must be 12 digits
         if(upc.length() != 12) {
@@ -82,7 +84,7 @@ public class UPCGroceryFactory implements GroceryFactory {
 
         JSONObject nutriments = j.getJSONObject("product").getJSONObject("nutriments");
 
-        double calories = nutriments.optDouble("energy_serving", 0.0);
+        double calories = nutriments.optDouble("energy-kcal_serving", 0.0);
         double fat = nutriments.optDouble("fat_serving", 0.0);
         double sugar = nutriments.optDouble("sugars_serving", 0.0);
         double fiber = nutriments.optDouble("fiber_serving", 0.0);
