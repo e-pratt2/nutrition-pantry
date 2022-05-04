@@ -3,7 +3,7 @@ package UI;
 import java.util.Scanner;
 
 public class UIHelpers {
-    public static double promptDouble(String prompt) {
+    public static double promptDouble() {
         Scanner s = new Scanner(System.in);
         while(true) {
             try {

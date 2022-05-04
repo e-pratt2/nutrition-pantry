@@ -2,6 +2,7 @@ package Factories;
 
 import Database.Grocery;
 import Database.Nutrition;
+import UI.UIHelpers;
 
 public class DIYFactory implements GroceryFactory{
 
@@ -11,13 +12,18 @@ public class DIYFactory implements GroceryFactory{
     }
 
     private String promptName(){
+        return null;
     }
 
     private Nutrition getNutrition(){
-        return null;//TODO::
-    }
+        double cal = UIHelpers.promptDouble();
+        double fat = UIHelpers.promptDouble();
+        double sugar = UIHelpers.promptDouble();
+        double fib = UIHelpers.promptDouble();
+        double pro = UIHelpers.promptDouble();
+        double sod = UIHelpers.promptDouble();
 
-    private double prompt(String string){
-        return 0.0;//TODO::
+        Nutrition n = new Nutrition(cal, fat, sugar, fib, pro, sod);
+        return n;
     }
 }
