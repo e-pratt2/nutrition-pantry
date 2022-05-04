@@ -19,12 +19,13 @@ public class DIYFactory implements GroceryFactory{
     }
 
     private Nutrition getNutrition(){
-        double cal = UIHelpers.promptDouble();
-        double fat = UIHelpers.promptDouble();
-        double sugar = UIHelpers.promptDouble();
-        double fib = UIHelpers.promptDouble();
-        double pro = UIHelpers.promptDouble();
-        double sod = UIHelpers.promptDouble();
+
+        double cal = UIHelpers.promptDouble("Amount of Calories: ");
+        double fat = UIHelpers.promptDouble("Amount of Fat: ");
+        double sugar = UIHelpers.promptDouble("Amount of Sugar: ");
+        double fib = UIHelpers.promptDouble("Amount of Fiber: ");
+        double pro = UIHelpers.promptDouble("Amount of Protein: ");
+        double sod = UIHelpers.promptDouble(" Amount of Sodium: ");
 
         Nutrition n = new Nutrition(cal, fat, sugar, fib, pro, sod);
         return n;
