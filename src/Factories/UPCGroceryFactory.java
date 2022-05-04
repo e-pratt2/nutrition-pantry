@@ -18,22 +18,29 @@ public class UPCGroceryFactory implements GroceryFactory {
         String name = promptName();
         Nutrition n = promptAndParseUPC();
 
+        if(n == null){
+            return null;
+        }
+        System.out.println("Done!");
+
         return new Grocery(name, n);
     }
     private static String promptCode() {
         String upc;
-        upc = UIHelpers.promptString("Enter the product UPC: \n");
+        upc = UIHelpers.promptString("Enter the product UPC:");
         while(!validateCode(upc)){
-            upc = UIHelpers.promptString("Invalid UPC, try again: \n");
+            upc = UIHelpers.promptString("Invalid UPC, try again:");
         };
         return upc;
     }
     private static String promptName() {
-        return UIHelpers.promptString("Grocery name: \n");
+        return UIHelpers.promptString("Grocery name:");
     }
     private Nutrition promptAndParseUPC() {
         String upc = promptCode();
         String json = getOpenFoodFactsJSON(upc);
+        if(json == null)
+            return null;
         return parseJSON(json);
     }
 
@@ -47,18 +54,26 @@ public class UPCGroceryFactory implements GroceryFactory {
             return false;
         }
 
+        boolean isUPC = upc.length() == 12;
+
         //Sum up the digits...
         int digitSum = 0;
-        for(int i = 0; i < upc.length(); ++i) {
+        for(int i = 0; i < (upc.length()-1); ++i) {
             //Get the digit at the current index
             char c = upc.charAt(i);
             int digit = Character.digit(c, 10);
             //Not a digit - invalid code
             if(digit == -1)
                 return false;
-            //Even numbered indices get multiplied by 3
-            if((i & 1) == 0)
-                digit *= 3;
+            if(isUPC) {
+                //Even numbered indices get multiplied by 3
+                if ((i & 1) == 0)
+                    digit *= 3;
+            } else {
+                //Odd numbered indices get multiplied by 3
+                if ((i & 1) == 1)
+                    digit *= 3;
+            }
             //Add to our sum
             digitSum += digit;
         }
@@ -71,15 +86,17 @@ public class UPCGroceryFactory implements GroceryFactory {
         return Character.digit(checkChar, 10) == desiredCheckDigit;
     }
     public static String getOpenFoodFactsJSON(String upc) {
+        System.out.print("Downloading...");
         HttpURLConnection con = null;
         try {
             URL url = new URL("https://world.openfoodfacts.org/api/v0/product/" + upc + ".json");
             con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 
-            System.out.println(con.getResponseCode());
-            System.out.println(con.getResponseMessage());
-
+            if(con.getResponseCode() != 200) {
+                System.out.println("Failed to download information, check your internet connection.");
+                return null;
+            }
             InputStream is = con.getInputStream();
 
             return new BufferedReader(new InputStreamReader(is))
@@ -93,6 +110,7 @@ public class UPCGroceryFactory implements GroceryFactory {
         return null;
     }
     public static Nutrition parseJSON(String json) {
+        System.out.print("Parsing...");
         JSONObject j = new JSONObject(json);
         if(j.getInt("status") != 1)
             return null;
