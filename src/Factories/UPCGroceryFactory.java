@@ -23,13 +23,13 @@ public class UPCGroceryFactory implements GroceryFactory {
     private static String promptUPC() {
         String upc;
         upc = UIHelpers.promptString("Enter the product UPC: \n");
-        while(!validateUPC(upc)){
+        while(!validateCode(upc)){
             upc = UIHelpers.promptString("Invalid UPC, try again: \n");
         };
         return upc;
     }
     private static String promptName() {
-        return UIHelpers.promptString("Grocery name: \n")
+        return UIHelpers.promptString("Grocery name: \n");
     }
     private Nutrition promptAndParseUPC() {
         String upc = promptUPC();
