@@ -33,16 +33,15 @@ public class UPCGroceryFactory implements GroceryFactory {
     }
     private Nutrition promptAndParseUPC() {
         String upc = promptUPC();
-        String json =
+        String json = getOpenFoodFactsJSON(upc);
+        return parseJSON(json);
     }
 
     /**
      * @param upc A 12-digit numeric UPC string to checksum for validity
      * @return whether the UPC represents a valid code according to the UPC-12 standard
      */
-
-    //TODO: add more than UPC-12
-    public static boolean validateUPC(String upc) {
+    public static boolean validateCode(String upc) {
         //UPC-12 must be 12 digits
         if(upc.length() != 12) {
             return false;

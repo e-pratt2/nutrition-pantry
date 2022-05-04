@@ -25,4 +25,9 @@ public class Grocery implements Serializable {
     public int hashCode() {
         return Objects.hash(name, nutrition);
     }
+
+    @Override
+    public String toString() {
+        return "Grocery{" + name + ", Nutrition" + nutrition.toString() + "}";
+    }
 }
