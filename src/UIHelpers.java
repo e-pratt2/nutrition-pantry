@@ -14,5 +14,8 @@ public class UIHelpers {
     }
     public String promptString(String prompt) {
 
+        Scanner kb = new Scanner(System.in);
+        String str = kb.nextLine();
+        return str;
     }
 }
