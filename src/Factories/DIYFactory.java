@@ -11,7 +11,7 @@ public class DIYFactory implements GroceryFactory{
     }
 
     private String promptName(){
-        return "";
+        return UIHelpers.;
     }
 
     private Nutrition getNutrition(){
