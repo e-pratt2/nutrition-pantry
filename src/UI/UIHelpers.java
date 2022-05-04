@@ -3,8 +3,9 @@ package UI;
 import java.util.Scanner;
 
 public class UIHelpers {
-    public static double promptDouble() {
+    public static double promptDouble(String prompt) {
         Scanner s = new Scanner(System.in);
+        System.out.println(prompt);
         while(true) {
             try {
                 String line = s.nextLine();
@@ -15,7 +16,7 @@ public class UIHelpers {
         }
     }
     public static String promptString(String prompt) {
-
+        System.out.println(prompt);
         Scanner kb = new Scanner(System.in);
         String str = kb.nextLine();
         return str;

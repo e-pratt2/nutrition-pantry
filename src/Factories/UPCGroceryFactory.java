@@ -2,6 +2,7 @@ package Factories;
 
 import Database.Grocery;
 import Database.Nutrition;
+import UI.UIHelpers;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -14,10 +15,25 @@ import java.util.stream.Collectors;
 public class UPCGroceryFactory implements GroceryFactory {
     @Override
     public Grocery createGrocery() {
-        return null;
+        String name = promptName();
+        Nutrition n = promptAndParseUPC();
+
+        return new Grocery(name, n);
     }
     private static String promptUPC() {
-        return null;
+        String upc;
+        upc = UIHelpers.promptString("Enter the product UPC: \n");
+        while(!validateUPC(upc)){
+            upc = UIHelpers.promptString("Invalid UPC, try again: \n");
+        };
+        return upc;
+    }
+    private static String promptName() {
+        return UIHelpers.promptString("Grocery name: \n")
+    }
+    private Nutrition promptAndParseUPC() {
+        String upc = promptUPC();
+        String json =
     }
 
     /**
