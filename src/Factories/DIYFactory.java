@@ -8,11 +8,14 @@ public class DIYFactory implements GroceryFactory{
 
     @Override
     public Grocery createGrocery(){
-        return null;//TODO::
+        String name = promptName();
+        Nutrition n = getNutrition();
+
+        return new Grocery(name, n);
     }
 
     private String promptName(){
-        return null;
+        return UIHelpers.promptString("Grocery name: \n");
     }
 
     private Nutrition getNutrition(){
