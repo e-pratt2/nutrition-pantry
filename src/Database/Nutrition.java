@@ -42,14 +42,14 @@ public class Nutrition implements Serializable {
         return sugar;
     }
 
-    public static Nutrition add(Nutrition a, Nutrition b) {
-        return new Nutrition(a.calories + b.calories,
-                a.fat + b.fat,
-                a.sugar + b.sugar,
-                a.fiber + b.fiber,
-                a.protein + b.protein,
-                a.sodium + b.sodium);
-    }
+//    public static Nutrition add(Nutrition a, Nutrition b) {
+//        return new Nutrition(a.calories + b.calories,
+//                a.fat + b.fat,
+//                a.sugar + b.sugar,
+//                a.fiber + b.fiber,
+//                a.protein + b.protein,
+//                a.sodium + b.sodium);
+//    }
     public void add(Nutrition a) {
         this.calories += a.calories;
         this.fat += a.fat;
@@ -58,14 +58,14 @@ public class Nutrition implements Serializable {
         this.protein += a.protein;
         this.sodium += a.sodium;
     }
-    public static Nutrition multiply(Nutrition a, double mul) {
-        return new Nutrition(a.calories * mul,
-                a.fat * mul,
-                a.sugar * mul,
-                a.fiber * mul,
-                a.protein * mul,
-                a.sodium * mul);
-    }
+//    public static Nutrition multiply(Nutrition a, double mul) {
+//        return new Nutrition(a.calories * mul,
+//                a.fat * mul,
+//                a.sugar * mul,
+//                a.fiber * mul,
+//                a.protein * mul,
+//                a.sodium * mul);
+//    }
     public Nutrition multiply(double mul) {
         this.calories *= mul;
         this.fat *= mul;
@@ -75,9 +75,9 @@ public class Nutrition implements Serializable {
         this.sodium *= mul;
         return this;
     }
-    public static Nutrition divide(Nutrition a, double div) {
-        return Nutrition.multiply(a, 1.0/div);
-    }
+//    public static Nutrition divide(Nutrition a, double div) {
+//        return Nutrition.multiply(a, 1.0/div);
+//    }
     //TODO:
     //public static Database.Nutrition getTotal(???<Database.Nutrition>);
     //public static Database.Nutrition getAverage(???<Database.Nutrition>);

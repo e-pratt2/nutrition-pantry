@@ -23,4 +23,25 @@ public class Store implements Serializable {
     public void addReceipt(Receipt receipt){
         this.receipts.add(receipt);
     }
+
+    public double getTotalPrice() {
+        double total = 0.0;
+        for(Receipt r : this.receipts) {
+            for(Grocery g : r.getGroceries()) {
+                total += this.getPriceOf(g) * r.getQuantityOf(g);
+            }
+        }
+        return total;
+    }
+    public double getAveragePrice() {
+        return getTotalPrice()/receipts.size();
+    }
+
+    public Nutrition getTotalNutrition() {
+        Nutrition total = new Nutrition();
+        receipts.forEach(
+                (Receipt r) -> total.add(r.getTotalNutrition())
+        );
+        return total;
+    }
 }

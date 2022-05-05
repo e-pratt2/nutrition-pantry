@@ -27,10 +27,14 @@ public class Receipt implements Serializable {
         this.groceryQuantity.put(g, this.getQuantityOf(g) + quantity);
     }
 
+    public Iterable<Grocery> getGroceries() {
+        return groceryQuantity.keySet();
+    }
+
     public Nutrition getTotalNutrition() {
         Nutrition total = new Nutrition();
         groceryQuantity.forEach(
-                (Grocery g, Double d) -> total.add(g.getNutrition().multiply(d))
+                (Grocery g, Double quantity) -> total.add(g.getNutrition().multiply(quantity))
         );
 
         return total;
