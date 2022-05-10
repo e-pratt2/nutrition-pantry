@@ -1,9 +1,11 @@
 package Factories;
 
 import Database.Store;
+import UI.UIHelpers;
 
 public class StoreFactory {
     public Store createStore() {
-        return null;
+        String str = UIHelpers.promptString("Input Store Name:");
+        return new Store(str);
     }
 }
