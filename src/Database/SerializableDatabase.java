@@ -2,6 +2,7 @@ package Database;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SerializableDatabase implements Serializable {
     static SerializableDatabase instance;
@@ -36,6 +37,12 @@ public class SerializableDatabase implements Serializable {
     ArrayList<Store> stores;
     ArrayList<Grocery> groceries;
 
+    public List<Grocery> getGroceries() {
+        return groceries;
+    }
+    public List<Store> getStores() {
+        return stores;
+    }
     public void addGrocery(Grocery g) {
         this.groceries.add(g);
     }
@@ -45,6 +52,4 @@ public class SerializableDatabase implements Serializable {
     public void addReceipt(Receipt r, Store s)  {
         s.addReceipt(r);
     }
-
-
 }
