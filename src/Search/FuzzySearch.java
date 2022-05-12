@@ -24,7 +24,7 @@ public class FuzzySearch {
 
         return totalPassedPermutations/(float)totalPermutations;
     }
-    public <E> E findBestMatch(String query, Iterable<E> items, Function<E, String> stringGetter) {
+    public static <E> E findBestMatch(String query, Iterable<E> items, Function<E, String> stringGetter) {
         float bestScore = -1.0f;
         E bestItem = null;
         for(E item : items) {

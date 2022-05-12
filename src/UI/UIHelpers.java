@@ -1,5 +1,8 @@
 package UI;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class UIHelpers {
@@ -20,5 +23,17 @@ public class UIHelpers {
         Scanner kb = new Scanner(System.in);
         String str = kb.nextLine();
         return str;
+    }
+    public static LocalDate promptDate(String prompt) {
+        Scanner s = new Scanner(System.in);
+        System.out.println(prompt + " (yyyy mm dd)");
+        while(true) {
+            String str = s.nextLine();
+            try {
+                return LocalDate.parse(str, DateTimeFormatter.ISO_LOCAL_DATE);
+            } catch(DateTimeParseException e) {
+                System.out.println("Invalid date, try again.");
+            }
+        }
     }
 }
