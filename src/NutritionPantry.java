@@ -1,6 +1,8 @@
 import Database.Grocery;
 import Factories.DIYFactory;
 import Factories.UPCGroceryFactory;
+import Filters.AlwaysPassFilter;
+import Filters.Filter;
 
 public class NutritionPantry {
     public static void main(String[] args) {

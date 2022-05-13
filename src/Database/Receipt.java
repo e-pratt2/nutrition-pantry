@@ -1,5 +1,7 @@
 package Database;
 
+import Filters.Filter;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.time.LocalDate;
@@ -31,10 +33,12 @@ public class Receipt implements Serializable {
         return groceryQuantity.keySet();
     }
 
-    public Nutrition getTotalNutrition() {
+    public Nutrition getTotalNutrition(Filter<Grocery> filter) {
         Nutrition total = new Nutrition();
         groceryQuantity.forEach(
-                (Grocery g, Double quantity) -> total.add(g.getNutrition().multiply(quantity))
+                (Grocery g, Double quantity) -> {
+                    if(filter.accepts(g)) total.add(g.getNutrition().multiply(quantity))
+                }
         );
 
         return total;
