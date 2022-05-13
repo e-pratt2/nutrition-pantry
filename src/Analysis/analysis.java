@@ -25,8 +25,6 @@ public class analysis {
         return getTotalNutrition(storeFilter,receiptFilter,groceryFilter);
     }
 
-
-
     private double getTotalPrice(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter) {
         double total = 0.0;
         for(Store s : SerializableDatabase.getInstance().getStores()) {
@@ -47,6 +45,7 @@ public class analysis {
         }
         return total;
     }
+
     private double getAveragePrice(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter) {
         double total = 0.0;
         int foundInstances = 0;
@@ -80,7 +79,14 @@ public class analysis {
                 if (!receiptFilter.accepts(r))
                     continue;
 
-                total.add(r.getTotalNutrition(groceryFilter));
+                for(Grocery g : r.getGroceries()) {
+                    if(!groceryFilter.accepts(g))
+                        continue;
+
+                    Nutrition subTotal = g.getNutrition().multiply(r.getQuantityOf(g));
+
+                    total.add(subTotal);
+                }
             }
         }
         return total;
@@ -97,10 +103,40 @@ public class analysis {
                 if (!receiptFilter.accepts(r))
                     continue;
 
-                total.add(r.getTotalNutrition(groceryFilter));
-                foundInstances++;
+                for(Grocery g : r.getGroceries()) {
+                    if(!groceryFilter.accepts(g))
+                        continue;
+
+                    Nutrition subTotal = g.getNutrition().multiply(r.getQuantityOf(g));
+
+                    total.add(subTotal);
+                    foundInstances++;
+                }
             }
         }
         return total.multiply(1.0/foundInstances);
+    }
+
+    public double getQuantityOf(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter) {
+        double total = 0.0;
+
+        for(Store s : SerializableDatabase.getInstance().getStores()){
+            if(!storeFilter.accepts(s))
+                continue;
+
+            for(Receipt r : s.getReceipts()){
+                if(!receiptFilter.accepts(r))
+                    continue;
+
+                for(Grocery g : r.getGroceries()) {
+                    if(!groceryFilter.accepts(g))
+                        continue;
+
+                    total += r.getQuantityOf(g);
+                }
+            }
+        }
+
+        return total;
     }
 }
