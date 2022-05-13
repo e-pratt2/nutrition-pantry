@@ -15,6 +15,10 @@ public class Store implements Serializable {
         this.name = name;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     public double getPriceOf(Grocery grocery){
         Double price = groceryPrices.get(grocery);
         return price == null ? 0.0 : price;
