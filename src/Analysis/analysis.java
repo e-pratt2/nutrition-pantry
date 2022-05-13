@@ -10,7 +10,7 @@ import Filters.Filter;
 public class analysis {
 
     public double avgPrice(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter){
-        return getAveragePrice(storeFilter,receiptFilter,groceryFilter);
+        return getAveragePrice(storeFilter, receiptFilter, groceryFilter);
     }
 
     public Nutrition AvgNutrition(Filter<Store> filter, Filter<Receipt> filter1, Filter<Grocery> filter2){
@@ -18,11 +18,11 @@ public class analysis {
     }
 
     public double totalPrice(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter){
-        return getTotalPrice(storeFilter,receiptFilter,groceryFilter);
+        return getTotalPrice(storeFilter ,receiptFilter, groceryFilter);
     }
 
     public Nutrition totalNutrition(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter){
-        return getTotalNutrition(storeFilter,receiptFilter,groceryFilter);
+        return getTotalNutrition(storeFilter, receiptFilter, groceryFilter);
     }
 
 
