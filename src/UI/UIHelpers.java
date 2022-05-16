@@ -36,4 +36,21 @@ public class UIHelpers {
             }
         }
     }
+
+    public static int menu(String [] star){
+
+        Scanner kb = new Scanner(System.in);
+        String str = kb.nextLine();
+        int choice = 0;
+        try {
+            choice = Integer.parseInt(str);
+        }catch(NumberFormatException e){
+            System.out.println("invalid value, try again:");
+        }
+
+       if(choice > 0 && choice < 8){
+           System.out.println(star[choice]);
+       }
+       return choice;
+    }
 }
