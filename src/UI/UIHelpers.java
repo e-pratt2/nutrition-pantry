@@ -1,5 +1,8 @@
 package UI;
 
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -33,6 +36,18 @@ public class UIHelpers {
                 return LocalDate.parse(str, DateTimeFormatter.ISO_LOCAL_DATE);
             } catch(DateTimeParseException e) {
                 System.out.println("Invalid date, try again.");
+            }
+        }
+    }
+    public static Path promptFilepath(String prompt) {
+        Scanner s = new Scanner(System.in);
+        System.out.println(prompt + " (yyyy mm dd)");
+        while(true) {
+            String str = s.nextLine();
+            try {
+                return Paths.get(str);
+            } catch(InvalidPathException e) {
+                System.out.println("Invalid path, try again.");
             }
         }
     }
