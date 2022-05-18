@@ -30,7 +30,6 @@ public class NutritionPantry {
             case 2:
                 addReceipts();
                 break;
-            case 2: break;
             case 3: break;
             case 4: break;
             case 5:
@@ -62,9 +61,17 @@ public class NutritionPantry {
     }
     private static void addReceipts() {
         ReceiptFactory fact = new ReceiptFactory();
-        Store s = SerializableDatabase.getInstance().findStore(UIHelpers.promptString("Store name:"));
+        Store s = null;
+        while(true) {
+            String name = UIHelpers.promptString("Store name:");
+            s = SerializableDatabase.getInstance().findStore(name);
+            if(s == null)
+                System.out.println("Store not found, try again.");
+            else
+                break;
+        }
         do {
-            SerializableDatabase.getInstance().addReceipt(fact);
+            SerializableDatabase.getInstance().addReceipt(fact.createReceipt(), s);
         } while(UIHelpers.promptBoolean("Continue?", true));
     }
 }

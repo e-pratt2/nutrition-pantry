@@ -57,7 +57,7 @@ public class UIHelpers {
     public static int menu(String [] star){
 
         for(int i = 0; i < star.length; i++){
-            System.out.println(star[i]);
+            System.out.println(" * " + i + ". " + star[i]);
         }
 
         Scanner kb = new Scanner(System.in);
