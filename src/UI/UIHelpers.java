@@ -6,7 +6,9 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.function.Function;
 
 public class UIHelpers {
     public static double promptDouble(String prompt) {
@@ -53,6 +55,35 @@ public class UIHelpers {
             else System.out.println("Unrecognized value, try again.");
         }
     }
+    public static <E> E chooseObject(List<E> objects, Function<E, String> stringify){
+        int index = 0;
+        for(E object : objects){
+            index++;
+            System.out.println(" * " + index + ". " + stringify.apply(object));
+        }
+
+        Scanner kb = new Scanner(System.in);
+
+        System.out.println("Please enter your choice:");
+        int choice = 0;
+
+        while(true) {
+            String str = kb.nextLine();
+            try {
+                choice = Integer.parseInt(str);
+
+            } catch (NumberFormatException e) {
+                System.out.println("invalid value, try again:");
+            }
+            if (choice <= 0 && choice >= objects.size()) {
+                System.out.println("Invalid value, try again");
+            }
+            else{
+                break;}
+
+        }
+        return objects.get(choice - 1);
+    }
 
     public static int menu(String [] star){
 
@@ -73,7 +104,7 @@ public class UIHelpers {
             } catch (NumberFormatException e) {
                 System.out.println("invalid value, try again:");
             }
-            if (choice <= 0 && choice >= 8) {
+            if (choice <= 0 && choice > star.length) {
                 System.out.println("Invalid value, try again");
             }
             else{
