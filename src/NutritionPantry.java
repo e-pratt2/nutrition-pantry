@@ -28,8 +28,9 @@ public class NutritionPantry {
             case 2:
                 addReceipts();
                 break;
-            case 2: break;
-            case 3: break;
+            case 3:
+                addGroceries();
+                break;
             case 4: break;
             case 5:
                 try {
