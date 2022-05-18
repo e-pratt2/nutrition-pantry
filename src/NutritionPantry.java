@@ -61,17 +61,11 @@ public class NutritionPantry {
     }
     private static void addReceipts() {
         ReceiptFactory fact = new ReceiptFactory();
-        Store s = null;
-        while(true) {
-            String name = UIHelpers.promptString("Store name:");
-            s = SerializableDatabase.getInstance().findStore(name);
-            if(s == null)
-                System.out.println("Store not found, try again.");
-            else
-                break;
-        }
+        SerializableDatabase database = SerializableDatabase.getInstance();
+
+        Store s = UIHelpers.chooseObject(database.getStores(), Store::getName);
         do {
-            SerializableDatabase.getInstance().addReceipt(fact.createReceipt(), s);
+            database.addReceipt(fact.createReceipt(), s);
         } while(UIHelpers.promptBoolean("Continue?", true));
     }
 
