@@ -36,10 +36,10 @@ public class SearchResults<E> {
     }
 
     public Result getBestResult() {
-
+        return null;
     }
 
     public boolean isAmbiguous() {
-
+        return false;
     }
 }
