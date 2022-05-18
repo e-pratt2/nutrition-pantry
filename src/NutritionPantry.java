@@ -1,6 +1,9 @@
 import Database.Grocery;
+import Database.Receipt;
 import Database.SerializableDatabase;
+import Database.Store;
 import Factories.DIYFactory;
+import Factories.ReceiptFactory;
 import Factories.UPCGroceryFactory;
 import Filters.AlwaysPassFilter;
 import Filters.Filter;
@@ -10,7 +13,7 @@ import java.io.IOException;
 
 public class NutritionPantry {
     public static final String menuOptions[] = {
-            "1. Add store...",
+            "Add store...",
             "Add receipts to store...",
             "Add groceries...",
             "Analysis...",
@@ -21,13 +24,15 @@ public class NutritionPantry {
     public static void main(String[] args) {
         switch(UIHelpers.menu(menuOptions)) {
             case 1: break;
-            case 2: break;
+            case 2:
+                addReceipts();
+                break;
             case 3: break;
             case 4: break;
             case 5:
                 try {
                     if(SerializableDatabase.hasInstance()) {
-                        if (UIHelpers.promptBoolean("A database is open. Overwrite?"))
+                        if (UIHelpers.promptBoolean("A database is open. Overwrite?", false))
                             SerializableDatabase.loadInstance(UIHelpers.promptFilepath("Load path:").toString());
                     }
                     else SerializableDatabase.loadInstance(UIHelpers.promptFilepath("Load path:").toString());
@@ -50,5 +55,12 @@ public class NutritionPantry {
                     break;
                 }
         }
+    }
+    private static void addReceipts() {
+        ReceiptFactory fact = new ReceiptFactory();
+        Store s = SerializableDatabase.getInstance().findStore(UIHelpers.promptString("Store name:"));
+        do {
+            SerializableDatabase.getInstance().addReceipt(fact);
+        } while(UIHelpers.promptBoolean("Continue?", true));
     }
 }

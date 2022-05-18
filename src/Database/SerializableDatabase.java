@@ -56,4 +56,7 @@ public class SerializableDatabase implements Serializable {
     public void addReceipt(Receipt r, Store s)  {
         s.addReceipt(r);
     }
+    public Store findStore(String name) {
+
+    }
 }

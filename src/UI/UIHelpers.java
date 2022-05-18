@@ -39,7 +39,20 @@ public class UIHelpers {
             }
         }
     }
-    public static boolean promptBoolean(String prompt) {return false;}
+    public static boolean promptBoolean(String prompt, boolean auto) {
+        System.out.println(prompt);
+        String suffix = auto ? "[Y/n]" : "[y/N]";
+        Scanner kb = new Scanner(System.in + " " + suffix);
+        while(true) {
+            String str = kb.nextLine();
+            if(str.isEmpty())
+                return auto;
+
+            if(str.equalsIgnoreCase("n")) return false;
+            else if(str.equals("y")) return true;
+            else System.out.println("Unrecognized value, try again.");
+        }
+    }
 
     public static int menu(String [] star){
 
