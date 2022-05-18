@@ -56,33 +56,11 @@ public class UIHelpers {
         }
     }
     public static <E> E chooseObject(List<E> objects, Function<E, String> stringify){
-        int index = 0;
-        for(E object : objects){
-            index++;
-            System.out.println(" * " + index + ". " + stringify.apply(object));
-        }
+        String[] strings = new String[objects.size()];
+        for(int i = 0; i < strings.length; ++i)
+            strings[i] = stringify.apply(objects.get(i));
 
-        Scanner kb = new Scanner(System.in);
-
-        System.out.println("Please enter your choice:");
-        int choice = 0;
-
-        while(true) {
-            String str = kb.nextLine();
-            try {
-                choice = Integer.parseInt(str);
-
-            } catch (NumberFormatException e) {
-                System.out.println("invalid value, try again:");
-            }
-            if (choice <= 0 && choice >= objects.size()) {
-                System.out.println("Invalid value, try again");
-            }
-            else{
-                break;}
-
-        }
-        return objects.get(choice - 1);
+        return objects.get(menu(strings) - 1);
     }
 
     public static int menu(String [] star){
