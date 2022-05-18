@@ -76,16 +76,16 @@ public class NutritionPantry {
     }
 
     private static void addGroceries(){
-        System.out.println("Do you want to add manually or use a UPC? (DIY/UPC):");
-        Scanner kb = new Scanner(System.in);
-        String str = kb.nextLine();
+        String str = UIHelpers.promptString("Do you want to add the grocery manually or using a UPC? (DIY/UPC)");
         GroceryFactory groceryFactory;
         if(str.equalsIgnoreCase("DIY"))
             groceryFactory = new DIYFactory();
-        else
+        else if(str.equalsIgnoreCase("UPC"))
             groceryFactory = new UPCGroceryFactory();
-
-
+        else{
+            System.out.println("Invalid Choice! Returning to Main Menu.");
+            return;
+        }
 
         do{
             SerializableDatabase.getInstance().addGrocery(groceryFactory.createGrocery());
