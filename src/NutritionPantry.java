@@ -1,15 +1,13 @@
 import Database.Grocery;
 import Database.SerializableDatabase;
 import Database.Store;
-import Factories.DIYFactory;
-import Factories.StoreFactory;
-import Factories.ReceiptFactory;
-import Factories.UPCGroceryFactory;
+import Factories.*;
 import Filters.AlwaysPassFilter;
 import Filters.Filter;
 import UI.UIHelpers;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class NutritionPantry {
     public static final String menuOptions[] = {
@@ -31,7 +29,9 @@ public class NutritionPantry {
                 addReceipts();
                 break;
             case 2: break;
-            case 3: break;
+            case 3:
+
+                break;
             case 4: break;
             case 5:
                 try {
@@ -66,5 +66,22 @@ public class NutritionPantry {
         do {
             SerializableDatabase.getInstance().addReceipt(fact);
         } while(UIHelpers.promptBoolean("Continue?", true));
+    }
+
+    private static void addGroceries(){
+        System.out.println("Do you want to add manually or use a UPC? (DIY/UPC):");
+        Scanner kb = new Scanner(System.in);
+        String str = kb.nextLine();
+        GroceryFactory groceryFactory;
+        if(str.equalsIgnoreCase("DIY"))
+            groceryFactory = new DIYFactory();
+        else
+            groceryFactory = new UPCGroceryFactory();
+
+
+
+        do{
+            SerializableDatabase.getInstance().addGrocery(groceryFactory.createGrocery());
+        }while(UIHelpers.promptBoolean("Continue?", true));
     }
 }
