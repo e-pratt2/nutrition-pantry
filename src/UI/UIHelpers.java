@@ -39,6 +39,7 @@ public class UIHelpers {
             }
         }
     }
+    public static boolean promptBoolean(String prompt) {return false;}
 
     public static int menu(String [] star){
 
@@ -58,7 +59,7 @@ public class UIHelpers {
     }
     public static Path promptFilepath(String prompt) {
         Scanner s = new Scanner(System.in);
-        System.out.println(prompt + " (yyyy mm dd)");
+        System.out.println(prompt);
         while(true) {
             String str = s.nextLine();
             try {

@@ -15,6 +15,9 @@ public class SerializableDatabase implements Serializable {
             instance = new SerializableDatabase();
         return instance;
     }
+    public static boolean hasInstance() {
+        return instance != null;
+    }
     public static void saveInstance(String filepath) throws IOException {
         try(FileOutputStream file = new FileOutputStream(filepath)) {
             ObjectOutputStream objStream = new ObjectOutputStream(file);
