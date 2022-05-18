@@ -1,8 +1,8 @@
 import Database.Grocery;
-import Database.Receipt;
 import Database.SerializableDatabase;
 import Database.Store;
 import Factories.DIYFactory;
+import Factories.StoreFactory;
 import Factories.ReceiptFactory;
 import Factories.UPCGroceryFactory;
 import Filters.AlwaysPassFilter;
@@ -23,10 +23,14 @@ public class NutritionPantry {
     };
     public static void main(String[] args) {
         switch(UIHelpers.menu(menuOptions)) {
-            case 1: break;
+            case 1:
+                StoreFactory s = new StoreFactory();
+                SerializableDatabase.getInstance().addStore(s.createStore());
+                break;
             case 2:
                 addReceipts();
                 break;
+            case 2: break;
             case 3: break;
             case 4: break;
             case 5:
