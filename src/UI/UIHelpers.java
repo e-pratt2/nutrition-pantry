@@ -64,29 +64,30 @@ public class UIHelpers {
     }
 
     public static int menu(String [] star){
-
-        for(int i = 0; i < star.length; i++){
-            System.out.println(" * " + (i + 1) + ". " + star[i]);
-        }
-
-        Scanner kb = new Scanner(System.in);
-
-        System.out.println("Please enter your choice:");
         int choice = 0;
 
         while(true) {
+            for(int i = 0; i < star.length; i++){
+                System.out.println(" * " + (i + 1) + ". " + star[i]);
+            }
+
+            Scanner kb = new Scanner(System.in);
+
+            System.out.println("Please enter your choice:");
+
             String str = kb.nextLine();
             try {
                 choice = Integer.parseInt(str);
 
+                if (choice <= 0 && choice > star.length) {
+                    System.out.println("Invalid value, try again");
+                }
+                else{
+                    break;
+                }
             } catch (NumberFormatException e) {
                 System.out.println("invalid value, try again:");
             }
-            if (choice <= 0 && choice > star.length) {
-                System.out.println("Invalid value, try again");
-            }
-            else{
-                break;}
 
         }
        return choice;
