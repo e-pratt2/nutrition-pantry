@@ -13,6 +13,7 @@ public class ReceiptFactory {
         LocalDate date = UIHelpers.promptDate("Receipt Date");
         Receipt r = new Receipt(date);
         String groceryName;
+
         do{
             groceryName = UIHelpers.promptString("Grocery name: ");
             if(groceryName.isBlank())
