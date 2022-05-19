@@ -8,7 +8,11 @@ import java.util.List;
 public class SerializableDatabase implements Serializable {
     static SerializableDatabase instance;
 
-    private SerializableDatabase() {}
+    private SerializableDatabase() {
+        stores = new ArrayList<>();
+        groceries = new ArrayList<>();
+
+    }
 
     public static SerializableDatabase getInstance() {
         if(instance == null)
