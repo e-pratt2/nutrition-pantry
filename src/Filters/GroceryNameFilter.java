@@ -10,6 +10,7 @@ public class GroceryNameFilter extends Filter<Grocery> {
         this.name = name;
     }
     public GroceryNameFilter(Filter<Grocery> child, String name) {
+        super(child);
         this.name = name;
     }
 
