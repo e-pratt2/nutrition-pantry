@@ -10,20 +10,20 @@ import Filters.FilterSet;
 
 public class analysis {
 
-    public double avgPrice(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter){
-        return getAveragePrice(storeFilter, receiptFilter, groceryFilter);
+    public double avgPrice(FilterSet filterSet){
+        return getAveragePrice(filterSet.getStore(), filterSet.getReceipt(), filterSet.getGrocery());
     }
 
     public Nutrition AvgNutrition(FilterSet filterSet){
         return getAverageNutrition(filterSet.getStore(), filterSet.getReceipt(), filterSet.getGrocery());
     }
 
-    public double totalPrice(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter){
-        return getTotalPrice(storeFilter ,receiptFilter, groceryFilter);
+    public double totalPrice(FilterSet filterSet){
+        return getTotalPrice(filterSet.getStore() , filterSet.getReceipt(), filterSet.getGrocery());
     }
 
-    public Nutrition totalNutrition(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter){
-        return getTotalNutrition(storeFilter, receiptFilter, groceryFilter);
+    public Nutrition totalNutrition(FilterSet filterSet){
+        return getTotalNutrition(filterSet.getStore(), filterSet.getReceipt(), filterSet.getGrocery());
     }
 
     private double getTotalPrice(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter) {
