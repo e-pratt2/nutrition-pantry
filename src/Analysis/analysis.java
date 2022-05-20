@@ -10,23 +10,23 @@ import Filters.FilterSet;
 
 public class analysis {
 
-    public double avgPrice(FilterSet filterSet){
+    public static double avgPrice(FilterSet filterSet){
         return getAveragePrice(filterSet.getStore(), filterSet.getReceipt(), filterSet.getGrocery());
     }
 
-    public Nutrition AvgNutrition(FilterSet filterSet){
+    public static Nutrition AvgNutrition(FilterSet filterSet){
         return getAverageNutrition(filterSet.getStore(), filterSet.getReceipt(), filterSet.getGrocery());
     }
 
-    public double totalPrice(FilterSet filterSet){
+    public static double totalPrice(FilterSet filterSet){
         return getTotalPrice(filterSet.getStore() , filterSet.getReceipt(), filterSet.getGrocery());
     }
 
-    public Nutrition totalNutrition(FilterSet filterSet){
+    public static Nutrition totalNutrition(FilterSet filterSet){
         return getTotalNutrition(filterSet.getStore(), filterSet.getReceipt(), filterSet.getGrocery());
     }
 
-    private double getTotalPrice(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter) {
+    private static double getTotalPrice(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter) {
         double total = 0.0;
         for(Store s : SerializableDatabase.getInstance().getStores()) {
             if(!storeFilter.accepts(s))
@@ -47,7 +47,7 @@ public class analysis {
         return total;
     }
 
-    private double getAveragePrice(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter) {
+    private static double getAveragePrice(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter) {
         double total = 0.0;
         int foundInstances = 0;
         for(Store s : SerializableDatabase.getInstance().getStores()) {
@@ -70,7 +70,7 @@ public class analysis {
         return total/foundInstances;
     }
 
-    private Nutrition getTotalNutrition(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter) {
+    private static Nutrition getTotalNutrition(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter) {
         Nutrition total = new Nutrition();
         for(Store s : SerializableDatabase.getInstance().getStores()) {
             if(!storeFilter.accepts(s))
@@ -93,7 +93,7 @@ public class analysis {
         return total;
     }
 
-    private Nutrition getAverageNutrition(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter) {
+    private static Nutrition getAverageNutrition(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter) {
         Nutrition total = new Nutrition();
         int foundInstances = 0;
         for(Store s : SerializableDatabase.getInstance().getStores()) {
@@ -118,7 +118,7 @@ public class analysis {
         return total.multiply(1.0/foundInstances);
     }
 
-    public double getQuantityOf(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter) {
+    public static double getQuantityOf(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter) {
         double total = 0.0;
 
         for(Store s : SerializableDatabase.getInstance().getStores()){
