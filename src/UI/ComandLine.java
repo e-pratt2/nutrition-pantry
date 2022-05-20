@@ -9,6 +9,7 @@ import Filters.ReceiptDateFilter;
 import Filters.StoreNameFilter;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class ComandLine {
@@ -18,7 +19,7 @@ public class ComandLine {
     public ComandLine(){
         Scanner kb = new Scanner(System.in);
         String str = kb.nextLine();
-        this.CL = str.split(",");
+        this.CL = str.split(" *, *");
     }
 
     public Filter chooseFilter(){
@@ -26,7 +27,7 @@ public class ComandLine {
 
         for(int i = 1; i < this.CL.length; i++){
 
-            String[] str = this.CL[i].split(" ");
+            String[] str = this.CL[i].split(" +");
 
             if(str[0].equalsIgnoreCase("store"))
                 filter = store(str);
@@ -61,8 +62,15 @@ public class ComandLine {
     private Filter<Receipt> receipt(String[] str) {
         Filter<Receipt> f = Filter.AlwaysPass;
         for(int i = 1; i < str.length; i += 3){
-            if(str[i].equalsIgnoreCase("between"))
-                f = new ReceiptDateFilter(str[i+1], str[i+2]);
+            if(str[i].equalsIgnoreCase("between")){
+                LocalDate begin = LocalDate.parse(str[i+1], DateTimeFormatter.ISO_LOCAL_DATE);
+                LocalDate end = LocalDate.parse(str[i+2], DateTimeFormatter.ISO_LOCAL_DATE);
+
+                f = new ReceiptDateFilter(f, begin, end);
+            }
+                return null;
+
+                //return new ReceiptDateFilter(str[i+1], str[i+2]);
                 //TODO: figure out how to cast strings as a date
         }
         return null;
