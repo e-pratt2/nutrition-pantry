@@ -14,7 +14,7 @@ public class CommandLine {
 
     private String[] lines;
 
-    public ComandLine(){
+    public CommandLine(){
         Scanner kb = new Scanner(System.in);
         String str = kb.nextLine();
         this.lines = str.split(" *, *");
