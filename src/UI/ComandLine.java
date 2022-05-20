@@ -68,12 +68,8 @@ public class ComandLine {
 
                 f = new ReceiptDateFilter(f, begin, end);
             }
-                return null;
-
-                //return new ReceiptDateFilter(str[i+1], str[i+2]);
-                //TODO: figure out how to cast strings as a date
         }
-        return null;
+        return f;
     }
 
     private Filter all() {
