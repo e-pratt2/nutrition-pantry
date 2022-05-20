@@ -24,20 +24,19 @@ public class ComandLine {
     }
 
     public Filter chooseFilter(){
-        Filter filter;
+        Filter<Store> storeFilter = Filter.AlwaysPass;
+        Filter<Grocery> groceryFilter = Filter.AlwaysPass;
+        Filter<Receipt> receiptFilter = Filter.AlwaysPass;
 
         for(int i = 1; i < this.CL.length; i++){
-
             String[] str = this.CL[i].split(" +");
 
             if(str[0].equalsIgnoreCase("store"))
-                filter = store(str);
+                storeFilter = store(str);
             if(str[0].equalsIgnoreCase("grocery"))
-                filter = grocery(str);
-            if (str[0].equalsIgnoreCase("receipt"))
-                filter = receipt(str);
-            if(str[0].equalsIgnoreCase(" "))
-                filter = all();
+                groceryFilter = grocery(str);
+            if(str[0].equalsIgnoreCase("receipt"))
+                receiptFilter = receipt(str);
         }
         return filter = new Filter();//TODO: figure out how to decorate the filter outputted
     }
