@@ -20,23 +20,19 @@ public class ComandLine {
 
     public Filter chooseFilter(){
         Filter filter;
-        Filter f1;
-        Filter f2;
-        Filter f3;
-        Filter f4;
 
         for(int i = 1; i < this.CL.length; i++){
 
             String[] str = this.CL[i].split(" ");
 
-            if(str[i].equalsIgnoreCase("store"))
-                f1 = new Filter(store(str));
-            if(str[i].equalsIgnoreCase("grocery"))
-                f2 = new Filter(grocery(str));
-            if (str[i].equalsIgnoreCase("receipt"))
-                f3 = new Filter(receipt(str));
-            if(str[i].equalsIgnoreCase(" "))
-                f4 = new Filter(all());
+            if(str[0].equalsIgnoreCase("store"))
+                filter = store(str);
+            if(str[0].equalsIgnoreCase("grocery"))
+                filter = grocery(str);
+            if (str[0].equalsIgnoreCase("receipt"))
+                filter = receipt(str);
+            if(str[0].equalsIgnoreCase(" "))
+                filter = all();
         }
         return filter = new Filter();//TODO: figure out how to decorate the filter outputted
     }
@@ -46,7 +42,7 @@ public class ComandLine {
             if(strings[i].equalsIgnoreCase("name"))
                 return new StoreNameFilter(strings[i+1]);
         }
-        return null;
+        return f;
     }
 
     private Filter grocery(String[] str){
