@@ -42,11 +42,12 @@ public class ComandLine {
     }
 
     private Filter store(String[] strings){
+        Filter f = Filter.AlwaysPass;
         for(int i = 1; i < strings.length; i += 2){
             if(strings[i].equalsIgnoreCase("name"))
-                return new StoreNameFilter(strings[i+1]);
+                f = new StoreNameFilter(f, strings[i+1]);
         }
-        return null;
+        return f;
     }
 
     private Filter grocery(String[] str){
