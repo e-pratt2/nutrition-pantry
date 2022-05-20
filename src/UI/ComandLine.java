@@ -50,18 +50,19 @@ public class ComandLine {
     }
 
     private Filter<Grocery> grocery(String[] str){
+        Filter<Grocery> f = Filter.AlwaysPass;
         for(int i = 1; i < str.length; i += 2){
             if(str[i].equalsIgnoreCase("name"))
-                return new GroceryNameFilter(str[i+1]);
+                f = new GroceryNameFilter(f, str[i+1]);
         }
-        return null;
+        return f;
     }
 
     private Filter<Receipt> receipt(String[] str) {
+        Filter<Receipt> f = Filter.AlwaysPass;
         for(int i = 1; i < str.length; i += 3){
             if(str[i].equalsIgnoreCase("between"))
-                return null;
-                //return new ReceiptDateFilter(str[i+1], str[i+2]);
+                f = new ReceiptDateFilter(str[i+1], str[i+2]);
                 //TODO: figure out how to cast strings as a date
         }
         return null;
