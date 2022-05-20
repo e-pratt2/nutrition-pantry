@@ -10,6 +10,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
+import Analysis.analysis;
+
 public class CommandLine {
 
     private String[] lines;
@@ -81,5 +83,24 @@ public class CommandLine {
             }
         }
         return f;
+    }
+
+    public void execute(FilterSet filters) {
+        switch(this.lines[0]) {
+            case "total-nutrition":
+                analysis.totalNutrition(filters);
+                break;
+            case "avg-nutrition":
+                analysis.AvgNutrition(filters);
+                break;
+            case "total-price":
+                analysis.totalPrice(filters);
+                break;
+            case "avg-price":
+                analysis.avgPrice(filters);
+                break;
+            default:
+                throw new CommandSyntaxException("Unrecognized analysis type " + this.lines[0]);
+        }
     }
 }
