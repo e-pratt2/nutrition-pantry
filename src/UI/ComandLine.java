@@ -29,6 +29,7 @@ public class ComandLine {
         Filter<Receipt> receiptFilter = Filter.AlwaysPass;
 
         for(int i = 1; i < this.CL.length; i++){
+
             String[] str = this.CL[i].split(" +");
 
             if(str[0].equalsIgnoreCase("store"))
@@ -38,14 +39,16 @@ public class ComandLine {
             if(str[0].equalsIgnoreCase("receipt"))
                 receiptFilter = receipt(str);
         }
-        return filter = new Filter();//TODO: figure out how to decorate the filter outputted
+        return null;//TODO: figure out how to decorate the filter outputted
     }
 
-    private Filter<Store> store(String[] strings){
+    private Filter<Store> store(String[] str){
         Filter<Store> f = Filter.AlwaysPass;
-        for(int i = 1; i < strings.length; i += 2){
-            if(strings[i].equalsIgnoreCase("name"))
-                f = new StoreNameFilter(f, strings[i+1]);
+        for(int i = 1; i < str.length; i += 2){
+            if(str[i].equalsIgnoreCase("name"))
+                f = new StoreNameFilter(f, str[i+1]);
+            else
+                throw new CommandSyntaxException("Unrecognized filter " + str[i]);
         }
         return f;
     }
@@ -55,6 +58,9 @@ public class ComandLine {
         for(int i = 1; i < str.length; i += 2){
             if(str[i].equalsIgnoreCase("name"))
                 f = new GroceryNameFilter(f, str[i+1]);
+            else{
+                throw new CommandSyntaxException("Unrecognized filter " + str[i]);
+            }
         }
         return f;
     }
@@ -76,9 +82,5 @@ public class ComandLine {
             }
         }
         return f;
-    }
-
-    private Filter all() {
-        return null;//TODO: figure out how to call the generic passAll filter
     }
 }

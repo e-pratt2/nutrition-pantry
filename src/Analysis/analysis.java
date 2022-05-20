@@ -6,6 +6,7 @@ import Database.Nutrition;
 import Database.Receipt;
 import Database.Store;
 import Filters.Filter;
+import Filters.FilterSet;
 
 public class analysis {
 
@@ -13,8 +14,8 @@ public class analysis {
         return getAveragePrice(storeFilter, receiptFilter, groceryFilter);
     }
 
-    public Nutrition AvgNutrition(Filter<Store> filter, Filter<Receipt> filter1, Filter<Grocery> filter2){
-        return null;
+    public Nutrition AvgNutrition(FilterSet filterSet){
+        return getAverageNutrition(filterSet.getStore(), filterSet.getReceipt(), filterSet.getGrocery());
     }
 
     public double totalPrice(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter){
