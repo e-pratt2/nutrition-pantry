@@ -1,5 +1,8 @@
 package UI;
 
+import Database.Grocery;
+import Database.Receipt;
+import Database.Store;
 import Filters.Filter;
 import Filters.GroceryNameFilter;
 import Filters.ReceiptDateFilter;
@@ -41,8 +44,8 @@ public class ComandLine {
         return filter = new Filter();//TODO: figure out how to decorate the filter outputted
     }
 
-    private Filter store(String[] strings){
-        Filter f = Filter.AlwaysPass;
+    private Filter<Store> store(String[] strings){
+        Filter<Store> f = Filter.AlwaysPass;
         for(int i = 1; i < strings.length; i += 2){
             if(strings[i].equalsIgnoreCase("name"))
                 f = new StoreNameFilter(f, strings[i+1]);
@@ -50,7 +53,7 @@ public class ComandLine {
         return f;
     }
 
-    private Filter grocery(String[] str){
+    private Filter<Grocery> grocery(String[] str){
         for(int i = 1; i < str.length; i += 2){
             if(str[i].equalsIgnoreCase("name"))
                 return new GroceryNameFilter(str[i+1]);
@@ -58,7 +61,7 @@ public class ComandLine {
         return null;
     }
 
-    private Filter receipt(String[] str) {
+    private Filter<Receipt> receipt(String[] str) {
         for(int i = 1; i < str.length; i += 3){
             if(str[i].equalsIgnoreCase("between"))
                 return null;
