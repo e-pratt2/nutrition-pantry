@@ -10,6 +10,7 @@ import Filters.StoreNameFilter;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class ComandLine {
@@ -63,10 +64,16 @@ public class ComandLine {
         Filter<Receipt> f = Filter.AlwaysPass;
         for(int i = 1; i < str.length; i += 3){
             if(str[i].equalsIgnoreCase("between")){
-                LocalDate begin = LocalDate.parse(str[i+1], DateTimeFormatter.ISO_LOCAL_DATE);
-                LocalDate end = LocalDate.parse(str[i+2], DateTimeFormatter.ISO_LOCAL_DATE);
+                try {
+                    LocalDate begin = LocalDate.parse(str[i + 1], DateTimeFormatter.ISO_LOCAL_DATE);
+                    LocalDate end = LocalDate.parse(str[i + 2], DateTimeFormatter.ISO_LOCAL_DATE);
 
-                f = new ReceiptDateFilter(f, begin, end);
+                    f = new ReceiptDateFilter(f, begin, end);
+                } catch(DateTimeParseException e) {
+                    throw new CommandSyntaxException(e.getMessage());
+                }
+            } else {
+                throw new CommandSyntaxException("Unrecognized filter " + str[i]);
             }
         }
         return f;
