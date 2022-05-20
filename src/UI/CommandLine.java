@@ -3,43 +3,42 @@ package UI;
 import Database.Grocery;
 import Database.Receipt;
 import Database.Store;
-import Filters.Filter;
-import Filters.GroceryNameFilter;
-import Filters.ReceiptDateFilter;
-import Filters.StoreNameFilter;
+import Filters.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-public class ComandLine {
+public class CommandLine {
 
-    private String[] CL;
+    private String[] lines;
 
     public ComandLine(){
         Scanner kb = new Scanner(System.in);
         String str = kb.nextLine();
-        this.CL = str.split(" *, *");
+        this.lines = str.split(" *, *");
     }
 
-    public Filter chooseFilter(){
+    public FilterSet chooseFilter(){
         Filter<Store> storeFilter = Filter.AlwaysPass;
         Filter<Grocery> groceryFilter = Filter.AlwaysPass;
         Filter<Receipt> receiptFilter = Filter.AlwaysPass;
 
-        for(int i = 1; i < this.CL.length; i++){
+        for(int i = 1; i < this.lines.length; i++){
 
-            String[] str = this.CL[i].split(" +");
+            String[] str = this.lines[i].split(" +");
 
             if(str[0].equalsIgnoreCase("store"))
                 storeFilter = store(str);
-            if(str[0].equalsIgnoreCase("grocery"))
+            else if(str[0].equalsIgnoreCase("grocery"))
                 groceryFilter = grocery(str);
-            if(str[0].equalsIgnoreCase("receipt"))
+            else if(str[0].equalsIgnoreCase("receipt"))
                 receiptFilter = receipt(str);
+            else
+                throw new CommandSyntaxException("Unrecognized section " + str[0]);
         }
-        return null;//TODO: figure out how to decorate the filter outputted
+        return new FilterSet(storeFilter, groceryFilter, receiptFilter);
     }
 
     private Filter<Store> store(String[] str){
