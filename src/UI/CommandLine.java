@@ -17,6 +17,8 @@ public class CommandLine {
     private String[] lines;
 
     public CommandLine(){
+        System.out.println("Type in 'help' for information:");
+        System.out.println("Command Line ->");
         Scanner kb = new Scanner(System.in);
         String str = kb.nextLine();
         this.lines = str.split(" *, *");
