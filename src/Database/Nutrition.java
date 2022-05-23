@@ -78,7 +78,7 @@ public class Nutrition implements Serializable {
 //    public static Nutrition divide(Nutrition a, double div) {
 //        return Nutrition.multiply(a, 1.0/div);
 //    }
-    //TODO:
+
     //public static Database.Nutrition getTotal(???<Database.Nutrition>);
     //public static Database.Nutrition getAverage(???<Database.Nutrition>);
 

@@ -10,20 +10,24 @@ import Filters.FilterSet;
 
 public class analysis {
 
-    public static double avgPrice(FilterSet filterSet){
-        return getAveragePrice(filterSet.getStore(), filterSet.getReceipt(), filterSet.getGrocery());
+    public static void avgPrice(FilterSet filterSet){
+        System.out.println("Average Price:");
+        System.out.println(getAveragePrice(filterSet.getStore(), filterSet.getReceipt(), filterSet.getGrocery()));
     }
 
-    public static Nutrition AvgNutrition(FilterSet filterSet){
-        return getAverageNutrition(filterSet.getStore(), filterSet.getReceipt(), filterSet.getGrocery());
+    public static void AvgNutrition(FilterSet filterSet){
+        System.out.println("Average Nutrition:");
+        System.out.println(getAverageNutrition(filterSet.getStore(), filterSet.getReceipt(), filterSet.getGrocery()));
     }
 
-    public static double totalPrice(FilterSet filterSet){
-        return getTotalPrice(filterSet.getStore() , filterSet.getReceipt(), filterSet.getGrocery());
+    public static void totalPrice(FilterSet filterSet){
+        System.out.println("Total Price:");
+        System.out.println(getTotalPrice(filterSet.getStore() , filterSet.getReceipt(), filterSet.getGrocery()));
     }
 
-    public static Nutrition totalNutrition(FilterSet filterSet){
-        return getTotalNutrition(filterSet.getStore(), filterSet.getReceipt(), filterSet.getGrocery());
+    public static void totalNutrition(FilterSet filterSet){
+        System.out.println("Total Nutrition:");
+        System.out.println(getTotalNutrition(filterSet.getStore(), filterSet.getReceipt(), filterSet.getGrocery()));
     }
 
     private static double getTotalPrice(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter) {
