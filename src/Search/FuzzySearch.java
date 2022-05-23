@@ -25,11 +25,12 @@ public class FuzzySearch {
         return totalPassedPermutations/(float)totalPermutations;
     }
     public static <E> SearchResults<E> search(String query, Iterable<E> items, Function<E, String> stringGetter) {
-        SearchResults<E> results = new SearchResults<>();
+        SearchResults<E> results = new SearchResults<>(stringGetter);
         for(E item : items) {
             float itemScore = scoreOf(query, stringGetter.apply(item));
 
-            results.pushResult(item, itemScore);
+            if(itemScore > 0.0)
+                results.pushResult(item, itemScore);
         }
 
         return results;

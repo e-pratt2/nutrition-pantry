@@ -5,7 +5,12 @@ import Filters.FilterSet;
 import UI.CommandLine;
 import UI.UIHelpers;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class NutritionPantry {
     public static final String menuOptions[] = {
@@ -46,6 +51,7 @@ public class NutritionPantry {
                     } catch(IOException e) {
                         System.out.println("Failed to load database.");
                     }
+                    break;
                 case 6:
                     try {
                         SerializableDatabase.saveInstance(UIHelpers.promptFilepath("Save path:").toString());
@@ -68,6 +74,10 @@ public class NutritionPantry {
         SerializableDatabase database = SerializableDatabase.getInstance();
 
         Store s = UIHelpers.chooseObject(database.getStores(), Store::getName);
+        if(s == null) {
+            System.out.println("Please add some stores first!");
+            return;
+        }
         do {
             database.addReceipt(fact.createReceipt(), s);
         } while(UIHelpers.promptBoolean("Continue?", true));
@@ -88,5 +98,22 @@ public class NutritionPantry {
         do{
             SerializableDatabase.getInstance().addGrocery(groceryFactory.createGrocery());
         }while(UIHelpers.promptBoolean("Continue?", true));
+    }
+    private static File chooseFile() {
+        File folder = new File(".");
+        File[] items = folder.listFiles();
+
+        List<File> files = Arrays.stream(items).filter(f -> f.isFile()).collect(Collectors.toList());
+
+        File chosen = UIHelpers.chooseObjectOrOther(files, File::getName, "Other...");
+
+        if(chosen != null)
+            return chosen;
+
+        do {
+            Path path = UIHelpers.promptFilepath("Enter path");
+
+            return null; //todo
+        } while(true);
     }
 }

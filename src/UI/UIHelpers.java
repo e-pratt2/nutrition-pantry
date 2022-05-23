@@ -51,16 +51,35 @@ public class UIHelpers {
                 return auto;
 
             if(str.equalsIgnoreCase("n")) return false;
-            else if(str.equals("y")) return true;
+            else if(str.equalsIgnoreCase("y")) return true;
             else System.out.println("Unrecognized value, try again.");
         }
     }
     public static <E> E chooseObject(List<E> objects, Function<E, String> stringify){
+        if(objects.isEmpty()) {
+            return null;
+        }
         String[] strings = new String[objects.size()];
         for(int i = 0; i < strings.length; ++i)
             strings[i] = stringify.apply(objects.get(i));
 
         return objects.get(menu(strings) - 1);
+    }
+    public static <E> E chooseObjectOrOther(List<E> objects, Function<E, String> stringify, String otherOption){
+        if(objects.isEmpty()) {
+            return null;
+        }
+        String[] strings = new String[objects.size() + 1];
+        for(int i = 0; i < strings.length; ++i)
+            strings[i] = stringify.apply(objects.get(i));
+
+        strings[objects.size()] = otherOption;
+
+        int chosen = menu(strings) - 1;
+        if(chosen == objects.size())
+            return null;
+        else
+            return objects.get(chosen - 1);
     }
 
     public static int menu(String [] star){

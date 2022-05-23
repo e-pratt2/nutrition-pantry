@@ -23,11 +23,14 @@ public class ReceiptFactory {
 
             SearchResults<Grocery> results = FuzzySearch.search(groceryName, SerializableDatabase.getInstance().getGroceries(), Grocery::getName);
 
-            SearchResults<Grocery>.Result chosen = UIHelpers.chooseObject(results.getBestResults(), SearchResults.Result::toString);
+            SearchResults<Grocery>.Result chosen = UIHelpers.chooseObjectOrOther(
+                    results.getBestResults(5), SearchResults.Result::toString,
+                    "Create new"
+            );
 
             System.out.println(chosen.getObject());
             r.addGrocery(chosen.getObject(), groceryQuantity);
-        } while(true);
+        } while(UIHelpers.promptBoolean("Continue?", true));
 
         return r;
     }
