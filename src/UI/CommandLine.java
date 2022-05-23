@@ -22,7 +22,7 @@ public class CommandLine {
         this.lines = str.split(" *, *");
     }
 
-    public FilterSet chooseFilter(){
+    public FilterSet parseFilter(){
         Filter<Store> storeFilter = Filter.AlwaysPass;
         Filter<Grocery> groceryFilter = Filter.AlwaysPass;
         Filter<Receipt> receiptFilter = Filter.AlwaysPass;
@@ -91,12 +91,14 @@ public class CommandLine {
                 analysis.totalNutrition(filters);
                 break;
             case "avg-nutrition":
+            case "average-nutrition":
                 analysis.AvgNutrition(filters);
                 break;
             case "total-price":
                 analysis.totalPrice(filters);
                 break;
             case "avg-price":
+            case "average-price":
                 analysis.avgPrice(filters);
                 break;
             default:

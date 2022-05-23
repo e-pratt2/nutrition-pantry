@@ -17,4 +17,10 @@ public class StoreNameFilter extends Filter<Store> {
     public boolean accepts(Store store) {
         return store.getName().equalsIgnoreCase(name) && super.accepts(store);
     }
+
+
+    @Override
+    public String toString() {
+        return "Store Name{" + name +"}" + super.toString();
+    }
 }

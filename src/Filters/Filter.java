@@ -13,4 +13,9 @@ public class Filter <E>{
     public boolean accepts(E e) {
         return child == null ? true : child.accepts(e);
     };
+
+    @Override
+    public String toString() {
+        return child == null ? "Pass" : child.toString();
+    }
 }

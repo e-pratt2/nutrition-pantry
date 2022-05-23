@@ -1,13 +1,11 @@
-import Database.Grocery;
 import Database.SerializableDatabase;
 import Database.Store;
 import Factories.*;
-import Filters.AlwaysPassFilter;
-import Filters.Filter;
+import Filters.FilterSet;
+import UI.CommandLine;
 import UI.UIHelpers;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public class NutritionPantry {
     public static final String menuOptions[] = {
@@ -32,7 +30,12 @@ public class NutritionPantry {
                 case 3:
                     addGroceries();
                     break;
-                case 4: break;
+                case 4:
+                    CommandLine cl = new CommandLine();
+                    FilterSet filters = cl.parseFilter();
+                    System.out.println(filters);
+                    cl.execute(filters);
+                    break;
                 case 5:
                     try {
                         if(SerializableDatabase.hasInstance()) {
@@ -41,7 +44,7 @@ public class NutritionPantry {
                         }
                         else SerializableDatabase.loadInstance(UIHelpers.promptFilepath("Load path:").toString());
                     } catch(IOException e) {
-                        System.out.println("Failed to save database.");
+                        System.out.println("Failed to load database.");
                     }
                 case 6:
                     try {

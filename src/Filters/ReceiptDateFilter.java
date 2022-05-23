@@ -23,4 +23,9 @@ public class ReceiptDateFilter extends Filter<Receipt> {
         LocalDate receiptDate = receipt.getDate();
         return (this.start.isBefore(receiptDate) && this.end.isAfter(receiptDate)) && super.accepts(receipt);
     }
+
+    @Override
+    public String toString() {
+        return "Receipt Date{" + start + " to " + end +"}" + super.toString();
+    }
 }
