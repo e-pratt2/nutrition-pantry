@@ -21,6 +21,6 @@ public class StoreNameFilter extends Filter<Store> {
 
     @Override
     public String toString() {
-        return "Store Name{" + name +"}" + super.toString();
+        return "Store Name{" + name +"} -> " + super.toString();
     }
 }
