@@ -19,4 +19,9 @@ public class GroceryNameFilter extends Filter<Grocery> {
         String g1 = grocery.getName();
         return (g1.equalsIgnoreCase(name)) && super.accepts(grocery);
     }
+
+    @Override
+    public String toString() {
+        return "Grocery Name{" + name +"}" + super.toString();
+    }
 }

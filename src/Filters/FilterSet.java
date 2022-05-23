@@ -34,4 +34,13 @@ public class FilterSet {
     public Filter<Receipt> getReceipt() {
         return receiptFilter;
     }
+
+    @Override
+    public String toString() {
+        return "FilterSet{"
+                + "\n\tStore: " + storeFilter.toString()
+                + "\n\tGrocery: " + groceryFilter.toString()
+                + "\n\tReceipt: " + receiptFilter.toString()
+                + "\n}";
+    }
 }
