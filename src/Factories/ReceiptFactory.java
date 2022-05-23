@@ -4,6 +4,7 @@ import Database.Grocery;
 import Database.Receipt;
 import Database.SerializableDatabase;
 import Search.FuzzySearch;
+import Search.SearchResults;
 import UI.UIHelpers;
 
 import java.time.LocalDate;
@@ -20,10 +21,12 @@ public class ReceiptFactory {
                 break;
             double groceryQuantity = UIHelpers.promptDouble("Quantity: ");
 
-            Grocery g = FuzzySearch.findBestMatch(groceryName, SerializableDatabase.getInstance().getGroceries(), Grocery::getName);
+            SearchResults<Grocery> results = FuzzySearch.search(groceryName, SerializableDatabase.getInstance().getGroceries(), Grocery::getName);
 
-            System.out.println(g);
-            r.addGrocery(g, groceryQuantity);
+            SearchResults<Grocery>.Result chosen = UIHelpers.chooseObject(results.getBestResults(), SearchResults.Result::toString);
+
+            System.out.println(chosen.getObject());
+            r.addGrocery(chosen.getObject(), groceryQuantity);
         } while(true);
 
         return r;

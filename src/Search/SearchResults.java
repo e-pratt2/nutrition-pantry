@@ -1,10 +1,13 @@
 package Search;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 public class SearchResults<E> {
-    private ArrayList<Result> results;
+    private SortedSet<Result> results;
+
+    public SearchResults() {
+        results = new TreeSet<>();
+    }
 
     public class Result implements Comparable<Result> {
         private E object;
@@ -27,16 +30,23 @@ public class SearchResults<E> {
         public int compareTo(Result other) {
             return Float.compare(score, other.score);
         }
+
+        @Override
+        public String toString() {
+            return object.toString() + ": " + score;
+        }
     }
 
+    public void pushResult(E item, float score) {
+        results.add(new Result(item, score));
+    }
     public void pushResult(Result r) {
-        int pos = Collections.binarySearch(results, r);
-        results.add(pos, r);
-
+        results.add(r);
     }
 
-    public Result getBestResult() {
-        return null;
+    public List<Result> getBestResults() {
+        ArrayList<Result> bestResults = new ArrayList<>();
+        return Arrays.asList((Result[])results.toArray());
     }
 
     public boolean isAmbiguous() {
