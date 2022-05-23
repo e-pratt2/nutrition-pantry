@@ -22,6 +22,6 @@ public class GroceryNameFilter extends Filter<Grocery> {
 
     @Override
     public String toString() {
-        return "Grocery Name{" + name +"}" + super.toString();
+        return "Grocery Name{" + name +"} -> " + super.toString();
     }
 }

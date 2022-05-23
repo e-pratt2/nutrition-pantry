@@ -26,6 +26,6 @@ public class ReceiptDateFilter extends Filter<Receipt> {
 
     @Override
     public String toString() {
-        return "Receipt Date{" + start + " to " + end +"}" + super.toString();
+        return "Receipt Date{" + start + " to " + end +"} ->" + super.toString();
     }
 }
