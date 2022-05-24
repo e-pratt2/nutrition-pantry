@@ -7,6 +7,8 @@ public class Nutrition implements Serializable {
     private double calories, fat, sugar, fiber, protein, sodium;
 
     public Nutrition(double calories, double fat, double sugar, double fiber, double protein, double sodium) {
+        if(calories < 0 || fat < 0 || sugar < 0 || fiber < 0 || protein < 0 || sodium < 0)
+            throw new IllegalArgumentException("bad params in Nutrition");
         this.calories = calories;
         this.fat = fat;
         this.sugar = sugar;
