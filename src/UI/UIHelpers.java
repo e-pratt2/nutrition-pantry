@@ -31,7 +31,7 @@ public class UIHelpers {
     }
     public static LocalDate promptDate(String prompt) {
         Scanner s = new Scanner(System.in);
-        System.out.println(prompt + " (yyyy mm dd)");
+        System.out.println(prompt + " (yyyy-mm-dd)");
         while(true) {
             String str = s.nextLine();
             try {
@@ -63,7 +63,7 @@ public class UIHelpers {
         for(int i = 0; i < strings.length; ++i)
             strings[i] = stringify.apply(objects.get(i));
 
-        return objects.get(menu(strings) - 1);
+        return objects.get(promptMenu(strings) - 1);
     }
     public static <E> E chooseObjectOrOther(List<E> objects, Function<E, String> stringify, String otherOption){
         if(objects.isEmpty()) {
@@ -75,14 +75,14 @@ public class UIHelpers {
 
         strings[objects.size()] = otherOption;
 
-        int chosen = menu(strings) - 1;
+        int chosen = promptMenu(strings) - 1;
         if(chosen == objects.size())
             return null;
         else
             return objects.get(chosen - 1);
     }
 
-    public static int menu(String [] star){
+    public static int promptMenu(String [] star){
         int choice = 0;
 
         while(true) {
