@@ -24,7 +24,7 @@ public class NutritionPantry {
     };
     public static void main(String[] args) {
         while(true)
-            switch(UIHelpers.menu(menuOptions)) {
+            switch(UIHelpers.promptMenu(menuOptions)) {
                 case 1:
                     StoreFactory s = new StoreFactory();
                     SerializableDatabase.getInstance().addStore(s.createStore());

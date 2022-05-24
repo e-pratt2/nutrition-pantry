@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -74,7 +75,7 @@ class UIHelpersTest {
         //Reset user input
         setInput("weird string \uD83D\uDC11\n");
 
-        //Test with an invalid double, followed by a retry
+        //Test with an strange string
         value = UIHelpers.promptString("Another, if you please");
         assertEquals(outputBuffer.toString(), "String time\r\nAnother, if you please\r\n");
         assertEquals("weird string \uD83D\uDC11", value);
@@ -86,6 +87,29 @@ class UIHelpersTest {
 
     @Test
     void promptDate() {
+        InputStream in = System.in;
+        PrintStream out = System.out;
+
+        ByteArrayOutputStream outputBuffer = getOutput();
+
+        setInput("2001-12-30\n");
+
+        //Test with a valid date
+        LocalDate value = UIHelpers.promptDate("Cool date");
+        assertEquals(outputBuffer.toString(), "Cool date (yyyy-mm-dd)\r\n");
+        assertEquals(LocalDate.of(2001, 12, 30), value);
+
+        //Reset user input
+        setInput("12-27-2021\nweird stuff\n2022-05-24\n");
+
+        //Test with two bad dates, and a good one
+        value = UIHelpers.promptDate("Another, if you please");
+        assertEquals(outputBuffer.toString(), "Cool date (yyyy-mm-dd)\r\nAnother, if you please (yyyy-mm-dd)\r\nInvalid date, try again.\r\nInvalid date, try again.\r\n");
+        assertEquals(LocalDate.of(2022, 05, 24), value);
+
+        //Reset in and out
+        System.setIn(in);
+        System.setOut(out);
     }
 
     @Test
@@ -101,7 +125,7 @@ class UIHelpersTest {
     }
 
     @Test
-    void menu() {
+    void promptMenu() {
     }
 
     @Test
