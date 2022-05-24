@@ -12,6 +12,8 @@ public class Receipt implements Serializable {
     private LocalDate date;
 
     public Receipt(LocalDate date) {
+        if(date == null)
+            throw new IllegalArgumentException("bad params in receipt");
         this.date = date;
         this.groceryQuantity = new HashMap<>();
     }
