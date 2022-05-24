@@ -97,4 +97,25 @@ public class Nutrition implements Serializable {
     public int hashCode() {
         return Objects.hash(calories, fat, sugar, fiber, protein, sodium);
     }
+
+    @Override
+    public boolean equals(Object obj){
+        if(!(obj instanceof Nutrition))
+            throw new IllegalArgumentException("bad params Nutrition equals");
+
+        Nutrition n = (Nutrition) obj;
+        if(Double.compare(this.getCalories(), n.getCalories()) != 0)
+            return false;
+        if(Double.compare(this.getFat(), n.getFat()) != 0)
+            return false;
+        if(Double.compare(this.getFiber(), n.getFiber()) != 0)
+            return false;
+        if(Double.compare(this.getProtein(), n.getProtein()) != 0)
+            return false;
+        if(Double.compare(this.getSodium(), n.getSodium()) != 0)
+            return false;
+        if(Double.compare(this.getSugar(), n.getSugar()) != 0)
+            return false;
+        return true;
+    }
 }
