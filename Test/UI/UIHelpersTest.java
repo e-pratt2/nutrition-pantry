@@ -114,6 +114,28 @@ class UIHelpersTest {
 
     @Test
     void promptBoolean() {
+        InputStream in = System.in;
+        PrintStream out = System.out;
+
+        ByteArrayOutputStream outputBuffer = getOutput();
+
+        setInput("y\n");
+
+        //Test with a valid date
+        boolean value = UIHelpers.promptBoolean("yes?", true);
+        assertEquals(outputBuffer.toString(), "yes? [Y/n]\r\n");
+        assertTrue(value);
+
+        //Reset user input, a bad bool followed by blank input (take default value)
+        setInput("this isn't an answer!\n\n");
+
+        value = UIHelpers.promptBoolean("Another, if you please", false);
+        assertEquals(outputBuffer.toString(), "yes? [Y/n]\r\nAnother, if you please [y/N]\r\nUnrecognized value, try again.\r\n");
+        assertFalse(value);
+
+        //Reset in and out
+        System.setIn(in);
+        System.setOut(out);
     }
 
     @Test
