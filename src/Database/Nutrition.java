@@ -103,7 +103,7 @@ public class Nutrition implements Serializable {
     @Override
     public boolean equals(Object obj){
         if(!(obj instanceof Nutrition))
-            throw new IllegalArgumentException("bad params Nutrition equals");
+            return false;
 
         Nutrition n = (Nutrition) obj;
         if(Double.compare(this.getCalories(), n.getCalories()) != 0)

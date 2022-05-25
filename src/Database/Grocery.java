@@ -36,7 +36,7 @@ public class Grocery implements Serializable {
     @Override
     public boolean equals(Object obj){
         if(!(obj instanceof Grocery))
-            throw new IllegalArgumentException("bad param in equals");
+            return false;
 
         Grocery g = (Grocery) obj;
 
