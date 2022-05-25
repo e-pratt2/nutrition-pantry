@@ -60,11 +60,4 @@ public class SerializableDatabase implements Serializable {
     public void addReceipt(Receipt r, Store s)  {
         s.addReceipt(r);
     }
-    public Store findStore(String name) {
-        for(Store s : getStores())
-            if(s.getName().equalsIgnoreCase(name))
-                return s;
-
-        return null;
-    }
 }
