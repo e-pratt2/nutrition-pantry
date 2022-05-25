@@ -5,6 +5,7 @@ import Filters.Filter;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.time.LocalDate;
+import java.util.Set;
 
 public class Receipt implements Serializable {
 
@@ -31,7 +32,7 @@ public class Receipt implements Serializable {
         this.groceryQuantity.put(g, this.getQuantityOf(g) + quantity);
     }
 
-    public Iterable<Grocery> getGroceries() {
+    public Set<Grocery> getGroceries() {
         return groceryQuantity.keySet();
     }
 }

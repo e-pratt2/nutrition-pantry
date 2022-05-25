@@ -49,6 +49,8 @@ class ReceiptTest {
         Receipt r = new Receipt(ld);
         Grocery g = new Grocery("cabbage", new Nutrition());
         r.addGrocery(g, 2);
+        Grocery[] gg = {g};
+        assertArrayEquals(gg, r.getGroceries().toArray());
         //TODO:finish
 
     }
