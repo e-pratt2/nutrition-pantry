@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -140,10 +143,59 @@ class UIHelpersTest {
 
     @Test
     void chooseObject() {
+        InputStream in = System.in;
+
+        List<String> options = Arrays.asList(
+                "Option 1",
+                "Option 2",
+                "Weird option",
+                "Cool option"
+        );
+
+
+        setInput("2\n");
+
+        //Test with a valid date
+        String value = UIHelpers.chooseObject(options,(s) -> s);
+        assertEquals(options.get(1), value);
+
+        //Reset user input, two bad inputs followed by a good input
+        setInput("6\n0\n1\n");
+
+        value = UIHelpers.chooseObject(options,(s) -> s);
+        assertEquals(options.get(0), value);
+
+        //Reset in
+        System.setIn(in);
     }
 
     @Test
     void chooseObjectOrOther() {
+        InputStream in = System.in;
+
+        List<String> options = Arrays.asList(
+                "Option 1",
+                "Option 2",
+                "Weird option",
+                "Cool option"
+        );
+
+        String otherOption = "Rad other option";
+
+        setInput("2\n");
+
+        //Test with a valid date
+        String value = UIHelpers.chooseObjectOrOther(options,(s) -> s, otherOption);
+        assertEquals(options.get(1), value);
+
+        //Reset user input, two bad inputs followed by an "other" input
+        setInput("6\n0\n5\n");
+
+        value = UIHelpers.chooseObject(options,(s) -> s);
+        assertEquals(otherOption, value);
+
+        //Reset in
+        System.setIn(in);
     }
 
     @Test
