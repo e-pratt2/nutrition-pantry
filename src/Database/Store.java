@@ -13,6 +13,8 @@ public class Store implements Serializable {
     private String name;
 
     public Store(String name){
+        if(name == null || name.equalsIgnoreCase(""))
+            throw new IllegalArgumentException("bad param in Store");
         this.groceryPrices = new HashMap<>();
         this.receipts = new ArrayList<>();
         this.name = name;
