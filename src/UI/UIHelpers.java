@@ -85,23 +85,22 @@ public class UIHelpers {
     public static int promptMenu(String [] star){
         int choice = 0;
 
+        for(int i = 0; i < star.length; i++){
+            System.out.println(" * " + (i + 1) + ". " + star[i]);
+        }
+
+        Scanner kb = new Scanner(System.in);
         while(true) {
-            for(int i = 0; i < star.length; i++){
-                System.out.println(" * " + (i + 1) + ". " + star[i]);
-            }
-
-            Scanner kb = new Scanner(System.in);
-
             System.out.println("Please enter your choice:");
 
             String str = kb.nextLine();
             try {
                 choice = Integer.parseInt(str);
 
-                if (choice <= 0 && choice > star.length) {
+                if (choice <= 0 || choice > star.length) {
                     System.out.println("Invalid value, try again");
-                }
-                else{
+                    continue;
+                } else{
                     break;
                 }
             } catch (NumberFormatException e) {

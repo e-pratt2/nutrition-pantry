@@ -9,12 +9,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import Analysis.analysis;
 
 public class CommandLine {
 
     private String[] lines;
+
+    //Todo: allow quoted strings?
+    //private Pattern tokenSplit = Pattern.compile("[^\\s\"']*|\"([^\"]*)\"|'([^']*)'");
 
     public CommandLine(){
         System.out.println("Type in 'help' for information:");
