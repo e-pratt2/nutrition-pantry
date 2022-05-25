@@ -51,7 +51,6 @@ class ReceiptTest {
         r.addGrocery(g, 2);
         Grocery[] gg = {g};
         assertArrayEquals(gg, r.getGroceries().toArray());
-        //TODO:finish
 
     }
 }
