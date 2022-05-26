@@ -23,7 +23,7 @@ public class CommandLine {
     public CommandLine(){
         System.out.println("Type in 'help' for information:");
         System.out.println("Command Line ->");
-        Scanner kb = new Scanner(System.in);
+        Scanner kb = UIHelpers.getScanner();
         String str = kb.nextLine();
         this.lines = str.split(" *, *");
     }
