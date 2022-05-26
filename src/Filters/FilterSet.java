@@ -17,6 +17,12 @@ public class FilterSet {
         receiptFilter = Filter.AlwaysPass;
     }
     public FilterSet(Filter<Store> storeFilter, Filter<Grocery> groceryFilter, Filter<Receipt> receiptFilter) {
+        if(storeFilter == null)
+            this.storeFilter = Filter.AlwaysPass;
+        if(groceryFilter == null)
+            this.groceryFilter = Filter.AlwaysPass;
+        if(receiptFilter == null)
+            this.receiptFilter = Filter.AlwaysPass;
         this.storeFilter = storeFilter;
         this.groceryFilter = groceryFilter;
         this.receiptFilter = receiptFilter;
