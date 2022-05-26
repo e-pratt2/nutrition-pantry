@@ -48,6 +48,10 @@ class GroceryNameFilterTest {
 
     @Test
     void testToString() {
+        Nutrition n = new Nutrition();
+        Grocery g = new Grocery("cabbage",n);
+        GroceryNameFilter gg = new GroceryNameFilter("cabbage");
 
+        assertEquals("Grocery Name{cabbage} -> Pass", gg.toString());
     }
 }
