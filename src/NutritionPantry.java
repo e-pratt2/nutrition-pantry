@@ -37,9 +37,9 @@ public class NutritionPantry {
                     break;
                 case 4:
                     CommandLine cl = new CommandLine();
-                    FilterSet filters = cl.parseFilter();
-                    System.out.println(filters);
-                    cl.execute(filters);
+
+                    while(cl.fetchAndExecute());
+
                     break;
                 case 5:
                     try {
