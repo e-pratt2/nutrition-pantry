@@ -2,16 +2,26 @@ package Factories;
 
 import Database.Grocery;
 import Database.Nutrition;
+import UI.UIHelpers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UPCGroceryFactoryTest {
+
+    @BeforeEach
+    void resetScanner() throws NoSuchFieldException, IllegalAccessException {
+        Field kb = UIHelpers.class.getDeclaredField("kb");
+        kb.setAccessible(true);
+        kb.set(null, null);
+    }
 
     //Set System.in to predefined input
     void setInput(String s) {
@@ -24,12 +34,12 @@ class UPCGroceryFactoryTest {
         InputStream is = System.in;
 
 
-        setInput("Nature Valley Dark Cherry\n\n016000508422\n\n");
+        setInput("Skippy Peanut Butter\n037600110754\n");
 
         Grocery g = new UPCGroceryFactory().createGrocery();
 
-        Grocery expected = new Grocery("Nature Valley Dark Cherry", new Nutrition(
-                150.0, 4.0, 8.0, 2.0, 2.0, 0.070
+        Grocery expected = new Grocery("Skippy Peanut Butter", new Nutrition(
+                190.0, 16.0, 3.0, 1.98, 7.0, 0.150
         ));
 
 

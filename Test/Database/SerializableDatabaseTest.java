@@ -1,18 +1,24 @@
 package Database;
 
+import UI.UIHelpers;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SerializableDatabaseTest {
 
-    //@BeforeAll
-    //void beforeAll(){
-    //}
+    @BeforeEach
+    void beforeEach() throws NoSuchFieldException, IllegalAccessException {
+        Field instance = SerializableDatabase.class.getDeclaredField("instance");
+        instance.setAccessible(true);
+        instance.set(null, null);
+    }
 
     @Test
     void getInstance() {
@@ -41,8 +47,6 @@ class SerializableDatabaseTest {
         SerializableDatabase.loadInstance("out.txt");
 
         assertArrayEquals( new Grocery[]{g}, sd.getGroceries().toArray());
-
-
     }
 
     @Test

@@ -1,9 +1,12 @@
 package UI;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,10 +16,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UIHelpersTest {
 
+    @BeforeEach
+    void resetScanner() throws NoSuchFieldException, IllegalAccessException {
+         Field kb = UIHelpers.class.getDeclaredField("kb");
+         kb.setAccessible(true);
+         kb.set(null, null);
+    }
+
     //Create a way to emulate user input
     void setInput(String s) {
-        InputStream testInput = new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8));
-        System.setIn(testInput);
+        try {
+            InputStream testInput = new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8));
+            System.setIn(testInput);
+            resetScanner();
+        } catch(Exception e) {
+            throw new RuntimeException("Couldn't set inputs for UIHelpersTest");
+        }
     }
     //Create a way to read console output
     ByteArrayOutputStream getOutput() {
@@ -191,8 +206,8 @@ class UIHelpersTest {
         //Reset user input, two bad inputs followed by an "other" input
         setInput("6\n0\n5\n");
 
-        value = UIHelpers.chooseObject(options,(s) -> s);
-        assertEquals(otherOption, value);
+        value = UIHelpers.chooseObjectOrOther(options,(s) -> s, otherOption);
+        assertEquals(null, value);
 
         //Reset in
         System.setIn(in);
@@ -200,9 +215,42 @@ class UIHelpersTest {
 
     @Test
     void promptMenu() {
+        InputStream in = System.in;
+
+        String[] options = {
+                "Option 1",
+                "Option 2",
+                "Weird option",
+                "Cool option"
+        };
+
+        setInput("2\n");
+
+        //Test with a valid date
+        int value = UIHelpers.promptMenu(options);
+        assertEquals(2, value);
+
+        //Reset user input, two bad inputs followed by an "other" input
+        setInput("6\n0\n3\n");
+
+        value = UIHelpers.promptMenu(options);
+        assertEquals(3, value);
+
+        //Reset in
+        System.setIn(in);
     }
 
     @Test
     void promptFilepath() {
+        InputStream in = System.in;
+
+        setInput("./database.bin\n");
+
+        //Test with a valid date
+        Path value = UIHelpers.promptFilepath("Path");
+        assertEquals(Path.of("./database.bin"), value);
+
+        //Reset in
+        System.setIn(in);
     }
 }

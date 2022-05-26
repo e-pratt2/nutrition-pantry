@@ -11,8 +11,16 @@ import java.util.Scanner;
 import java.util.function.Function;
 
 public class UIHelpers {
+    private static Scanner kb;
+
+    public static Scanner getScanner() {
+        if(kb == null)
+            return kb = new Scanner(System.in);
+        return kb;
+    }
+
     public static double promptDouble(String prompt) {
-        Scanner s = new Scanner(System.in);
+        Scanner s = getScanner();
         System.out.println(prompt);
         while(true) {
             try {
@@ -25,12 +33,12 @@ public class UIHelpers {
     }
     public static String promptString(String prompt) {
         System.out.println(prompt);
-        Scanner kb = new Scanner(System.in);
+        Scanner kb = getScanner();
         String str = kb.nextLine();
         return str;
     }
     public static LocalDate promptDate(String prompt) {
-        Scanner s = new Scanner(System.in);
+        Scanner s = getScanner();
         System.out.println(prompt + " (yyyy-mm-dd)");
         while(true) {
             String str = s.nextLine();
@@ -44,7 +52,7 @@ public class UIHelpers {
     public static boolean promptBoolean(String prompt, boolean auto) {
         String suffix = auto ? "[Y/n]" : "[y/N]";
         System.out.println(prompt + " " + suffix);
-        Scanner kb = new Scanner(System.in);
+        Scanner kb = getScanner();
         while(true) {
             String str = kb.nextLine();
             if(str.isEmpty())
@@ -70,7 +78,7 @@ public class UIHelpers {
             return null;
         }
         String[] strings = new String[objects.size() + 1];
-        for(int i = 0; i < strings.length; ++i)
+        for(int i = 0; i < objects.size(); ++i)
             strings[i] = stringify.apply(objects.get(i));
 
         strings[objects.size()] = otherOption;
@@ -79,7 +87,7 @@ public class UIHelpers {
         if(chosen == objects.size())
             return null;
         else
-            return objects.get(chosen - 1);
+            return objects.get(chosen);
     }
 
     public static int promptMenu(String [] star){
@@ -89,7 +97,7 @@ public class UIHelpers {
             System.out.println(" * " + (i + 1) + ". " + star[i]);
         }
 
-        Scanner kb = new Scanner(System.in);
+        Scanner kb = getScanner();
         while(true) {
             System.out.println("Please enter your choice:");
 
@@ -111,7 +119,7 @@ public class UIHelpers {
        return choice;
     }
     public static Path promptFilepath(String prompt) {
-        Scanner s = new Scanner(System.in);
+        Scanner s = getScanner();
         System.out.println(prompt);
         while(true) {
             String str = s.nextLine();

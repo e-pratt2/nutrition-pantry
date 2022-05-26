@@ -20,12 +20,16 @@ public class CommandLine {
     //Todo: allow quoted strings?
     //private Pattern tokenSplit = Pattern.compile("[^\\s\"']*|\"([^\"]*)\"|'([^']*)'");
 
-    public CommandLine(){
+    public CommandLine() {
         System.out.println("Type in 'help' for information:");
-        System.out.println("Command Line ->");
-        Scanner kb = new Scanner(System.in);
+    }
+
+    public void fetchInput() {
+        System.out.print("-> ");
+        Scanner kb = UIHelpers.getScanner();
         String str = kb.nextLine();
         this.lines = str.split(" *, *");
+
     }
 
     public FilterSet parseFilter(){
@@ -91,24 +95,39 @@ public class CommandLine {
         return f;
     }
 
-    public void execute(FilterSet filters) {
+    public boolean execute(FilterSet filters) {
         switch(this.lines[0]) {
             case "total-nutrition":
                 analysis.totalNutrition(filters);
-                break;
+                return true;
             case "avg-nutrition":
             case "average-nutrition":
                 analysis.AvgNutrition(filters);
-                break;
+                return true;
             case "total-price":
                 analysis.totalPrice(filters);
-                break;
+                return true;
             case "avg-price":
             case "average-price":
                 analysis.avgPrice(filters);
-                break;
+                return true;
+            case "help":
+                System.out.println("Analysis syntax: analysis-type [, grocery [filters...]] [, store [filters...]] [, receipt [filters...]]\n" +
+                        "analysis types:  total-nutrition, average-nutrition, total-price, average-price\n" +
+                        "grocery filters: name <grocery name>\n" +
+                        "store filters:   name <store name>\n" +
+                        "receipt filters: between <start date> <end date>");
+                return true;
+            case "exit":
+                return false;
             default:
-                throw new CommandSyntaxException("Unrecognized analysis type " + this.lines[0]);
+                System.out.println("Unrecognized analysis type " + this.lines[0]);
+                return true;
         }
+    }
+
+    public boolean fetchAndExecute() {
+        this.fetchInput();
+        return this.execute(this.parseFilter());
     }
 }
