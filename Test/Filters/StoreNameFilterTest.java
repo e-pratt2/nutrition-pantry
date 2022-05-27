@@ -45,5 +45,6 @@ class StoreNameFilterTest {
     void testToString() {
         Store s = new Store("Safeway");
         StoreNameFilter st = new StoreNameFilter("Safeway");
+        assertEquals("Store Name{Safeway} -> Pass", st.toString());
     }
 }
