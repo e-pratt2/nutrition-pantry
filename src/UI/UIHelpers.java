@@ -94,7 +94,7 @@ public class UIHelpers {
         int choice = 0;
 
         for(int i = 0; i < star.length; i++){
-            System.out.println(" * " + (i + 1) + ". " + star[i]);
+            System.out.println(" ] " + ConsoleStyle.bold((i + 1) + ". ").red() + star[i]);
         }
 
         Scanner kb = getScanner();
