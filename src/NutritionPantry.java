@@ -54,23 +54,44 @@ public class NutritionPantry {
                     try {
                         if(SerializableDatabase.hasInstance()) {
                             if (UIHelpers.promptBoolean("A database is open. Overwrite?", false))
-                                SerializableDatabase.loadInstance(UIHelpers.promptFilepath("Load path:").toString());
+                                SerializableDatabase.loadInstance(chooseFile().toString());
+                            else
+                                System.out.println("Load cancelled.");
                         }
-                        else SerializableDatabase.loadInstance(UIHelpers.promptFilepath("Load path:").toString());
+                        else SerializableDatabase.loadInstance(chooseFile().toString());
                     } catch(IOException e) {
                         System.out.println("Failed to load database.");
                     }
                     break;
                 case 6:
                     try {
-                        SerializableDatabase.saveInstance(UIHelpers.promptFilepath("Save path:").toString());
+                        File file = chooseFile();
+
+                        if(file.exists()) {
+                            if (UIHelpers.promptBoolean("File exists. Overwrite?", false))
+                                SerializableDatabase.saveInstance(file.toString());
+                            else {
+                                System.out.println("Save cancelled.");
+                                break;
+                            }
+                        }
+
                     } catch(IOException e) {
                         System.out.println("Failed to save database.");
                     }
                     break;
                 case 7:
                     try {
-                        SerializableDatabase.saveInstance(UIHelpers.promptFilepath("Save path:").toString());
+                        File file = chooseFile();
+
+                        if(file.exists()) {
+                            if (UIHelpers.promptBoolean("File exists. Overwrite?", false))
+                                SerializableDatabase.saveInstance(file.toString());
+                            else {
+                                System.out.println("Save cancelled.");
+                                break;
+                            }
+                        }
                         return;
                     } catch(IOException e) {
                         System.out.println("Failed to save database, refusing to exit.");
@@ -122,7 +143,7 @@ public class NutritionPantry {
         do {
             Path path = UIHelpers.promptFilepath("Enter path");
 
-            return null; //todo
+            return path.toFile();
         } while(true);
     }
 }

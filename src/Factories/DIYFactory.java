@@ -15,7 +15,7 @@ public class DIYFactory implements GroceryFactory{
     }
 
     private String promptName(){
-        return UIHelpers.promptString("Grocery name: \n");
+        return UIHelpers.promptString("Grocery name:");
     }
 
     private Nutrition getNutrition(){
@@ -25,7 +25,7 @@ public class DIYFactory implements GroceryFactory{
         double sugar = UIHelpers.promptDouble("Amount of Sugar: ");
         double fib = UIHelpers.promptDouble("Amount of Fiber: ");
         double pro = UIHelpers.promptDouble("Amount of Protein: ");
-        double sod = UIHelpers.promptDouble(" Amount of Sodium: ");
+        double sod = UIHelpers.promptDouble("Amount of Sodium: ");
 
         Nutrition n = new Nutrition(cal, fat, sugar, fib, pro, sod);
         return n;
