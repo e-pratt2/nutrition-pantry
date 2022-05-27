@@ -3,6 +3,8 @@ import Database.Store;
 import Factories.*;
 import Filters.FilterSet;
 import UI.CommandLine;
+import UI.CommandSyntaxException;
+import UI.ConsoleStyle;
 import UI.UIHelpers;
 
 import java.io.File;
@@ -38,30 +40,58 @@ public class NutritionPantry {
                 case 4:
                     CommandLine cl = new CommandLine();
 
-                    while(cl.fetchAndExecute());
+                    while(true) {
+                        try{
+                            if(!cl.fetchAndExecute())
+                                break;
+                        } catch (CommandSyntaxException e) {
+                            System.out.println("" + ConsoleStyle.bold("Command error: ").red() + e.getMessage());
+                        }
+                    }
 
                     break;
                 case 5:
                     try {
                         if(SerializableDatabase.hasInstance()) {
                             if (UIHelpers.promptBoolean("A database is open. Overwrite?", false))
-                                SerializableDatabase.loadInstance(UIHelpers.promptFilepath("Load path:").toString());
+                                SerializableDatabase.loadInstance(chooseFile().toString());
+                            else
+                                System.out.println("Load cancelled.");
                         }
-                        else SerializableDatabase.loadInstance(UIHelpers.promptFilepath("Load path:").toString());
+                        else SerializableDatabase.loadInstance(chooseFile().toString());
                     } catch(IOException e) {
                         System.out.println("Failed to load database.");
                     }
                     break;
                 case 6:
                     try {
-                        SerializableDatabase.saveInstance(UIHelpers.promptFilepath("Save path:").toString());
+                        File file = chooseFile();
+
+                        if(file.exists()) {
+                            if (UIHelpers.promptBoolean("File exists. Overwrite?", false))
+                                SerializableDatabase.saveInstance(file.toString());
+                            else {
+                                System.out.println("Save cancelled.");
+                                break;
+                            }
+                        }
+
                     } catch(IOException e) {
                         System.out.println("Failed to save database.");
                     }
                     break;
                 case 7:
                     try {
-                        SerializableDatabase.saveInstance(UIHelpers.promptFilepath("Save path:").toString());
+                        File file = chooseFile();
+
+                        if(file.exists()) {
+                            if (UIHelpers.promptBoolean("File exists. Overwrite?", false))
+                                SerializableDatabase.saveInstance(file.toString());
+                            else {
+                                System.out.println("Save cancelled.");
+                                break;
+                            }
+                        }
                         return;
                     } catch(IOException e) {
                         System.out.println("Failed to save database, refusing to exit.");
@@ -84,7 +114,7 @@ public class NutritionPantry {
     }
 
     private static void addGroceries(){
-        String str = UIHelpers.promptString("Do you want to add the grocery manually or using a UPC? (DIY/UPC)");
+        String str = UIHelpers.promptString("Do you want to add the grocery manually or using a UPC? " + ConsoleStyle.bold("[DIY/UPC]").blue());
         GroceryFactory groceryFactory;
         if(str.equalsIgnoreCase("DIY"))
             groceryFactory = new DIYFactory();
@@ -113,7 +143,7 @@ public class NutritionPantry {
         do {
             Path path = UIHelpers.promptFilepath("Enter path");
 
-            return null; //todo
+            return path.toFile();
         } while(true);
     }
 }

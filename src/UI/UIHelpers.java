@@ -51,7 +51,7 @@ public class UIHelpers {
     }
     public static boolean promptBoolean(String prompt, boolean auto) {
         String suffix = auto ? "[Y/n]" : "[y/N]";
-        System.out.println(prompt + " " + suffix);
+        System.out.println(prompt + " " + ConsoleStyle.bold(suffix).blue());
         Scanner kb = getScanner();
         while(true) {
             String str = kb.nextLine();
@@ -94,7 +94,7 @@ public class UIHelpers {
         int choice = 0;
 
         for(int i = 0; i < star.length; i++){
-            System.out.println(" * " + (i + 1) + ". " + star[i]);
+            System.out.println(" ] " + ConsoleStyle.bold((i + 1) + ". ").red() + star[i]);
         }
 
         Scanner kb = getScanner();

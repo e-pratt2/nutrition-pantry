@@ -21,11 +21,13 @@ public class CommandLine {
     //private Pattern tokenSplit = Pattern.compile("[^\\s\"']*|\"([^\"]*)\"|'([^']*)'");
 
     public CommandLine() {
-        System.out.println("Type in 'help' for information:");
+        System.out.println("Type " + ConsoleStyle.bold("help").blue()
+                + " for information, or type " + ConsoleStyle.bold("exit").blue()
+                + " to return to menu.");
     }
 
     public void fetchInput() {
-        System.out.print("-> ");
+        System.out.print(ConsoleStyle.bold(">> "));
         Scanner kb = UIHelpers.getScanner();
         String str = kb.nextLine();
         this.lines = str.split(" *, *");
@@ -112,17 +114,17 @@ public class CommandLine {
                 analysis.avgPrice(filters);
                 return true;
             case "help":
-                System.out.println("Analysis syntax: analysis-type [, grocery [filters...]] [, store [filters...]] [, receipt [filters...]]\n" +
-                        "analysis types:  total-nutrition, average-nutrition, total-price, average-price\n" +
-                        "grocery filters: name <grocery name>\n" +
-                        "store filters:   name <store name>\n" +
-                        "receipt filters: between <start date> <end date>");
+                System.out.println("" +
+                        ConsoleStyle.bold("analysis syntax: ") + "analysis-type [, grocery [filters...]] [, store [filters...]] [, receipt [filters...]]\n" +
+                        ConsoleStyle.bold("analysis types:  ") + "total-nutrition, average-nutrition, total-price, average-price\n" +
+                        ConsoleStyle.bold("grocery filters: ") + "name <grocery name>\n" +
+                        ConsoleStyle.bold("store filters:   ") + "name <store name>\n" +
+                        ConsoleStyle.bold("receipt filters: ") + "between <start date> <end date>");
                 return true;
             case "exit":
                 return false;
             default:
-                System.out.println("Unrecognized analysis type " + this.lines[0]);
-                return true;
+                throw new CommandSyntaxException("Unrecognized analysis type " + this.lines[0]);
         }
     }
 
