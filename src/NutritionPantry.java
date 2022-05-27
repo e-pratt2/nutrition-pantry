@@ -3,6 +3,8 @@ import Database.Store;
 import Factories.*;
 import Filters.FilterSet;
 import UI.CommandLine;
+import UI.CommandSyntaxException;
+import UI.ConsoleStyle;
 import UI.UIHelpers;
 
 import java.io.File;
@@ -38,7 +40,14 @@ public class NutritionPantry {
                 case 4:
                     CommandLine cl = new CommandLine();
 
-                    while(cl.fetchAndExecute());
+                    while(true) {
+                        try{
+                            if(!cl.fetchAndExecute())
+                                break;
+                        } catch (CommandSyntaxException e) {
+                            System.out.println("" + ConsoleStyle.bold("Command error: ").red() + e.getMessage());
+                        }
+                    }
 
                     break;
                 case 5:
@@ -84,7 +93,7 @@ public class NutritionPantry {
     }
 
     private static void addGroceries(){
-        String str = UIHelpers.promptString("Do you want to add the grocery manually or using a UPC? (DIY/UPC)");
+        String str = UIHelpers.promptString("Do you want to add the grocery manually or using a UPC? " + ConsoleStyle.bold("[DIY/UPC]").blue());
         GroceryFactory groceryFactory;
         if(str.equalsIgnoreCase("DIY"))
             groceryFactory = new DIYFactory();

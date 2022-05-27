@@ -21,11 +21,13 @@ public class CommandLine {
     //private Pattern tokenSplit = Pattern.compile("[^\\s\"']*|\"([^\"]*)\"|'([^']*)'");
 
     public CommandLine() {
-        System.out.println("Type " + ConsoleStyle.bold("help").blue() + " for information:");
+        System.out.println("Type " + ConsoleStyle.bold("help").blue()
+                + " for information, or type " + ConsoleStyle.bold("exit").blue()
+                + " to return to menu.");
     }
 
     public void fetchInput() {
-        System.out.print(ConsoleStyle.bold("> "));
+        System.out.print(ConsoleStyle.bold(">> "));
         Scanner kb = UIHelpers.getScanner();
         String str = kb.nextLine();
         this.lines = str.split(" *, *");
@@ -122,8 +124,7 @@ public class CommandLine {
             case "exit":
                 return false;
             default:
-                System.out.println("Unrecognized analysis type " + this.lines[0]);
-                return true;
+                throw new CommandSyntaxException("Unrecognized analysis type " + this.lines[0]);
         }
     }
 

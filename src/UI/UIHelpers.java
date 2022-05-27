@@ -51,7 +51,7 @@ public class UIHelpers {
     }
     public static boolean promptBoolean(String prompt, boolean auto) {
         String suffix = auto ? "[Y/n]" : "[y/N]";
-        System.out.println(prompt + " " + suffix);
+        System.out.println(prompt + " " + ConsoleStyle.bold(suffix).blue());
         Scanner kb = getScanner();
         while(true) {
             String str = kb.nextLine();
