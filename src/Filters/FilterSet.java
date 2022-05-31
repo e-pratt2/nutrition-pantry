@@ -42,6 +42,18 @@ public class FilterSet {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof FilterSet))
+            return false;
+
+        FilterSet other = (FilterSet)obj;
+
+        return other.groceryFilter.equals(this.groceryFilter) &&
+                other.receiptFilter.equals(this.receiptFilter) &&
+                other.storeFilter.equals(this.storeFilter);
+    }
+
+    @Override
     public String toString() {
         return "FilterSet{"
                 + "\n\tStore: " + storeFilter.toString()

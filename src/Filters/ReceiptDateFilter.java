@@ -33,6 +33,16 @@ public class ReceiptDateFilter extends Filter<Receipt> {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof ReceiptDateFilter))
+            return false;
+
+        ReceiptDateFilter other = (ReceiptDateFilter) obj;
+
+        return other.start.equals(this.start) && other.end.equals(this.end) && this.child.equals(other.child);
+    }
+
+    @Override
     public String toString() {
         return "Receipt Date{" + start + " to " + end +"} ->" + super.toString();
     }

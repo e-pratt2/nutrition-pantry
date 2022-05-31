@@ -14,6 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Holds the entry point and helper methods for allowing easy interaction with the database.
+ */
 public class NutritionPantry {
     public static final String menuOptions[] = {
             "Add store...",
@@ -24,6 +27,12 @@ public class NutritionPantry {
             "Save to file...",
             "Save and exit."
     };
+
+    /**
+     * Main entry point for the program. Provides a text-based prompt for the user to interact with the database,
+     * add items, perform analysis, and save/load.
+     * @param args - Unused, leave empty.
+     */
     public static void main(String[] args) {
         while(true)
             switch(UIHelpers.promptMenu(menuOptions)) {
@@ -99,6 +108,11 @@ public class NutritionPantry {
                     }
             }
     }
+
+    /**
+     * Prompts the user to add any number of receipts to the database. Continues prompting until the user is done.
+     * Requires that there be stores present in the database beforehand.
+     */
     private static void addReceipts() {
         ReceiptFactory fact = new ReceiptFactory();
         SerializableDatabase database = SerializableDatabase.getInstance();
@@ -113,8 +127,12 @@ public class NutritionPantry {
         } while(UIHelpers.promptBoolean("Continue?", true));
     }
 
+    /**
+     * Prompts the user to enter any number of groceries. Will first prompt entry style (UPC or DIY), and then
+     * continuously prompt for new groceries in that style until the user is done.
+     */
     private static void addGroceries(){
-        String str = UIHelpers.promptString("Do you want to add the grocery manually or using a UPC? " + ConsoleStyle.bold("[DIY/UPC]").blue());
+        String str = UIHelpers.promptString("Do you want to add the grocery manually or using a UPC? " + ConsoleStyle.bold("[DIY/UPC] ").blue());
         GroceryFactory groceryFactory;
         if(str.equalsIgnoreCase("DIY"))
             groceryFactory = new DIYFactory();
@@ -129,6 +147,12 @@ public class NutritionPantry {
             SerializableDatabase.getInstance().addGrocery(groceryFactory.createGrocery());
         }while(UIHelpers.promptBoolean("Continue?", true));
     }
+
+    /**
+     * Prompts the user to choose a file to save/load to/from. Provides a list of files in the working directory to
+     * choose from, or allows the user to specify their own path.
+     * @return File - the chosen file object, which may or may not exist already.
+     */
     private static File chooseFile() {
         File folder = new File(".");
         File[] items = folder.listFiles();

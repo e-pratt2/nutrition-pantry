@@ -33,4 +33,14 @@ public class GroceryNameFilter extends Filter<Grocery> {
     public String toString() {
         return "Grocery Name{" + name +"} -> " + super.toString();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof GroceryNameFilter))
+            return false;
+
+        GroceryNameFilter other = (GroceryNameFilter) obj;
+
+        return other.name.equals(this.name) && this.child.equals(other.child);
+    }
 }

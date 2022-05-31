@@ -28,6 +28,15 @@ public class StoreNameFilter extends Filter<Store> {
         return store.getName().equalsIgnoreCase(name) && super.accepts(store);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof StoreNameFilter))
+            return false;
+
+        StoreNameFilter other = (StoreNameFilter) obj;
+
+        return other.name.equals(this.name) && this.child.equals(other.child);
+    }
 
     @Override
     public String toString() {

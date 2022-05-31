@@ -30,7 +30,7 @@ public class ReceiptFactory {
 
             System.out.println(chosen.getObject());
             r.addGrocery(chosen.getObject(), groceryQuantity);
-        } while(UIHelpers.promptBoolean("Continue?", true));
+        } while(UIHelpers.promptBoolean("Continue? ", true));
 
         return r;
     }
