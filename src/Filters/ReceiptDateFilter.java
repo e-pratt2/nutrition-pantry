@@ -1,13 +1,13 @@
 package Filters;
 
-import Database.Grocery;
 import Database.Receipt;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class ReceiptDateFilter extends Filter<Receipt> {
-    private LocalDate start, end;
+    private final LocalDate start;
+    private final LocalDate end;
 
     public ReceiptDateFilter(Filter<Receipt> child, LocalDate start, LocalDate end) {
         super(child);
