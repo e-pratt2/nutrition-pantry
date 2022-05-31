@@ -186,6 +186,13 @@ public class UIHelpers {
         }
        return choice;
     }
+
+    /**
+     * Prompt for a filepath. Will continue to prompt until a valid filepath is entered. The path does not
+     * necessarily point to a file that exists or that the user has access to!
+     * @param prompt The string to show to the user to ask for input.
+     * @return A valid filepath entered by the user.
+     */
     public static Path promptFilepath(String prompt) {
         Scanner s = getScanner();
         System.out.print(prompt);

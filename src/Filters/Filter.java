@@ -14,7 +14,7 @@ public class Filter <E>{
 
     public boolean accepts(E e) {
         return child == null ? true : child.accepts(e);
-    };
+    }
 
     @Override
     public boolean equals(Object obj) {
