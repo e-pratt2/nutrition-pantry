@@ -2,6 +2,8 @@ package Filters;
 
 import Database.Store;
 
+import java.util.Objects;
+
 public class StoreNameFilter extends Filter<Store> {
     private String name;
 
@@ -35,7 +37,7 @@ public class StoreNameFilter extends Filter<Store> {
 
         StoreNameFilter other = (StoreNameFilter) obj;
 
-        return other.name.equals(this.name) && this.child.equals(other.child);
+        return other.name.equals(this.name) && Objects.equals(other.child, this.child);
     }
 
     @Override
