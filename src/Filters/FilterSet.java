@@ -4,6 +4,8 @@ import Database.Grocery;
 import Database.Receipt;
 import Database.Store;
 
+import java.util.Objects;
+
 public class FilterSet {
     private Filter<Store> storeFilter;
     private Filter<Grocery> groceryFilter;
@@ -48,9 +50,9 @@ public class FilterSet {
 
         FilterSet other = (FilterSet)obj;
 
-        return other.groceryFilter.equals(this.groceryFilter) &&
-                other.receiptFilter.equals(this.receiptFilter) &&
-                other.storeFilter.equals(this.storeFilter);
+        return Objects.equals(other.groceryFilter,this.groceryFilter) &&
+                Objects.equals(other.receiptFilter,this.receiptFilter) &&
+                Objects.equals(other.storeFilter,this.storeFilter);
     }
 
     @Override

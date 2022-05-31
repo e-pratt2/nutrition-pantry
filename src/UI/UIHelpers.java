@@ -149,10 +149,16 @@ public class UIHelpers {
     }
 
     /**
+     * Prompts a whole list of options, allows the user to choose one by index. Returns the chosen index.
+     * Used in main as well as in the chooseObject methods.
      * @param star An array of strings to print in list form, allowing the user to choose
      * @return int - the 1-based index of the user's choice. Ranges from [1, star.length + 1)
+     * @throws IllegalArgumentException - the size of the list is 0.
      */
     public static int promptMenu(String [] star){
+        if(star.length == 0)
+            throw new IllegalArgumentException("Cannot prompt for empty menu!");
+
         int choice = 0;
 
         for(int i = 0; i < star.length; i++){

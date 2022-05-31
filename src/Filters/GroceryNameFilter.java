@@ -2,6 +2,8 @@ package Filters;
 
 import Database.Grocery;
 
+import java.util.Objects;
+
 public class GroceryNameFilter extends Filter<Grocery> {
 
     private String name;
@@ -41,6 +43,6 @@ public class GroceryNameFilter extends Filter<Grocery> {
 
         GroceryNameFilter other = (GroceryNameFilter) obj;
 
-        return other.name.equals(this.name) && this.child.equals(other.child);
+        return other.name.equals(this.name) && Objects.equals(other.child, this.child);
     }
 }

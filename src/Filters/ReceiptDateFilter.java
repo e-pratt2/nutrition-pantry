@@ -4,6 +4,7 @@ import Database.Grocery;
 import Database.Receipt;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class ReceiptDateFilter extends Filter<Receipt> {
     private LocalDate start, end;
@@ -39,7 +40,7 @@ public class ReceiptDateFilter extends Filter<Receipt> {
 
         ReceiptDateFilter other = (ReceiptDateFilter) obj;
 
-        return other.start.equals(this.start) && other.end.equals(this.end) && this.child.equals(other.child);
+        return other.start.equals(this.start) && other.end.equals(this.end) && Objects.equals(other.child, this.child);
     }
 
     @Override
