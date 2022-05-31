@@ -23,6 +23,8 @@ public class Store implements Serializable {
     public String getName() {
         return this.name;
     }
+    public HashMap<Grocery, Double> getGroceryPrices(){return this.groceryPrices;}
+    public ArrayList<Receipt> getR(){return this.receipts;}
 
     public double getPriceOf(Grocery grocery){
         Double price = groceryPrices.get(grocery);
@@ -34,5 +36,21 @@ public class Store implements Serializable {
     }
     public List<Receipt> getReceipts() {
         return this.receipts;
+    }
+
+    public boolean equals(Object obj){
+
+        if(!(obj instanceof Store))
+            return false;
+
+        Store s = (Store) obj;
+
+        if(!this.groceryPrices.equals(s.getGroceryPrices()))
+            return false;
+        if(!this.name.equals(s.getName()))
+            return false;
+        if(!this.receipts.equals(s.getR()))
+            return false;
+        return true;
     }
 }
