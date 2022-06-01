@@ -3,6 +3,9 @@ package Database;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * A database class that creates a grocery object that holds the nutrition information and a name
+ */
 public class Grocery implements Serializable {
 
     private String name;
@@ -55,7 +58,7 @@ public class Grocery implements Serializable {
     }
 
     /**
-     *
+     * checks if the object passed in equals to this grocery object
      * @param obj the object that this Grocery is compared to
      * @return returns true if the objects are the same
      * @return returns false if the objects are different or if the object passed in is not a Grocery object

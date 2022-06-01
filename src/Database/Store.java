@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * a database class that creates a store object and holds a list of receipts and grocery prices
+ */
 public class Store implements Serializable {
 
     private HashMap<Grocery, Double> groceryPrices;
@@ -14,8 +17,9 @@ public class Store implements Serializable {
     private String name;
 
     /**
-     *
-     * @param name
+     * constructor creates a Store object
+     * @param name string that has the name of the store
+     * @throws IllegalArgumentException if the name is null or empty
      */
     public Store(String name){
         if(name == null || name.equalsIgnoreCase(""))
@@ -27,7 +31,7 @@ public class Store implements Serializable {
 
     /**
      *
-     * @return
+     * @return returns the name of this store
      */
     public String getName() {
         return this.name;
@@ -35,20 +39,20 @@ public class Store implements Serializable {
 
     /**
      *
-     * @return
+     * @return returns the hashMap of grocery prices
      */
     public HashMap<Grocery, Double> getGroceryPrices(){return this.groceryPrices;}
 
     /**
      *
-     * @return
+     * @return returns the arrayList of receipts
      */
     public ArrayList<Receipt> getR(){return this.receipts;}
 
     /**
-     *
-     * @param grocery
-     * @return
+     * returns the price of the grocery passed in or 0 if the grocery object is null
+     * @param grocery Grocery object
+     * @return returns the price of the grocery
      */
     public double getPriceOf(Grocery grocery){
         Double price = groceryPrices.get(grocery);
@@ -56,8 +60,8 @@ public class Store implements Serializable {
     }
 
     /**
-     *
-     * @param receipt
+     * adds the receipt passed in, into the arrayList of receipts
+     * @param receipt receipt object to be added
      */
     public void addReceipt(Receipt receipt){
         this.receipts.add(receipt);
@@ -65,16 +69,17 @@ public class Store implements Serializable {
 
     /**
      *
-     * @return
+     * @return returns the List of receipts
      */
     public List<Receipt> getReceipts() {
         return this.receipts;
     }
 
     /**
-     *
-     * @param obj
-     * @return
+     * checks if the object passed in equals this object
+     * @param obj object this store object is compared to
+     * @return returns true if the objects are equal
+     * @return returns false if the objects are different or the object passed in is not a store object
      */
     public boolean equals(Object obj){
 

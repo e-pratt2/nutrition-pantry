@@ -3,6 +3,9 @@ package Database;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * A database class that creates a nutrition object that holds the nutrition information of the grocery object
+ */
 public class Nutrition implements Serializable {
     private double calories, fat, sugar, fiber, protein, sodium;
 
@@ -157,7 +160,7 @@ public class Nutrition implements Serializable {
     }
 
     /**
-     *
+     * checks if the object passed in equals this Nutrition object
      * @param obj the object this nutrition object is compared to
      * @return returns true if the objects are the same
      * @return return false if the object is not a Nutrition object or if the Nutrition objects are different
