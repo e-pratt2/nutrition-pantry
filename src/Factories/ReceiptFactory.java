@@ -9,7 +9,15 @@ import UI.UIHelpers;
 
 import java.time.LocalDate;
 
+/**
+ * factory that creates a receipt object
+ */
 public class ReceiptFactory {
+
+    /**
+     *
+     * @return
+     */
     public Receipt createReceipt() {
         LocalDate date = UIHelpers.promptDate("Receipt Date");
         Receipt r = new Receipt(date);
