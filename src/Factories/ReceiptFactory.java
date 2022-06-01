@@ -10,13 +10,13 @@ import UI.UIHelpers;
 import java.time.LocalDate;
 
 /**
- * factory that creates a receipt object
+ * factory that provides the prompt to create a receipt object
  */
 public class ReceiptFactory {
 
     /**
-     *
-     * @return
+     * Prompt the user to create all the data needed for a receipt object.
+     * @return the parsed object.
      */
     public Receipt createReceipt() {
         LocalDate date = UIHelpers.promptDate("Receipt Date");
