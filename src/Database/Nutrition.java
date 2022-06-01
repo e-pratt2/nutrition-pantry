@@ -6,6 +6,16 @@ import java.util.Objects;
 public class Nutrition implements Serializable {
     private double calories, fat, sugar, fiber, protein, sodium;
 
+    /**
+     * Nutrition constructor creates a nutrition object
+     * @param calories double containing the amount of calories
+     * @param fat double containing the amount of fat
+     * @param sugar double containing the amount of sugar
+     * @param fiber double containing the amount of fiber
+     * @param protein double containing the amount of protein
+     * @param sodium double containing the amount of sodium
+     */
+
     public Nutrition(double calories, double fat, double sugar, double fiber, double protein, double sodium) {
         if(calories < 0 || fat < 0 || sugar < 0 || fiber < 0 || protein < 0 || sodium < 0)
             throw new IllegalArgumentException("bad params in Nutrition");
@@ -16,30 +26,58 @@ public class Nutrition implements Serializable {
         this.protein = protein;
         this.sodium = sodium;
     }
+
+    /**
+     * default constructor sets all the nutrition values to 0
+     */
     public Nutrition(){
         this(0,0,0,0,0,0);
     }
 
+    /**
+     * returns the nutrition's calories
+     * @return returns the calories field
+     */
     public double getCalories(){
         return this.calories;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getFat() {
         return fat;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getFiber() {
         return fiber;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getProtein() {
         return protein;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getSodium() {
         return sodium;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getSugar() {
         return sugar;
     }
@@ -52,6 +90,11 @@ public class Nutrition implements Serializable {
 //                a.protein + b.protein,
 //                a.sodium + b.sodium);
 //    }
+
+    /**
+     *
+     * @param a
+     */
     public void add(Nutrition a) {
         this.calories += a.calories;
         this.fat += a.fat;
@@ -68,6 +111,12 @@ public class Nutrition implements Serializable {
 //                a.protein * mul,
 //                a.sodium * mul);
 //    }
+
+    /**
+     *
+     * @param mul
+     * @return
+     */
     public Nutrition multiply(double mul) {
         this.calories *= mul;
         this.fat *= mul;
@@ -84,7 +133,10 @@ public class Nutrition implements Serializable {
     //public static Database.Nutrition getTotal(???<Database.Nutrition>);
     //public static Database.Nutrition getAverage(???<Database.Nutrition>);
 
-
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "Nutrition{Calories: " + calories
@@ -95,11 +147,20 @@ public class Nutrition implements Serializable {
                 + ", Sodium: " + sodium + "}";
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         return Objects.hash(calories, fat, sugar, fiber, protein, sodium);
     }
 
+    /**
+     *
+     * @param obj
+     * @return
+     */
     @Override
     public boolean equals(Object obj){
         if(!(obj instanceof Nutrition))
