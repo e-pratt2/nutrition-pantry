@@ -21,7 +21,7 @@ public class UPCGroceryFactory implements GroceryFactory {
      * overides the method from the GroceryFactory interface
      * prompts the user for the name of the grocery
      * and looks for the grocery information
-     * @return returns the grocery object
+     * @return returns the grocery object, or null if an error occured
      */
     @Override
     public Grocery createGrocery() {
@@ -37,7 +37,7 @@ public class UPCGroceryFactory implements GroceryFactory {
     }
 
     /**
-     * prompts the user for the UPC and checks if its valid
+     * prompts the user for the UPC, reprompting if its invalid
      * @return returns the string containing the UPC
      */
     private static String promptCode() {
@@ -51,7 +51,7 @@ public class UPCGroceryFactory implements GroceryFactory {
 
     /**
      * prompts the user for the name of the grocery
-     * @return returns te string containing the name of the grocery
+     * @return returns the string containing the name of the grocery
      */
     private static String promptName() {
         return UIHelpers.promptString("Grocery name: ");
@@ -60,8 +60,7 @@ public class UPCGroceryFactory implements GroceryFactory {
     /**
      * prompts the user for the code and parses the string.
      * gets the Nutrition information online
-     * @return returns null if there is a server error
-     * @return returns the Nutrition object
+     * @return the Nutrition object, or null if there is a server error
      */
     private Nutrition promptAndParseUPC() {
         String upc = promptCode();
@@ -73,8 +72,8 @@ public class UPCGroceryFactory implements GroceryFactory {
 
     /**
      * makes sure that the UPC is valid
-     * @param upc A 12-digit numeric UPC string to checksum for validity
-     * @return whether the UPC represents a valid code according to the UPC-12 standard
+     * @param upc A 12-digit numeric UPC or 13-digit EAN string to checksum for validity
+     * @return whether the UPC represents a valid code according to the UPC-12 or EAN-13 standard
      */
     public static boolean validateCode(String upc) {
         //UPC-12 must be 12 digits, EAN must be 13.
@@ -115,9 +114,9 @@ public class UPCGroceryFactory implements GroceryFactory {
     }
 
     /**
-     * method looks for the nutrition information online
+     * download the nutrition information of the given UPC from OpenFoodFacts
      * @param upc string containing the UPC
-     * @return
+     * @return the server's JSON response
      */
     public static String getOpenFoodFactsJSON(String upc) {
         System.out.print("Downloading...");
@@ -145,10 +144,10 @@ public class UPCGroceryFactory implements GroceryFactory {
     }
 
     /**
-     * parses the string passed in and gets the information for the nutrition object
+     * parses the JSON String passed in and gets the information for the nutrition object
      * creates a nutrition object
      * @param json string containing the JSON
-     * @return the created nutrition object
+     * @return the created nutrition object, or null if the json does not contain a valid response.
      */
     public static Nutrition parseJSON(String json) {
         System.out.print("Parsing...");
