@@ -12,7 +12,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.stream.Collectors;
 
+/**
+ * Factory that crates a grocery object using a UPC or JSON by downloading the information from online
+ */
 public class UPCGroceryFactory implements GroceryFactory {
+
+    /**
+     * overides the method from the GroceryFactory interface
+     * prompts the user for the name of the grocery
+     * and looks for the grocery information
+     * @return returns the grocery object
+     */
     @Override
     public Grocery createGrocery() {
         String name = promptName();
@@ -25,6 +35,11 @@ public class UPCGroceryFactory implements GroceryFactory {
 
         return new Grocery(name, n);
     }
+
+    /**
+     * prompts the user for the UPC and checks if its valid
+     * @return returns the string containing the UPC
+     */
     private static String promptCode() {
         String upc;
         upc = UIHelpers.promptString("Enter the product UPC: ");
@@ -33,9 +48,21 @@ public class UPCGroceryFactory implements GroceryFactory {
         };
         return upc;
     }
+
+    /**
+     * prompts the user for the name of the grocery
+     * @return returns te string containing the name of the grocery
+     */
     private static String promptName() {
         return UIHelpers.promptString("Grocery name: ");
     }
+
+    /**
+     * prompts the user for the code and parses the string.
+     * gets the Nutrition information online
+     * @return returns null if there is a server error
+     * @return returns the Nutrition object
+     */
     private Nutrition promptAndParseUPC() {
         String upc = promptCode();
         String json = getOpenFoodFactsJSON(upc);
@@ -45,6 +72,7 @@ public class UPCGroceryFactory implements GroceryFactory {
     }
 
     /**
+     * makes sure that the UPC is valid
      * @param upc A 12-digit numeric UPC string to checksum for validity
      * @return whether the UPC represents a valid code according to the UPC-12 standard
      */
@@ -85,6 +113,12 @@ public class UPCGroceryFactory implements GroceryFactory {
         char checkChar = upc.charAt(upc.length() - 1);
         return Character.digit(checkChar, 10) == desiredCheckDigit;
     }
+
+    /**
+     * method looks for the nutrition information online
+     * @param upc string containing the UPC
+     * @return
+     */
     public static String getOpenFoodFactsJSON(String upc) {
         System.out.print("Downloading...");
         HttpURLConnection con = null;
@@ -109,6 +143,13 @@ public class UPCGroceryFactory implements GroceryFactory {
         }
         return null;
     }
+
+    /**
+     * parses the string passed in and gets the information for the nutrition object
+     * creates a nutrition object
+     * @param json string containing the JSON
+     * @return the created nutrition object
+     */
     public static Nutrition parseJSON(String json) {
         System.out.print("Parsing...");
         JSONObject j = new JSONObject(json);
