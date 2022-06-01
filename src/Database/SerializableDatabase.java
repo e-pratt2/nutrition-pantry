@@ -5,6 +5,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * a database class that allows to save and load information to and from a file
+ */
 public class SerializableDatabase implements Serializable {
 
     private static SerializableDatabase instance;

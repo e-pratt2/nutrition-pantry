@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.time.LocalDate;
 import java.util.Set;
 
+
+/**
+ * a database class that creates a Receipt object and holds a list of groceries
+ */
 public class Receipt implements Serializable {
 
     private HashMap<Grocery, Double> groceryQuantity;
