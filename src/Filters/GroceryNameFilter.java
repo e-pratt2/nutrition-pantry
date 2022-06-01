@@ -4,25 +4,45 @@ import Database.Grocery;
 
 import java.util.Objects;
 
+/**
+ * Filter that only passes groceries with the specified name (case-insensitive)
+ */
 public class GroceryNameFilter extends Filter<Grocery> {
 
     private String name;
 
+    /**
+     * Construct the filter to accept groceries with the specified name.
+     * @param name the case-insensitive name to check for.
+     * @throws IllegalArgumentException on null or empty name.
+     */
     public GroceryNameFilter(String name) {
-        if(name == null || name.equalsIgnoreCase(""))
+        if(name == null || name.isEmpty())
             throw new IllegalArgumentException("bad param in GroceryNameFilter");
 
         this.name = name;
     }
+
+    /**
+     * Decorate another filter with a grocery name filter.
+     * @param child the filter to decorate. Will only pass if this filter passes and the child filter(s) pass.
+     * @param name the case-insensitive name to check for.
+     * @throws IllegalArgumentException on null or empty name.
+     */
     public GroceryNameFilter(Filter<Grocery> child, String name) {
-
         super(child);
-        if( name == null || name.equalsIgnoreCase(""))
+        if( name == null || name.isEmpty())
             throw new IllegalArgumentException("bad param in GroceryNameFilter");
 
         this.name = name;
     }
 
+    /**
+     * Test the given grocery for a name match. Also tests this grocery against the child filter, if present.
+     * @param grocery The grocery to test against.
+     * @return true if this filter and all it's children accept the grocery, false otherwise.
+     * @throws IllegalArgumentException if grocery is null
+     */
     @Override
     public boolean accepts(Grocery grocery) {
         if(grocery == null)

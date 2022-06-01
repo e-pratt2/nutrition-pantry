@@ -1,8 +1,14 @@
 package UI;
 
-import java.util.Arrays;
-
+/**
+ * A class to provide static methods for styling console output. Delegates to ConsoleStyleBuilder.java
+ */
 public class ConsoleStyle {
+    /**
+     * Create a red string.
+     * @param s the string to color.
+     * @return a
+     */
     public static ConsoleStyleBuilder red(String s) {
         return new ConsoleStyleBuilder(s).red();
     }
