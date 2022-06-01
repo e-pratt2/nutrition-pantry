@@ -6,6 +6,9 @@ import Database.Store;
 
 import java.util.Objects;
 
+/**
+ * Represents a set of filters capable of filtering all three kinds of database objects.
+ */
 public class FilterSet {
     private Filter<Store> storeFilter;
     private Filter<Grocery> groceryFilter;
