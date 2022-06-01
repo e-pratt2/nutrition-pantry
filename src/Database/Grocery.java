@@ -58,7 +58,7 @@ public class Grocery implements Serializable {
      *
      * @param obj the object that this Grocery is compared to
      * @return returns true if the objects are the same
-     * @return returns false if the objects are different
+     * @return returns false if the objects are different or if the object passed in is not a Grocery object
      */
     @Override
     public boolean equals(Object obj){

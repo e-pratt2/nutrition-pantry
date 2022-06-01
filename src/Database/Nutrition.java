@@ -44,7 +44,7 @@ public class Nutrition implements Serializable {
 
     /**
      *
-     * @return
+     * @return returns the nutrition's fat
      */
     public double getFat() {
         return fat;
@@ -52,7 +52,7 @@ public class Nutrition implements Serializable {
 
     /**
      *
-     * @return
+     * @return returns the nutrition's fiber
      */
     public double getFiber() {
         return fiber;
@@ -60,7 +60,7 @@ public class Nutrition implements Serializable {
 
     /**
      *
-     * @return
+     * @return returns the nutrition's protein
      */
     public double getProtein() {
         return protein;
@@ -68,7 +68,7 @@ public class Nutrition implements Serializable {
 
     /**
      *
-     * @return
+     * @return returns the nutrition's sodium
      */
     public double getSodium() {
         return sodium;
@@ -76,7 +76,7 @@ public class Nutrition implements Serializable {
 
     /**
      *
-     * @return
+     * @return returns the nutrition's sugar
      */
     public double getSugar() {
         return sugar;
@@ -92,8 +92,8 @@ public class Nutrition implements Serializable {
 //    }
 
     /**
-     *
-     * @param a
+     * adds one nutrition object to another
+     * @param a the Nutrition object added
      */
     public void add(Nutrition a) {
         this.calories += a.calories;
@@ -113,8 +113,8 @@ public class Nutrition implements Serializable {
 //    }
 
     /**
-     *
-     * @param mul
+     * multiplies this Nutrition object
+     * @param mul the number the nutrition information is added by
      * @return
      */
     public Nutrition multiply(double mul) {
@@ -135,7 +135,7 @@ public class Nutrition implements Serializable {
 
     /**
      *
-     * @return
+     * @return returns Nutrition{Calories: ,Fat: ,Sugar: ,Fiber: ,Protein: ,Sodium: }
      */
     @Override
     public String toString() {
@@ -148,8 +148,8 @@ public class Nutrition implements Serializable {
     }
 
     /**
-     *
-     * @return
+     * this is the hashcode method
+     * @return returns the hashcode of all the private fields
      */
     @Override
     public int hashCode() {
@@ -158,8 +158,9 @@ public class Nutrition implements Serializable {
 
     /**
      *
-     * @param obj
-     * @return
+     * @param obj the object this nutrition object is compared to
+     * @return returns true if the objects are the same
+     * @return return false if the object is not a Nutrition object or if the Nutrition objects are different
      */
     @Override
     public boolean equals(Object obj){
