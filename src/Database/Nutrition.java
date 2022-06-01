@@ -157,7 +157,7 @@ public class Nutrition implements Serializable {
     }
 
     /**
-     *
+     * checks if the object passed in equals this Nutrition object
      * @param obj the object this nutrition object is compared to
      * @return returns true if the objects are the same
      * @return return false if the object is not a Nutrition object or if the Nutrition objects are different
