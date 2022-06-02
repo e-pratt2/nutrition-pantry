@@ -35,77 +35,80 @@ public class NutritionPantry {
      */
     public static void main(String[] args) {
         while(true)
-            switch(UIHelpers.promptMenu(menuOptions)) {
-                case 1:
-                    StoreFactory s = new StoreFactory();
-                    SerializableDatabase.getInstance().addStore(s.createStore());
-                    break;
-                case 2:
-                    addReceipts();
-                    break;
-                case 3:
-                    addGroceries();
-                    break;
-                case 4:
-                    CommandLine cl = new CommandLine();
-
-                    while(true) {
-                        try{
-                            if(!cl.fetchAndExecute())
-                                break;
-                        } catch (CommandSyntaxException e) {
-                            System.out.println("" + ConsoleStyle.bold("Command error: ").red() + e.getMessage());
-                        }
-                    }
-
-                    break;
-                case 5:
-                    try {
-                        if(SerializableDatabase.hasInstance()) {
-                            if (UIHelpers.promptBoolean("A database is open. Overwrite?", false))
-                                SerializableDatabase.loadInstance(chooseFile().toString());
-                            else
-                                System.out.println("Load cancelled.");
-                        }
-                        else SerializableDatabase.loadInstance(chooseFile().toString());
-                    } catch(IOException e) {
-                        System.out.println("Failed to load database.");
-                    }
-                    break;
-                case 6:
-                    try {
-                        File file = chooseFile();
-
-                        if(file.exists()) {
-                            if (UIHelpers.promptBoolean("File exists. Overwrite?", false))
-                                SerializableDatabase.saveInstance(file.toString());
-                            else {
-                                System.out.println("Save cancelled.");
-                                break;
-                            }
-                        }
-
-                    } catch(IOException e) {
-                        System.out.println("Failed to save database.");
-                    }
-                    break;
-                case 7:
-                    try {
-                        File file = chooseFile();
-
-                        if(file.exists()) {
-                            if (UIHelpers.promptBoolean("File exists. Overwrite?", false))
-                                SerializableDatabase.saveInstance(file.toString());
-                            else {
-                                System.out.println("Save cancelled.");
-                                break;
-                            }
-                        }
-                        return;
-                    } catch(IOException e) {
-                        System.out.println("Failed to save database, refusing to exit.");
+            try {
+                switch (UIHelpers.promptMenu(menuOptions)) {
+                    case 1:
+                        StoreFactory s = new StoreFactory();
+                        SerializableDatabase.getInstance().addStore(s.createStore());
                         break;
-                    }
+                    case 2:
+                        addReceipts();
+                        break;
+                    case 3:
+                        addGroceries();
+                        break;
+                    case 4:
+                        CommandLine cl = new CommandLine();
+
+                        while (true) {
+                            try {
+                                if (!cl.fetchAndExecute())
+                                    break;
+                            } catch (CommandSyntaxException e) {
+                                System.out.println("" + ConsoleStyle.bold("Command error: ").red() + e.getMessage());
+                            }
+                        }
+
+                        break;
+                    case 5:
+                        try {
+                            if (SerializableDatabase.hasInstance()) {
+                                if (UIHelpers.promptBoolean("A database is open. Overwrite?", false))
+                                    SerializableDatabase.loadInstance(chooseFile().toString());
+                                else
+                                    System.out.println("Load cancelled.");
+                            } else SerializableDatabase.loadInstance(chooseFile().toString());
+                        } catch (IOException e) {
+                            System.out.println("Failed to load database.");
+                        }
+                        break;
+                    case 6:
+                        try {
+                            File file = chooseFile();
+
+                            if (file.exists()) {
+                                if (UIHelpers.promptBoolean("File exists. Overwrite?", false))
+                                    SerializableDatabase.saveInstance(file.toString());
+                                else {
+                                    System.out.println("Save cancelled.");
+                                    break;
+                                }
+                            }
+
+                        } catch (IOException e) {
+                            System.out.println("Failed to save database.");
+                        }
+                        break;
+                    case 7:
+                        try {
+                            File file = chooseFile();
+
+                            if (file.exists()) {
+                                if (UIHelpers.promptBoolean("File exists. Overwrite?", false))
+                                    SerializableDatabase.saveInstance(file.toString());
+                                else {
+                                    System.out.println("Save cancelled.");
+                                    break;
+                                }
+                            }
+                            return;
+                        } catch (IOException e) {
+                            System.out.println("Failed to save database, refusing to exit.");
+                            break;
+                        }
+                }
+            } catch(RuntimeException e) {
+                System.out.println(ConsoleStyle.bold("Internal error: ").red() + e.getMessage() + " - don't do that!");
             }
     }
 
