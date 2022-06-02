@@ -8,7 +8,7 @@ import Database.Store;
 import Filters.Filter;
 import Filters.FilterSet;
 
-public class analysis {
+public class Analysis {
 
     public static void avgPrice(FilterSet filterSet){
         System.out.println("Average Price:");

@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-import Analysis.analysis;
+import Analysis.Analysis;
 
 /**
  * Commandline, parsing and executing the users input during an analysis session.
@@ -136,18 +136,18 @@ public class CommandLine {
     public boolean execute(FilterSet filters) {
         switch(this.lines[0]) {
             case "total-nutrition":
-                analysis.totalNutrition(filters);
+                Analysis.totalNutrition(filters);
                 return true;
             case "avg-nutrition":
             case "average-nutrition":
-                analysis.AvgNutrition(filters);
+                Analysis.AvgNutrition(filters);
                 return true;
             case "total-price":
-                analysis.totalPrice(filters);
+                Analysis.totalPrice(filters);
                 return true;
             case "avg-price":
             case "average-price":
-                analysis.avgPrice(filters);
+                Analysis.avgPrice(filters);
                 return true;
             case "help":
                 System.out.println("" +
