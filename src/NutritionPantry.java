@@ -1,7 +1,8 @@
+import Database.Grocery;
+import Database.Receipt;
 import Database.SerializableDatabase;
 import Database.Store;
 import Factories.*;
-import Filters.FilterSet;
 import UI.CommandLine;
 import UI.CommandSyntaxException;
 import UI.ConsoleStyle;
@@ -9,7 +10,6 @@ import UI.UIHelpers;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * Holds the entry point and helper methods for allowing easy interaction with the database.
  */
 public class NutritionPantry {
-    public static final String menuOptions[] = {
+    public static final String[] menuOptions = {
             "Add store...",
             "Add receipts to store...",
             "Add groceries...",
@@ -35,77 +35,80 @@ public class NutritionPantry {
      */
     public static void main(String[] args) {
         while(true)
-            switch(UIHelpers.promptMenu(menuOptions)) {
-                case 1:
-                    StoreFactory s = new StoreFactory();
-                    SerializableDatabase.getInstance().addStore(s.createStore());
-                    break;
-                case 2:
-                    addReceipts();
-                    break;
-                case 3:
-                    addGroceries();
-                    break;
-                case 4:
-                    CommandLine cl = new CommandLine();
-
-                    while(true) {
-                        try{
-                            if(!cl.fetchAndExecute())
-                                break;
-                        } catch (CommandSyntaxException e) {
-                            System.out.println("" + ConsoleStyle.bold("Command error: ").red() + e.getMessage());
-                        }
-                    }
-
-                    break;
-                case 5:
-                    try {
-                        if(SerializableDatabase.hasInstance()) {
-                            if (UIHelpers.promptBoolean("A database is open. Overwrite?", false))
-                                SerializableDatabase.loadInstance(chooseFile().toString());
-                            else
-                                System.out.println("Load cancelled.");
-                        }
-                        else SerializableDatabase.loadInstance(chooseFile().toString());
-                    } catch(IOException e) {
-                        System.out.println("Failed to load database.");
-                    }
-                    break;
-                case 6:
-                    try {
-                        File file = chooseFile();
-
-                        if(file.exists()) {
-                            if (UIHelpers.promptBoolean("File exists. Overwrite?", false))
-                                SerializableDatabase.saveInstance(file.toString());
-                            else {
-                                System.out.println("Save cancelled.");
-                                break;
-                            }
-                        }
-
-                    } catch(IOException e) {
-                        System.out.println("Failed to save database.");
-                    }
-                    break;
-                case 7:
-                    try {
-                        File file = chooseFile();
-
-                        if(file.exists()) {
-                            if (UIHelpers.promptBoolean("File exists. Overwrite?", false))
-                                SerializableDatabase.saveInstance(file.toString());
-                            else {
-                                System.out.println("Save cancelled.");
-                                break;
-                            }
-                        }
-                        return;
-                    } catch(IOException e) {
-                        System.out.println("Failed to save database, refusing to exit.");
+            try {
+                switch (UIHelpers.promptMenu(menuOptions)) {
+                    case 1:
+                        StoreFactory s = new StoreFactory();
+                        SerializableDatabase.getInstance().addStore(s.createStore());
                         break;
-                    }
+                    case 2:
+                        addReceipts();
+                        break;
+                    case 3:
+                        addGroceries();
+                        break;
+                    case 4:
+                        CommandLine cl = new CommandLine();
+
+                        while (true) {
+                            try {
+                                if (!cl.fetchAndExecute())
+                                    break;
+                            } catch (CommandSyntaxException e) {
+                                System.out.println("" + ConsoleStyle.bold("Command error: ").red() + e.getMessage());
+                            }
+                        }
+
+                        break;
+                    case 5:
+                        try {
+                            if (SerializableDatabase.hasInstance()) {
+                                if (UIHelpers.promptBoolean("A database is open. Overwrite?", false))
+                                    SerializableDatabase.loadInstance(chooseFile().toString());
+                                else
+                                    System.out.println("Load cancelled.");
+                            } else SerializableDatabase.loadInstance(chooseFile().toString());
+                        } catch (IOException e) {
+                            System.out.println("Failed to load database.");
+                        }
+                        break;
+                    case 6:
+                        try {
+                            File file = chooseFile();
+
+                            if (file.exists()) {
+                                if (UIHelpers.promptBoolean("File exists. Overwrite?", false))
+                                    SerializableDatabase.saveInstance(file.toString());
+                                else {
+                                    System.out.println("Save cancelled.");
+                                    break;
+                                }
+                            }
+
+                        } catch (IOException e) {
+                            System.out.println("Failed to save database.");
+                        }
+                        break;
+                    case 7:
+                        try {
+                            File file = chooseFile();
+
+                            if (file.exists()) {
+                                if (UIHelpers.promptBoolean("File exists. Overwrite?", false))
+                                    SerializableDatabase.saveInstance(file.toString());
+                                else {
+                                    System.out.println("Save cancelled.");
+                                    break;
+                                }
+                            }
+                            return;
+                        } catch (IOException e) {
+                            System.out.println("Failed to save database, refusing to exit.");
+                            break;
+                        }
+                }
+            } catch(RuntimeException e) {
+                System.out.println(ConsoleStyle.bold("Internal error: ").red() + e.getMessage() + " - don't do that!");
             }
     }
 
@@ -119,12 +122,24 @@ public class NutritionPantry {
 
         Store s = UIHelpers.chooseObject(database.getStores(), Store::getName);
         if(s == null) {
-            System.out.println("Please add some stores first!");
+            System.out.println(ConsoleStyle.red("Please add some stores first!"));
             return;
         }
         do {
-            database.addReceipt(fact.createReceipt(), s);
-        } while(UIHelpers.promptBoolean("Continue?", true));
+            Receipt r = fact.createReceipt();
+
+            //Find any groceries without an associated price, and prompt for their price.
+            for(Grocery g : r.getGroceries()) {
+                if(!s.hasPrice(g)) {
+                    double price = UIHelpers.promptDouble("Price of " + ConsoleStyle.bold(g.getName()).green()
+                                    + " at " + ConsoleStyle.bold(s.getName()).green() + "? ");
+
+                    s.setPriceOf(g, price);
+                }
+            }
+
+            database.addReceipt(r, s);
+        } while(UIHelpers.promptBoolean("Continue adding receipts to " + ConsoleStyle.green(s.getName()) + "?", true));
     }
 
     /**
@@ -145,7 +160,7 @@ public class NutritionPantry {
 
         do{
             SerializableDatabase.getInstance().addGrocery(groceryFactory.createGrocery());
-        }while(UIHelpers.promptBoolean("Continue?", true));
+        }while(UIHelpers.promptBoolean("Continue adding groceries?", true));
     }
 
     /**
@@ -157,17 +172,19 @@ public class NutritionPantry {
         File folder = new File(".");
         File[] items = folder.listFiles();
 
-        List<File> files = Arrays.stream(items).filter(f -> f.isFile()).collect(Collectors.toList());
+        //If there are items in the folder...
+        if(items != null) {
+            List<File> files = Arrays.stream(items).filter(File::isFile).collect(Collectors.toList());
 
-        File chosen = UIHelpers.chooseObjectOrOther(files, File::getName, "Other...");
+            File chosen = UIHelpers.chooseObjectOrOther(files, File::getName, "Other...");
 
-        if(chosen != null)
-            return chosen;
+            if (chosen != null)
+                return chosen;
 
-        do {
-            Path path = UIHelpers.promptFilepath("Enter path");
+            //If chosen was null, fallthrough and prompt
+        }
 
-            return path.toFile();
-        } while(true);
+        //Prompt the user for a file if none was specified by the menu
+        return UIHelpers.promptFilepath("Enter path: ").toFile();
     }
 }

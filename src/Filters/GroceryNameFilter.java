@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 public class GroceryNameFilter extends Filter<Grocery> {
 
-    private String name;
+    private final String name;
 
     /**
      * Construct the filter to accept groceries with the specified name.

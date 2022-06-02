@@ -88,7 +88,7 @@ public class analysis {
                     if(!groceryFilter.accepts(g))
                         continue;
 
-                    Nutrition subTotal = g.getNutrition().multiply(r.getQuantityOf(g));
+                    Nutrition subTotal = g.getNutritionPerServing().multiply(r.getQuantityOf(g));
 
                     total.add(subTotal);
                 }
@@ -112,7 +112,7 @@ public class analysis {
                     if(!groceryFilter.accepts(g))
                         continue;
 
-                    Nutrition subTotal = g.getNutrition().multiply(r.getQuantityOf(g));
+                    Nutrition subTotal = g.getNutritionPerServing().multiply(r.getQuantityOf(g));
 
                     total.add(subTotal);
                     foundInstances++;

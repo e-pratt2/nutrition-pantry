@@ -34,7 +34,7 @@ class GroceryNameFilterTest {
     void accepts() {
         GroceryNameFilter g = new GroceryNameFilter("cabbage");
         Nutrition n = new Nutrition();
-        Grocery gg = new Grocery("cabbage", n);
+        Grocery gg = new Grocery("cabbage", n, 1.0);
 
         assertThrows(IllegalArgumentException.class, ()->{
             g.accepts(null);
@@ -42,14 +42,14 @@ class GroceryNameFilterTest {
 
         assertTrue(g.accepts(gg));
 
-        Grocery bad = new Grocery("potato", n);
+        Grocery bad = new Grocery("potato", n, 1.0);
         assertFalse(g.accepts(bad));
     }
 
     @Test
     void testToString() {
         Nutrition n = new Nutrition();
-        Grocery g = new Grocery("cabbage",n);
+        Grocery g = new Grocery("cabbage",n, 1.0);
         GroceryNameFilter gg = new GroceryNameFilter("cabbage");
 
         assertEquals("Grocery Name{cabbage} -> Pass", gg.toString());

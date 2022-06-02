@@ -18,26 +18,27 @@ import java.util.stream.Collectors;
 public class UPCGroceryFactory implements GroceryFactory {
 
     /**
-     * overides the method from the GroceryFactory interface
+     * overrides the method from the GroceryFactory interface
      * prompts the user for the name of the grocery
      * and looks for the grocery information
-     * @return returns the grocery object, or null if an error occured
+     * @return returns the grocery object, or null if an error occurred
      */
     @Override
     public Grocery createGrocery() {
         String name = promptName();
         Nutrition n = promptAndParseUPC();
+        double servings = UIHelpers.promptDouble("Servings per container: ");
 
         if(n == null){
             return null;
         }
         System.out.println("Done!");
 
-        return new Grocery(name, n);
+        return new Grocery(name, n, servings);
     }
 
     /**
-     * prompts the user for the UPC, reprompting if its invalid
+     * prompts the user for the UPC, re-prompting if its invalid
      * @return returns the string containing the UPC
      */
     private static String promptCode() {
@@ -45,7 +46,7 @@ public class UPCGroceryFactory implements GroceryFactory {
         upc = UIHelpers.promptString("Enter the product UPC: ");
         while(!validateCode(upc)){
             upc = UIHelpers.promptString("Invalid UPC, try again: ");
-        };
+        }
         return upc;
     }
 

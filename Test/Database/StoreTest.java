@@ -34,7 +34,7 @@ class StoreTest {
     void addReceipt() {
         LocalDate ld = LocalDate.parse("2012-12-12");
         Receipt r = new Receipt(ld);
-        Grocery g = new Grocery("cabbage", new Nutrition());
+        Grocery g = new Grocery("cabbage", new Nutrition(), 1.0);
         r.addGrocery(g,1);
         Store s = new Store("Safeway");
         s.addReceipt(r);
@@ -46,7 +46,7 @@ class StoreTest {
     void getReceipts() {
         LocalDate ld = LocalDate.parse("2012-12-12");
         Receipt r = new Receipt(ld);
-        Grocery g = new Grocery("cabbage", new Nutrition());
+        Grocery g = new Grocery("cabbage", new Nutrition(), 1.0);
         r.addGrocery(g,1);
         Store s = new Store("Safeway");
         s.addReceipt(r);

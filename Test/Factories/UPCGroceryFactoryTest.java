@@ -34,13 +34,13 @@ class UPCGroceryFactoryTest {
         InputStream is = System.in;
 
 
-        setInput("Skippy Peanut Butter\n037600110754\n");
+        setInput("Skippy Peanut Butter\n037600110754\n1.0\n");
 
         Grocery g = new UPCGroceryFactory().createGrocery();
 
         Grocery expected = new Grocery("Skippy Peanut Butter", new Nutrition(
                 190.0, 16.0, 3.0, 1.98, 7.0, 0.150
-        ));
+        ), 1.0);
 
 
         assertEquals(expected, g);

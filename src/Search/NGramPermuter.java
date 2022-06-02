@@ -8,12 +8,13 @@ import java.util.Iterator;
  * Helper class for FuzzySearch.java.
  */
 public class NGramPermuter implements Iterable<String>, Iterator<String> {
-    private String toPermute;
-    private int currentIndex, nGramLength;
+    private final String toPermute;
+    private int currentIndex;
+    private final int nGramLength;
 
     /**
      * Build a new permuter.
-     * @param toPermute the string who's n-grams to permute
+     * @param toPermute the string whose n-grams to permute
      * @param nGramLength the length of the n-grams.
      */
     public NGramPermuter(String toPermute, int nGramLength) {
@@ -42,7 +43,7 @@ public class NGramPermuter implements Iterable<String>, Iterator<String> {
 
     /**
      * Calculate the number of permutations there are in the string.
-     * @return the number of permutations, ie. the number of times next() may be called.
+     * @return the number of permutations, i.e. the number of times next() may be called.
      */
     public int getPermutationCount() {
         return Math.max(toPermute.length() - (nGramLength-1), 0);

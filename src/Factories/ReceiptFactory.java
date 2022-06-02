@@ -5,6 +5,7 @@ import Database.Receipt;
 import Database.SerializableDatabase;
 import Search.FuzzySearch;
 import Search.SearchResults;
+import UI.ConsoleStyle;
 import UI.UIHelpers;
 
 import java.time.LocalDate;
@@ -24,10 +25,9 @@ public class ReceiptFactory {
         String groceryName;
 
         do{
-            groceryName = UIHelpers.promptString("Grocery name: ");
+            groceryName = UIHelpers.promptString("Search for a grocery name: ");
             if(groceryName.isBlank())
                 break;
-            double groceryQuantity = UIHelpers.promptDouble("Quantity: ");
 
             SearchResults<Grocery> results = FuzzySearch.search(groceryName, SerializableDatabase.getInstance().getGroceries(), Grocery::getName);
 
@@ -36,9 +36,18 @@ public class ReceiptFactory {
                     "Create new"
             );
 
-            System.out.println(chosen.getObject());
-            r.addGrocery(chosen.getObject(), groceryQuantity);
-        } while(UIHelpers.promptBoolean("Continue? ", true));
+            Grocery chosenGrocery;
+
+            if(chosen == null) {
+                chosenGrocery = new ChooseGroceryFactory().createGrocery();
+            } else {
+                chosenGrocery = chosen.getObject();
+            }
+
+            double groceryQuantity = UIHelpers.promptDouble("Quantity of " + ConsoleStyle.bold(chosenGrocery.getName()).green() + "? ");
+
+            r.addGrocery(chosenGrocery, groceryQuantity);
+        } while(UIHelpers.promptBoolean("Continue adding groceries to this receipt?", true));
 
         return r;
     }

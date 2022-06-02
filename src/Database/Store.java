@@ -1,7 +1,5 @@
 package Database;
 
-import Filters.Filter;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,9 +10,9 @@ import java.util.List;
  */
 public class Store implements Serializable {
 
-    private HashMap<Grocery, Double> groceryPrices;
-    private ArrayList<Receipt> receipts;
-    private String name;
+    private final HashMap<Grocery, Double> groceryPrices;
+    private final ArrayList<Receipt> receipts;
+    private final String name;
 
     /**
      * constructor creates a Store object
@@ -38,18 +36,6 @@ public class Store implements Serializable {
     }
 
     /**
-     *
-     * @return returns the hashMap of grocery prices
-     */
-    public HashMap<Grocery, Double> getGroceryPrices(){return this.groceryPrices;}
-
-    /**
-     *
-     * @return returns the arrayList of receipts
-     */
-    public ArrayList<Receipt> getR(){return this.receipts;}
-
-    /**
      * returns the price of the grocery passed in or 0 if the grocery object is null
      * @param grocery Grocery object
      * @return returns the price of the grocery
@@ -57,6 +43,13 @@ public class Store implements Serializable {
     public double getPriceOf(Grocery grocery){
         Double price = groceryPrices.get(grocery);
         return price == null ? 0.0 : price;
+    }
+    public void setPriceOf(Grocery g, double price) {
+        groceryPrices.put(g, price);
+    }
+
+    public boolean hasPrice(Grocery grocery) {
+        return groceryPrices.containsKey(grocery);
     }
 
     /**
@@ -79,7 +72,6 @@ public class Store implements Serializable {
      * checks if the object passed in equals this object
      * @param obj object this store object is compared to
      * @return returns true if the objects are equal
-     * @return returns false if the objects are different or the object passed in is not a store object
      */
     public boolean equals(Object obj){
 
@@ -88,11 +80,11 @@ public class Store implements Serializable {
 
         Store s = (Store) obj;
 
-        if(!this.groceryPrices.equals(s.getGroceryPrices()))
+        if(!this.name.equals(s.name))
             return false;
-        if(!this.name.equals(s.getName()))
+        if(!this.groceryPrices.equals(s.groceryPrices))
             return false;
-        if(!this.receipts.equals(s.getR()))
+        if(!this.receipts.equals(s.receipts))
             return false;
         return true;
     }

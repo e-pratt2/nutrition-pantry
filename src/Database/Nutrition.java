@@ -85,14 +85,6 @@ public class Nutrition implements Serializable {
         return sugar;
     }
 
-//    public static Nutrition add(Nutrition a, Nutrition b) {
-//        return new Nutrition(a.calories + b.calories,
-//                a.fat + b.fat,
-//                a.sugar + b.sugar,
-//                a.fiber + b.fiber,
-//                a.protein + b.protein,
-//                a.sodium + b.sodium);
-//    }
 
     /**
      * adds one nutrition object to another
@@ -106,19 +98,11 @@ public class Nutrition implements Serializable {
         this.protein += a.protein;
         this.sodium += a.sodium;
     }
-//    public static Nutrition multiply(Nutrition a, double mul) {
-//        return new Nutrition(a.calories * mul,
-//                a.fat * mul,
-//                a.sugar * mul,
-//                a.fiber * mul,
-//                a.protein * mul,
-//                a.sodium * mul);
-//    }
 
     /**
      * multiplies this Nutrition object
      * @param mul the number the nutrition information is added by
-     * @return
+     * @return a new copy of the nutrition object, with each field multiplied by mul
      */
     public Nutrition multiply(double mul) {
         this.calories *= mul;
@@ -163,7 +147,6 @@ public class Nutrition implements Serializable {
      * checks if the object passed in equals this Nutrition object
      * @param obj the object this nutrition object is compared to
      * @return returns true if the objects are the same
-     * @return return false if the object is not a Nutrition object or if the Nutrition objects are different
      */
     @Override
     public boolean equals(Object obj){

@@ -8,27 +8,37 @@ import java.util.Objects;
  */
 public class Grocery implements Serializable {
 
-    private String name;
-    private Nutrition nutrition;
+    private final String name;
+    private final Nutrition nutrition;
+    private final double servings;
 
     /**
      * Grocery constructor creates a Grocery object
      * @param name a string name of the grocery
      * @param nutrition a Nutrition object associated with the grocery
      */
-    public Grocery(String name, Nutrition nutrition) {
-        if(name == null || name.equalsIgnoreCase("") || nutrition == null)
+    public Grocery(String name, Nutrition nutrition, double servings) {
+        if(name == null || name.equalsIgnoreCase("") || nutrition == null || servings <= 0.0)
             throw new IllegalArgumentException("Bad param in Grocery");
         this.name = name;
         this.nutrition = nutrition;
+        this.servings = servings;
     }
 
     /**
      * returns the Nutrition field
      * @return returns the nutrition of this Grocery
      */
-    public Nutrition getNutrition() {
+    public Nutrition getNutritionPerServing() {
         return nutrition;
+    }
+
+    public Nutrition getTotalNutrition() {
+        return nutrition.multiply(servings);
+    }
+
+    public double getServingsPerContainer() {
+        return servings;
     }
 
     /**
@@ -54,14 +64,13 @@ public class Grocery implements Serializable {
      */
     @Override
     public String toString() {
-        return "Grocery{" + name + ", " + nutrition.toString() + "}";
+        return "Grocery{" + name + ", " + nutrition.toString() + ", " + servings + " servings}";
     }
 
     /**
      * checks if the object passed in equals to this grocery object
      * @param obj the object that this Grocery is compared to
      * @return returns true if the objects are the same
-     * @return returns false if the objects are different or if the object passed in is not a Grocery object
      */
     @Override
     public boolean equals(Object obj){
@@ -70,8 +79,8 @@ public class Grocery implements Serializable {
 
         Grocery g = (Grocery) obj;
 
-        if(this.getName().equalsIgnoreCase(g.getName()) && this.getNutrition().equals(g.getNutrition()))
-            return true;
-        return false;
+        return this.name.equalsIgnoreCase(g.name) &&
+                this.nutrition.equals(g.nutrition) &&
+                this.servings == g.servings;
     }
 }
