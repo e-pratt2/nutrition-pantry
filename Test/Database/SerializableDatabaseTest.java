@@ -23,7 +23,7 @@ class SerializableDatabaseTest {
     @Test
     void getInstance() {
         SerializableDatabase sd = SerializableDatabase.getInstance();
-        Grocery g = new Grocery("cabbage", new Nutrition());
+        Grocery g = new Grocery("cabbage", new Nutrition(), 1.0);
         sd.addGrocery(g);
 
         assertArrayEquals( new Grocery[]{g}, sd.getGroceries().toArray());
@@ -40,7 +40,7 @@ class SerializableDatabaseTest {
     @Test
     void saveLoadInstance() throws IOException {
         SerializableDatabase sd = SerializableDatabase.getInstance();
-        Grocery g = new Grocery("cabbage", new Nutrition());
+        Grocery g = new Grocery("cabbage", new Nutrition(), 1.0);
         sd.addGrocery(g);
         SerializableDatabase.saveInstance("out.txt");
 
@@ -52,7 +52,7 @@ class SerializableDatabaseTest {
     @Test
     void getGroceries() {
         SerializableDatabase sd = SerializableDatabase.getInstance();
-        Grocery g = new Grocery("cabbage", new Nutrition());
+        Grocery g = new Grocery("cabbage", new Nutrition(), 1.0);
         sd.addGrocery(g);
 
         assertArrayEquals( new Grocery[]{g}, sd.getGroceries().toArray());
@@ -69,7 +69,7 @@ class SerializableDatabaseTest {
     @Test
     void addGrocery() {
         SerializableDatabase sd = SerializableDatabase.getInstance();
-        Grocery g = new Grocery("cabbage", new Nutrition());
+        Grocery g = new Grocery("cabbage", new Nutrition(), 1.0);
         sd.addGrocery(g);
         assertArrayEquals( new Grocery[]{g}, sd.getGroceries().toArray());
     }
@@ -85,7 +85,7 @@ class SerializableDatabaseTest {
     @Test
     void addReceipt() {
         SerializableDatabase sd = SerializableDatabase.getInstance();
-        Grocery g = new Grocery("cabbage", new Nutrition());
+        Grocery g = new Grocery("cabbage", new Nutrition(), 1.0);
         Store s = new Store("Safeway");
         LocalDate ld = LocalDate.parse("2012-12-12");
         Receipt r = new Receipt(ld);

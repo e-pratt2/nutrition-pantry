@@ -18,8 +18,9 @@ public class DIYFactory implements GroceryFactory{
     public Grocery createGrocery(){
         String name = promptName();
         Nutrition n = getNutrition();
+        double servings = UIHelpers.promptDouble("Servings per container: ");
 
-        return new Grocery(name, n);
+        return new Grocery(name, n, servings);
     }
 
     /**
@@ -27,7 +28,7 @@ public class DIYFactory implements GroceryFactory{
      * @return returns the sting with the grocery name
      */
     private String promptName(){
-        return UIHelpers.promptString("Grocery name:");
+        return UIHelpers.promptString("Grocery name: ");
     }
 
     /**

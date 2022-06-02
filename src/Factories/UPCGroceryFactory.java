@@ -27,13 +27,14 @@ public class UPCGroceryFactory implements GroceryFactory {
     public Grocery createGrocery() {
         String name = promptName();
         Nutrition n = promptAndParseUPC();
+        double servings = UIHelpers.promptDouble("Servings per container: ");
 
         if(n == null){
             return null;
         }
         System.out.println("Done!");
 
-        return new Grocery(name, n);
+        return new Grocery(name, n, servings);
     }
 
     /**

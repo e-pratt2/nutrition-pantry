@@ -1,3 +1,5 @@
+import Database.Grocery;
+import Database.Receipt;
 import Database.SerializableDatabase;
 import Database.Store;
 import Factories.*;
@@ -119,12 +121,24 @@ public class NutritionPantry {
 
         Store s = UIHelpers.chooseObject(database.getStores(), Store::getName);
         if(s == null) {
-            System.out.println("Please add some stores first!");
+            System.out.println(ConsoleStyle.red("Please add some stores first!"));
             return;
         }
         do {
-            database.addReceipt(fact.createReceipt(), s);
-        } while(UIHelpers.promptBoolean("Continue?", true));
+            Receipt r = fact.createReceipt();
+
+            //Find any groceries without an associated price, and prompt for their price.
+            for(Grocery g : r.getGroceries()) {
+                if(!s.hasPrice(g)) {
+                    double price = UIHelpers.promptDouble("Price of " + ConsoleStyle.bold(g.getName()).green()
+                                    + " at " + ConsoleStyle.bold(s.getName()).green() + "? ");
+
+                    s.setPriceOf(g, price);
+                }
+            }
+
+            database.addReceipt(r, s);
+        } while(UIHelpers.promptBoolean("Continue adding receipts to " + ConsoleStyle.green(s.getName()) + "?", true));
     }
 
     /**
@@ -145,7 +159,7 @@ public class NutritionPantry {
 
         do{
             SerializableDatabase.getInstance().addGrocery(groceryFactory.createGrocery());
-        }while(UIHelpers.promptBoolean("Continue?", true));
+        }while(UIHelpers.promptBoolean("Continue adding groceries?", true));
     }
 
     /**

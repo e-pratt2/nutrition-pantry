@@ -19,7 +19,7 @@ class ReceiptTest {
     void getQuantityOf() {
         LocalDate ld = LocalDate.parse("2012-12-12");
         Receipt r = new Receipt(ld);
-        Grocery g = new Grocery("cabbage", new Nutrition());
+        Grocery g = new Grocery("cabbage", new Nutrition(), 1.0);
         assertEquals(0, r.getQuantityOf(g));
 
         r.addGrocery(g, 2);
@@ -37,7 +37,7 @@ class ReceiptTest {
     void addGrocery() {
         LocalDate ld = LocalDate.parse("2012-12-12");
         Receipt r = new Receipt(ld);
-        Grocery g = new Grocery("cabbage", new Nutrition());
+        Grocery g = new Grocery("cabbage", new Nutrition(), 1.0);
 
         r.addGrocery(g, 2);
         assertEquals(2, r.getQuantityOf(g));
@@ -47,7 +47,7 @@ class ReceiptTest {
     void getGroceries() {
         LocalDate ld = LocalDate.parse("2012-12-12");
         Receipt r = new Receipt(ld);
-        Grocery g = new Grocery("cabbage", new Nutrition());
+        Grocery g = new Grocery("cabbage", new Nutrition(), 1.0);
         r.addGrocery(g, 2);
         Grocery[] gg = {g};
         assertArrayEquals(gg, r.getGroceries().toArray());

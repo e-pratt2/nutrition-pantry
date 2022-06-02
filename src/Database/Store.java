@@ -46,6 +46,13 @@ public class Store implements Serializable {
         Double price = groceryPrices.get(grocery);
         return price == null ? 0.0 : price;
     }
+    public void setPriceOf(Grocery g, double price) {
+        groceryPrices.put(g, price);
+    }
+
+    public boolean hasPrice(Grocery grocery) {
+        return groceryPrices.containsKey(grocery);
+    }
 
     /**
      * adds the receipt passed in, into the arrayList of receipts

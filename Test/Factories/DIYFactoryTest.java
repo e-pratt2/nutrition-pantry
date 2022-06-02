@@ -36,9 +36,9 @@ class DIYFactoryTest {
     @Test
     void createGrocery() {
 
-        Grocery g = new Grocery("cabbage", new Nutrition());
+        Grocery g = new Grocery("cabbage", new Nutrition(), 1.0);
         DIYFactory d = new DIYFactory();
-        setInput("cabbage\n0\n0\n0\n0\n0\n0\n");
+        setInput("cabbage\n0\n0\n0\n0\n0\n0\n1.0\n");
         assertEquals(g, d.createGrocery());
     }
 }
