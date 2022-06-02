@@ -38,18 +38,6 @@ public class Store implements Serializable {
     }
 
     /**
-     *
-     * @return returns the hashMap of grocery prices
-     */
-    public HashMap<Grocery, Double> getGroceryPrices(){return this.groceryPrices;}
-
-    /**
-     *
-     * @return returns the arrayList of receipts
-     */
-    public ArrayList<Receipt> getR(){return this.receipts;}
-
-    /**
      * returns the price of the grocery passed in or 0 if the grocery object is null
      * @param grocery Grocery object
      * @return returns the price of the grocery
@@ -88,11 +76,11 @@ public class Store implements Serializable {
 
         Store s = (Store) obj;
 
-        if(!this.groceryPrices.equals(s.getGroceryPrices()))
+        if(!this.name.equals(s.name))
             return false;
-        if(!this.name.equals(s.getName()))
+        if(!this.groceryPrices.equals(s.groceryPrices))
             return false;
-        if(!this.receipts.equals(s.getR()))
+        if(!this.receipts.equals(s.receipts))
             return false;
         return true;
     }
