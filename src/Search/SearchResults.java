@@ -4,8 +4,8 @@ import java.util.*;
 import java.util.function.Function;
 
 public class SearchResults<E> {
-    private SortedSet<Result> results;
-    private Function<E, String> stringifier;
+    private final SortedSet<Result> results;
+    private final Function<E, String> stringifier;
 
     public SearchResults(Function<E, String> stringifier) {
         results = new TreeSet<>();
@@ -13,9 +13,9 @@ public class SearchResults<E> {
     }
 
     public class Result implements Comparable<Result> {
-        private E object;
-        private float score;
-        private Function<E, String> stringifier;
+        private final E object;
+        private final float score;
+        private final Function<E, String> stringifier;
 
         public Result(E object, float score, Function<E, String> stringifier) {
             this.object = object;
@@ -37,27 +37,22 @@ public class SearchResults<E> {
         }
 
         private String percentageString() {
-            return null;//int numStars = "*".repeat((int)(this.score * 5));
+            int numStars = Math.round(this.score * 5);
+            return "[" + "*".repeat(numStars) + " ".repeat(5-numStars) + "]";
         }
 
         @Override
         public String toString() {
-            return stringifier.apply(object) + ": " + score;
+            return percentageString() + " " + stringifier.apply(object);
         }
     }
 
     public void pushResult(E item, float score) {
         results.add(new Result(item, score, stringifier));
     }
-    public void pushResult(Result r) {
-        results.add(r);
-    }
 
     public List<Result> getBestResults(int limit) {
-        ArrayList<Result> bestResults = new ArrayList<>();
-
-        for(Result r : results)
-            bestResults.add(r);
+        ArrayList<Result> bestResults = new ArrayList<>(results);
 
         int sublistStart = Math.max(bestResults.size() - limit, 0);
 

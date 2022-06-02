@@ -44,7 +44,6 @@ public class DIYFactory implements GroceryFactory{
         double pro = UIHelpers.promptDouble("Amount of Protein: ");
         double sod = UIHelpers.promptDouble("Amount of Sodium: ");
 
-        Nutrition n = new Nutrition(cal, fat, sugar, fib, pro, sod);
-        return n;
+        return new Nutrition(cal, fat, sugar, fib, pro, sod);
     }
 }

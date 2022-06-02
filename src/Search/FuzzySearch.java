@@ -28,7 +28,7 @@ public class FuzzySearch {
 
             totalPermutations += sp.getPermutationCount();
             for(String substring : sp) {
-                if(toTest.indexOf(substring) != -1)
+                if(toTest.contains(substring))
                     totalPassedPermutations++;
             }
         }

@@ -1,7 +1,5 @@
 package Database;
 
-import Filters.Filter;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.time.LocalDate;
@@ -13,8 +11,8 @@ import java.util.Set;
  */
 public class Receipt implements Serializable {
 
-    private HashMap<Grocery, Double> groceryQuantity;
-    private LocalDate date;
+    private final HashMap<Grocery, Double> groceryQuantity;
+    private final LocalDate date;
 
     /**
      * constructor that creates a Receipt object initialises all the private fields

@@ -36,7 +36,7 @@ public class Filter <E>{
      * @return whether the filter chain (this filter and all children filters) accepts this object.
      */
     public boolean accepts(E e) {
-        return child == null ? true : child.accepts(e);
+        return child == null || child.accepts(e);
     }
 
     @Override

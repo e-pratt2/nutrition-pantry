@@ -8,7 +8,7 @@ import java.util.Objects;
  * A filter that matches for stores of a given name, case-insensitive.
  */
 public class StoreNameFilter extends Filter<Store> {
-    private String name;
+    private final String name;
 
 
     /**

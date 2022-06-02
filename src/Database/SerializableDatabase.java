@@ -1,7 +1,6 @@
 package Database;
 
 import java.io.*;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +11,8 @@ public class SerializableDatabase implements Serializable {
 
     private static SerializableDatabase instance;
 
-    private ArrayList<Store> stores;
-    private ArrayList<Grocery> groceries;
+    private final ArrayList<Store> stores;
+    private final ArrayList<Grocery> groceries;
 
     /**
      * Constructor creates a new SerializableDatabase object
@@ -35,19 +34,17 @@ public class SerializableDatabase implements Serializable {
         return instance;
     }
 
-    /**
-     *
-     * @return returns true if the SerializableDatabase object is not null
-     * @return returns false if the SerializableDatabase object in null
+    /**Check whether an instance is currently open.
+     * @return returns true if the SerializableDatabase has a currently open instance, retrieved by getInstance()
      */
     public static boolean hasInstance() {
         return instance != null;
     }
 
     /**
-     * opens a file and object output stream and writes/saes the instance to a file
+     * opens a file and object output stream and writes/save the instance to a file
      * @param filepath String that holds the filepath
-     * @throws IOException
+     * @throws IOException if the file writing failed.
      */
     public static void saveInstance(String filepath) throws IOException {
         try(FileOutputStream file = new FileOutputStream(filepath)) {
@@ -60,7 +57,7 @@ public class SerializableDatabase implements Serializable {
     /**
      * opens a file and object input stream and retrieves the information saved to a file
      * @param filepath string that holds the filepath
-     * @throws IOException
+     * @throws IOException if loading failed due to an IO error.
      */
     public static void loadInstance(String filepath) throws IOException {
         try(FileInputStream file = new FileInputStream(filepath)) {

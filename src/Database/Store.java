@@ -1,7 +1,5 @@
 package Database;
 
-import Filters.Filter;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,9 +10,9 @@ import java.util.List;
  */
 public class Store implements Serializable {
 
-    private HashMap<Grocery, Double> groceryPrices;
-    private ArrayList<Receipt> receipts;
-    private String name;
+    private final HashMap<Grocery, Double> groceryPrices;
+    private final ArrayList<Receipt> receipts;
+    private final String name;
 
     /**
      * constructor creates a Store object
@@ -74,7 +72,6 @@ public class Store implements Serializable {
      * checks if the object passed in equals this object
      * @param obj object this store object is compared to
      * @return returns true if the objects are equal
-     * @return returns false if the objects are different or the object passed in is not a store object
      */
     public boolean equals(Object obj){
 

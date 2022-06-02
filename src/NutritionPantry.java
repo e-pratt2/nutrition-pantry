@@ -3,7 +3,6 @@ import Database.Receipt;
 import Database.SerializableDatabase;
 import Database.Store;
 import Factories.*;
-import Filters.FilterSet;
 import UI.CommandLine;
 import UI.CommandSyntaxException;
 import UI.ConsoleStyle;
@@ -11,7 +10,6 @@ import UI.UIHelpers;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +18,7 @@ import java.util.stream.Collectors;
  * Holds the entry point and helper methods for allowing easy interaction with the database.
  */
 public class NutritionPantry {
-    public static final String menuOptions[] = {
+    public static final String[] menuOptions = {
             "Add store...",
             "Add receipts to store...",
             "Add groceries...",
@@ -171,17 +169,19 @@ public class NutritionPantry {
         File folder = new File(".");
         File[] items = folder.listFiles();
 
-        List<File> files = Arrays.stream(items).filter(f -> f.isFile()).collect(Collectors.toList());
+        //If there are items in the folder...
+        if(items != null) {
+            List<File> files = Arrays.stream(items).filter(File::isFile).collect(Collectors.toList());
 
-        File chosen = UIHelpers.chooseObjectOrOther(files, File::getName, "Other...");
+            File chosen = UIHelpers.chooseObjectOrOther(files, File::getName, "Other...");
 
-        if(chosen != null)
-            return chosen;
+            if (chosen != null)
+                return chosen;
 
-        do {
-            Path path = UIHelpers.promptFilepath("Enter path");
+            //If chosen was null, fallthrough and prompt
+        }
 
-            return path.toFile();
-        } while(true);
+        //Prompt the user for a file if none was specified by the menu
+        return UIHelpers.promptFilepath("Enter path: ").toFile();
     }
 }
