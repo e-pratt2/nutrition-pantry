@@ -1,6 +1,7 @@
 package UI;
 
 import Database.Grocery;
+import Database.Nutrition;
 import Database.Receipt;
 import Database.Store;
 import Filters.*;
@@ -127,6 +128,13 @@ public class CommandLine {
         return f;
     }
 
+    private void prettyPrintPrice(double d) {
+        System.out.println("Result: $" + d);
+    }
+    private void prettyPrintNutrition(Nutrition n) {
+        System.out.println("Result: " + n);
+    }
+
     /**
      * Execute the given analysis type, based on the given filters.
      * @param filters the filters to use during analysis
@@ -136,18 +144,10 @@ public class CommandLine {
     public boolean execute(FilterSet filters) {
         switch(this.lines[0]) {
             case "total-nutrition":
-                Analysis.totalNutrition(filters);
-                return true;
-            case "avg-nutrition":
-            case "average-nutrition":
-                Analysis.AvgNutrition(filters);
+                this.prettyPrintNutrition(new Analysis(filters).getTotalNutrition());
                 return true;
             case "total-price":
-                Analysis.totalPrice(filters);
-                return true;
-            case "avg-price":
-            case "average-price":
-                Analysis.avgPrice(filters);
+                this.prettyPrintPrice(new Analysis(filters).getTotalPrice());
                 return true;
             case "help":
                 System.out.println("" +
