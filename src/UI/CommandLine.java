@@ -129,10 +129,16 @@ public class CommandLine {
     }
 
     private void prettyPrintPrice(double d) {
-        System.out.println("Result: $" + d);
+        System.out.println("Price: $" + d);
     }
     private void prettyPrintNutrition(Nutrition n) {
-        System.out.println("Result: " + n);
+        System.out.println("Nutrition: " + n);
+    }
+    private void prettyPrintServings(double servings) {
+        System.out.println(servings + " servings.");
+    }
+    private void prettyPrintQuantity(double quantity) {
+        System.out.println(quantity + " groceries.");
     }
 
     /**
@@ -149,6 +155,35 @@ public class CommandLine {
             case "total-price":
                 this.prettyPrintPrice(new Analysis(filters).getTotalPrice());
                 return true;
+            case "total-servings":
+                this.prettyPrintServings(new Analysis(filters).getTotalServings());
+                return true;
+            case "total-quantity":
+                this.prettyPrintQuantity(new Analysis(filters).getTotalQuantity());
+                return true;
+            case "average-nutrition-per-price":
+                this.prettyPrintNutrition(new Analysis(filters).getAverageNutritionPerPrice());
+                return true;
+            case "average-servings-per-price":
+                this.prettyPrintServings(new Analysis(filters).getAverageServingsPerPrice());
+                return true;
+            case "average-quantity-per-price":
+                this.prettyPrintQuantity(new Analysis(filters).getAverageQuantityPerPrice());
+                return true;
+            case "average-nutrition-per-day":
+                this.prettyPrintNutrition(new Analysis(filters).getAverageNutritionPerDay());
+                return true;
+            case "average-servings-per-day":
+                this.prettyPrintServings(new Analysis(filters).getAverageServingsPerDay());
+                return true;
+            case "average-quantity-per-day":
+                this.prettyPrintQuantity(new Analysis(filters).getAverageQuantityPerDay());
+                return true;
+            case "average-price-per-day":
+                this.prettyPrintPrice(new Analysis(filters).getAveragePricePerDay());
+                return true;
+            case "stores-matching":
+                this.
             case "help":
                 System.out.println("" +
                         ConsoleStyle.bold("analysis syntax: ") + "analysis-type [, grocery [filters...]] [, store [filters...]] [, receipt [filters...]]\n" +

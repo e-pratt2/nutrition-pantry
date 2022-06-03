@@ -3,10 +3,15 @@ package Analysis;
 import Database.*;
 import Filters.FilterSet;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.TreeSet;
 
 public class Analysis {
     private ArrayList<Result> results;
+    LocalDate firstDate, lastDate;
 
     private class Result {
         private final Store store;
@@ -52,6 +57,11 @@ public class Analysis {
                         continue;
 
                     this.results.add(new Result(s, r, g));
+
+                    if(firstDate == null || firstDate.isAfter(r.getDate()))
+                        firstDate = r.getDate();
+                    if(lastDate == null || lastDate.isBefore(r.getDate()))
+                        lastDate = r.getDate();
                 }
             }
         }
@@ -106,5 +116,35 @@ public class Analysis {
         double totalPrice = this.getTotalPrice();
 
         return quantity / totalPrice;
+    }
+    public long getNumberOfDays() {
+        return ChronoUnit.DAYS.between(firstDate, lastDate) + 1;
+    }
+    public double getAverageQuantityPerDay() {
+        return this.getTotalQuantity() / this.getNumberOfDays();
+    }
+    public double getAverageServingsPerDay() {
+        return this.getTotalServings() / this.getNumberOfDays();
+    }
+    public double getAveragePricePerDay() {
+        return this.getTotalPrice() / this.getNumberOfDays();
+    }
+    public Nutrition getAverageNutritionPerDay() {
+        double numberOfDays = getNumberOfDays();
+        Nutrition totalNutrition = this.getTotalNutrition();
+
+        return totalNutrition.multiply(1.0/numberOfDays);
+    }
+    public int getStoresMatching() {
+        //Sort stores by name - we don't care about the sorting, only the uniqueness set elements.
+        TreeSet<Store> uniqueStores = new TreeSet<>(Comparator.comparing(Store::getName));
+
+        for(Result r : results)
+            uniqueStores.add(r.store);
+
+        return uniqueStores.size();
+    }
+    public int getReceiptsMatching() {
+        return 0;
     }
 }
