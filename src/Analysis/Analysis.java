@@ -33,7 +33,7 @@ public class Analysis {
         private final Grocery grocery;
 
         /**
-         * Greate a result around the given store, receipt, grocery combination
+         * Create a result around the given store, receipt, grocery combination
          * @param s the store to use
          * @param r the receipt to use, should be a member of the store
          * @param g the grocery to use, should be a member of the receipt
@@ -201,7 +201,7 @@ public class Analysis {
     }
 
     /**
-     * Get the total number of days spanned by this analysis session - the tiem difference between the first and last receipts.
+     * Get the total number of days spanned by this analysis session - the time difference between the first and last receipts.
      * @return the number of days
      */
     public long getNumberOfDays() {
