@@ -7,6 +7,8 @@ import java.util.Objects;
  * A database class that holds the nutrition information of the grocery object
  */
 public class Nutrition implements Serializable {
+    public static final long serialVersionUID = 1L;
+
     private double calories, fat, sugar, fiber, protein, sodium;
 
     /**

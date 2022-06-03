@@ -7,6 +7,7 @@ import java.util.Objects;
  * A database class that the nutrition information and a name of a grocery
  */
 public class Grocery implements Serializable {
+    public static final long serialVersionUID = 1L;
 
     private final String name;
     private final Nutrition nutrition;

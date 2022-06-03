@@ -10,6 +10,7 @@ import java.util.Set;
  * a database class that holds a list of groceries
  */
 public class Receipt implements Serializable {
+    public static final long serialVersionUID = 1L;
 
     private final HashMap<Grocery, Double> groceryQuantity;
     private final LocalDate date;

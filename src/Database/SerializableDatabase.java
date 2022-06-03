@@ -8,7 +8,8 @@ import java.util.List;
  * a database class that allows to save and load information to and from a file
  */
 public class SerializableDatabase implements Serializable {
-
+    public static final long serialVersionUID = 1L;
+    
     private static SerializableDatabase instance;
 
     private final ArrayList<Store> stores;
