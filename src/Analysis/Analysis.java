@@ -8,7 +8,23 @@ import Database.Store;
 import Filters.Filter;
 import Filters.FilterSet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Analysis {
+
+    public static Nutrition averageNutritionPerPrice(FilterSet fs) {
+        List<Store> stores = findMatchingStores(fs);
+        List<Receipt> receipts = findMatchingReceipts(stores, fs);
+        List<Grocery> groceries = findMatchingGroceries(receipts, fs);
+
+        double totalPrice = 0.0;
+        Nutrition totalNutrition = new Nutrition();
+
+        for(Grocery g : groceries) {
+
+        }
+    }
 
     public static void avgPrice(FilterSet filterSet){
         System.out.println("Average Price:");
@@ -28,6 +44,36 @@ public class Analysis {
     public static void totalNutrition(FilterSet filterSet){
         System.out.println("Total Nutrition:");
         System.out.println(getTotalNutrition(filterSet.getStore(), filterSet.getReceipt(), filterSet.getGrocery()));
+    }
+
+    private static List<Store> findMatchingStores(FilterSet fs) {
+        ArrayList<Store> stores = new ArrayList<>();
+
+        for(Store s : SerializableDatabase.getInstance().getStores())
+            if(fs.getStore().accepts(s))
+                stores.add(s);
+
+        return stores;
+    }
+    private static List<Receipt> findMatchingReceipts(List<Store> stores, FilterSet fs) {
+        ArrayList<Receipt> receipts = new ArrayList<>();
+
+        for(Store s : stores)
+            for(Receipt r : s.getReceipts())
+                if(fs.getReceipt().accepts(r))
+                    receipts.add(r);
+
+        return receipts;
+    }
+    private static List<Grocery> findMatchingGroceries(List<Receipt> receipts, FilterSet fs) {
+        ArrayList<Grocery> groceries = new ArrayList<>();
+
+        for(Receipt r : receipts)
+            for(Grocery g : r.getGroceries())
+                if(fs.getGrocery().accepts(g))
+                    groceries.add(g);
+
+        return groceries;
     }
 
     private static double getTotalPrice(Filter<Store> storeFilter, Filter<Receipt> receiptFilter, Filter<Grocery> groceryFilter) {
