@@ -80,7 +80,7 @@ public class CommandLine {
         Filter<Store> f = Filter.AlwaysPass;
         for(int i = 1; i < str.length; i += 2){
             if(str[i].equalsIgnoreCase("name"))
-                f = new StoreNameFilter(f, str[i+1]);
+                f = new StoreNameFilter(f, str[i+1].replace('_', ' '));
             else
                 throw new CommandSyntaxException("Unrecognized filter " + str[i]);
         }
@@ -97,7 +97,7 @@ public class CommandLine {
         Filter<Grocery> f = Filter.AlwaysPass;
         for(int i = 1; i < str.length; i += 2){
             if(str[i].equalsIgnoreCase("name"))
-                f = new GroceryNameFilter(f, str[i+1]);
+                f = new GroceryNameFilter(f, str[i+1].replace('_', ' '));
             else{
                 throw new CommandSyntaxException("Unrecognized filter " + str[i]);
             }
