@@ -26,13 +26,19 @@ public class UPCGroceryFactory implements GroceryFactory {
     @Override
     public Grocery createGrocery() {
         String name = promptName();
-        Nutrition n = promptAndParseUPC();
-        double servings = UIHelpers.promptDouble("Servings per container: ");
+        Nutrition n;
+        do {
+            n = promptAndParseUPC();
+
+            if(n != null)
+                break;
+        } while(UIHelpers.promptBoolean("Failed to get information. Try again?", true));
 
         if(n == null){
             return null;
         }
-        System.out.println("Done!");
+
+        double servings = UIHelpers.promptDouble("Servings per container: ");
 
         return new Grocery(name, n, servings);
     }
@@ -165,6 +171,7 @@ public class UPCGroceryFactory implements GroceryFactory {
         double protein = nutriments.optDouble("proteins_serving", 0.0);
         double sodium = nutriments.optDouble("sodium_serving", 0.0);
 
+        System.out.println("Done!");
         return new Nutrition(calories, fat, sugar, fiber, protein, sodium);
     }
 }

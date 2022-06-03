@@ -155,42 +155,59 @@ public class CommandLine {
      */
     public boolean execute(FilterSet filters) {
         switch(this.lines[0]) {
+            case "nutrition":
             case "total-nutrition":
                 this.prettyPrintNutrition(new Analysis(filters).getTotalNutrition());
                 return true;
+            case "price":
             case "total-price":
                 this.prettyPrintPrice(new Analysis(filters).getTotalPrice());
                 return true;
+            case "servings":
             case "total-servings":
                 this.prettyPrintServings(new Analysis(filters).getTotalServings());
                 return true;
+            case "quantity":
             case "total-quantity":
                 this.prettyPrintQuantity(new Analysis(filters).getTotalQuantity());
                 return true;
+            case "nutrition/$":
+            case "nutrition/price":
             case "average-nutrition-per-price":
                 this.prettyPrintNutrition(new Analysis(filters).getAverageNutritionPerPrice());
                 return true;
+            case "servings/$":
+            case "servings/price":
             case "average-servings-per-price":
                 this.prettyPrintServings(new Analysis(filters).getAverageServingsPerPrice());
                 return true;
+            case "quantity/$":
+            case "quantity/price":
             case "average-quantity-per-price":
                 this.prettyPrintQuantity(new Analysis(filters).getAverageQuantityPerPrice());
                 return true;
+            case "nutrition/day":
             case "average-nutrition-per-day":
                 this.prettyPrintNutrition(new Analysis(filters).getAverageNutritionPerDay());
                 return true;
+            case "servings/day":
             case "average-servings-per-day":
                 this.prettyPrintServings(new Analysis(filters).getAverageServingsPerDay());
                 return true;
+            case "quantity/day":
             case "average-quantity-per-day":
                 this.prettyPrintQuantity(new Analysis(filters).getAverageQuantityPerDay());
                 return true;
+            case "$/day":
+            case "price/day":
             case "average-price-per-day":
                 this.prettyPrintPrice(new Analysis(filters).getAveragePricePerDay());
                 return true;
             case "stores-matching":
+            case "list-stores":
                 this.prettyPrintList(new Analysis(filters).getStoresMatching(), Store::getName);
                 return true;
+            case "list-groceries":
             case "groceries-matching":
                 this.prettyPrintList(new Analysis(filters).getGroceriesMatching(), Grocery::getName);
                 return true;
