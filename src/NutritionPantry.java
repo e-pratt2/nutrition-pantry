@@ -83,6 +83,8 @@ public class NutritionPantry {
                                     System.out.println("Save cancelled.");
                                     break;
                                 }
+                            } else {
+                                SerializableDatabase.saveInstance(file.toString());
                             }
 
                         } catch (IOException e) {
@@ -100,6 +102,8 @@ public class NutritionPantry {
                                     System.out.println("Save cancelled.");
                                     break;
                                 }
+                            } else {
+                                SerializableDatabase.saveInstance(file.toString());
                             }
                             return;
                         } catch (IOException e) {
