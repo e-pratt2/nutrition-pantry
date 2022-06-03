@@ -40,6 +40,7 @@ public class ReceiptFactory {
 
             if(chosen == null) {
                 chosenGrocery = new ChooseGroceryFactory().createGrocery();
+                SerializableDatabase.getInstance().addGrocery(chosenGrocery);
             } else {
                 chosenGrocery = chosen.getObject();
             }

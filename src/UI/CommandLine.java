@@ -1,6 +1,7 @@
 package UI;
 
 import Database.Grocery;
+import Database.Nutrition;
 import Database.Receipt;
 import Database.Store;
 import Filters.*;
@@ -8,9 +9,11 @@ import Filters.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.function.Function;
 
-import Analysis.analysis;
+import Analysis.Analysis;
 
 /**
  * Commandline, parsing and executing the users input during an analysis session.
@@ -19,8 +22,22 @@ public class CommandLine {
 
     private String[] lines;
 
-    //Todo: allow quoted strings?
-    //private Pattern tokenSplit = Pattern.compile("[^\\s\"']*|\"([^\"]*)\"|'([^']*)'");
+    /**
+     * A string to help the user know what's possible within the custom command line syntax.
+     * Includes some helpful tips as well as the list of possible filters and analysis types.
+     * Has ANSI-styling built in for emphasis.
+     */
+    private static final String HELP_MESSAGE =
+        ConsoleStyle.bold("analysis syntax: ") + "analysis-type [, grocery [filters...]] [, store [filters...]] [, receipt [filters...]]\n" +
+        ConsoleStyle.bold("analysis types:  \n") +
+        "\t* totals:             total-nutrition,             total-servings,             total-quantity,             total-price\n" +
+        "\t* average by price:   average-nutrition-per-price, average-servings-per-price, average-quantity-per-price\n" +
+        "\t* average by time:    average-nutrition-per-day,   average-servings-per-day,   average-quantity-per-day,   average-price-per-day\n" +
+        "\t* lists:              list-groceries,              list-stores\n" +
+        "\t (" + ConsoleStyle.bold("Tip:").blue() + " Use abbreviations! \"nutrition/day\" works just like \"average-nutrition-per-day\")\n" +
+        ConsoleStyle.bold("grocery filters: ") + "name <underscore_separated_name>\n" +
+        ConsoleStyle.bold("store filters:   ") + "name <underscore_separated_name>\n" +
+        ConsoleStyle.bold("receipt filters: ") + "between <start date> <end date>";
 
     /**
      * Construct the commandline - prints out helpful tips before starting.
@@ -77,7 +94,7 @@ public class CommandLine {
         Filter<Store> f = Filter.AlwaysPass;
         for(int i = 1; i < str.length; i += 2){
             if(str[i].equalsIgnoreCase("name"))
-                f = new StoreNameFilter(f, str[i+1]);
+                f = new StoreNameFilter(f, str[i+1].replace('_', ' '));
             else
                 throw new CommandSyntaxException("Unrecognized filter " + str[i]);
         }
@@ -94,7 +111,7 @@ public class CommandLine {
         Filter<Grocery> f = Filter.AlwaysPass;
         for(int i = 1; i < str.length; i += 2){
             if(str[i].equalsIgnoreCase("name"))
-                f = new GroceryNameFilter(f, str[i+1]);
+                f = new GroceryNameFilter(f, str[i+1].replace('_', ' '));
             else{
                 throw new CommandSyntaxException("Unrecognized filter " + str[i]);
             }
@@ -128,36 +145,119 @@ public class CommandLine {
     }
 
     /**
-     * Execute the given analysis type, based on the given filters.
+     * Print out a price within the command line session.
+     * @param d the price to show, unit being dollars
+     */
+    private void prettyPrintPrice(double d) {
+        System.out.println("<< $" + d);
+    }
+
+    /**
+     * Print out a nutrition quantity in the command line session.
+     * @param n the nutrition object containing the data to print
+     */
+    private void prettyPrintNutrition(Nutrition n) {
+        System.out.println("<< " + n);
+    }
+
+    /**
+     * Print out a number of servings within the command line session.
+     * @param servings the number to print, unit being servings
+     */
+    private void prettyPrintServings(double servings) {
+        System.out.println("<< " + servings + " servings.");
+    }
+
+    /**
+     * Print out a quantity of groceries in the command line session.
+     * @param quantity the number to print, unit being groceries
+     */
+    private void prettyPrintQuantity(double quantity) {
+        System.out.println("<< " + quantity + " groceries.");
+    }
+
+    /**
+     * Print out a list of objects in the command line session
+     * @param list the list of objects to print
+     * @param stringify a function to map the objects to strings. E::toString would work.
+     * @param <E> The type of object within the list
+     */
+    private <E> void prettyPrintList(List<E> list, Function<E, String> stringify) {
+        for(E obj : list)
+            System.out.println("<< * " + stringify.apply(obj));
+    }
+
+    /**
+     * Execute the given analysis type, based on the given filters. Defers to the Analysis module to do all the
+     * hard work.
      * @param filters the filters to use during analysis
      * @return true if the commandline should continue running, false if exit was requested.
      * @throws CommandSyntaxException on unrecognized command.
      */
     public boolean execute(FilterSet filters) {
+        //Match to the provided commands, with some aliases mapping to the same commands.
         switch(this.lines[0]) {
+            case "nutrition":
             case "total-nutrition":
-                analysis.totalNutrition(filters);
+                this.prettyPrintNutrition(new Analysis(filters).getTotalNutrition());
                 return true;
-            case "avg-nutrition":
-            case "average-nutrition":
-                analysis.AvgNutrition(filters);
-                return true;
+            case "price":
             case "total-price":
-                analysis.totalPrice(filters);
+                this.prettyPrintPrice(new Analysis(filters).getTotalPrice());
                 return true;
-            case "avg-price":
-            case "average-price":
-                analysis.avgPrice(filters);
+            case "servings":
+            case "total-servings":
+                this.prettyPrintServings(new Analysis(filters).getTotalServings());
+                return true;
+            case "quantity":
+            case "total-quantity":
+                this.prettyPrintQuantity(new Analysis(filters).getTotalQuantity());
+                return true;
+            case "nutrition/$":
+            case "nutrition/price":
+            case "average-nutrition-per-price":
+                this.prettyPrintNutrition(new Analysis(filters).getAverageNutritionPerPrice());
+                return true;
+            case "servings/$":
+            case "servings/price":
+            case "average-servings-per-price":
+                this.prettyPrintServings(new Analysis(filters).getAverageServingsPerPrice());
+                return true;
+            case "quantity/$":
+            case "quantity/price":
+            case "average-quantity-per-price":
+                this.prettyPrintQuantity(new Analysis(filters).getAverageQuantityPerPrice());
+                return true;
+            case "nutrition/day":
+            case "average-nutrition-per-day":
+                this.prettyPrintNutrition(new Analysis(filters).getAverageNutritionPerDay());
+                return true;
+            case "servings/day":
+            case "average-servings-per-day":
+                this.prettyPrintServings(new Analysis(filters).getAverageServingsPerDay());
+                return true;
+            case "quantity/day":
+            case "average-quantity-per-day":
+                this.prettyPrintQuantity(new Analysis(filters).getAverageQuantityPerDay());
+                return true;
+            case "$/day":
+            case "price/day":
+            case "average-price-per-day":
+                this.prettyPrintPrice(new Analysis(filters).getAveragePricePerDay());
+                return true;
+            case "stores-matching":
+            case "list-stores":
+                this.prettyPrintList(new Analysis(filters).getStoresMatching(), Store::getName);
+                return true;
+            case "list-groceries":
+            case "groceries-matching":
+                this.prettyPrintList(new Analysis(filters).getGroceriesMatching(), Grocery::getName);
                 return true;
             case "help":
-                System.out.println("" +
-                        ConsoleStyle.bold("analysis syntax: ") + "analysis-type [, grocery [filters...]] [, store [filters...]] [, receipt [filters...]]\n" +
-                        ConsoleStyle.bold("analysis types:  ") + "total-nutrition, average-nutrition, total-price, average-price\n" +
-                        ConsoleStyle.bold("grocery filters: ") + "name <grocery name>\n" +
-                        ConsoleStyle.bold("store filters:   ") + "name <store name>\n" +
-                        ConsoleStyle.bold("receipt filters: ") + "between <start date> <end date>");
+                System.out.println(HELP_MESSAGE);
                 return true;
             case "exit":
+                //Indicate to end the loop by returning false
                 return false;
             default:
                 throw new CommandSyntaxException("Unrecognized analysis type " + this.lines[0]);

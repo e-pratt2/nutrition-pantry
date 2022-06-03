@@ -105,13 +105,14 @@ public class Nutrition implements Serializable {
      * @return a new copy of the nutrition object, with each field multiplied by mul
      */
     public Nutrition multiply(double mul) {
-        this.calories *= mul;
-        this.fat *= mul;
-        this.sugar *= mul;
-        this.fiber *= mul;
-        this.protein *= mul;
-        this.sodium *= mul;
-        return this;
+        Nutrition n = new Nutrition(this.calories, this.fat, this.sugar, this.fiber, this.protein, this.sodium);
+        n.calories *= mul;
+        n.fat *= mul;
+        n.sugar *= mul;
+        n.fiber *= mul;
+        n.protein *= mul;
+        n.sodium *= mul;
+        return n;
     }
 //    public static Nutrition divide(Nutrition a, double div) {
 //        return Nutrition.multiply(a, 1.0/div);
