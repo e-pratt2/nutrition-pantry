@@ -131,20 +131,20 @@ public class CommandLine {
     }
 
     private void prettyPrintPrice(double d) {
-        System.out.println("Price: $" + d);
+        System.out.println("<< $" + d);
     }
     private void prettyPrintNutrition(Nutrition n) {
-        System.out.println("Nutrition: " + n);
+        System.out.println("<< " + n);
     }
     private void prettyPrintServings(double servings) {
-        System.out.println(servings + " servings.");
+        System.out.println("<< " + servings + " servings.");
     }
     private void prettyPrintQuantity(double quantity) {
-        System.out.println(quantity + " groceries.");
+        System.out.println("<< " + quantity + " groceries.");
     }
     private <E> void prettyPrintList(List<E> list, Function<E, String> stringify) {
         for(E obj : list)
-            System.out.println(" * " + stringify.apply(obj));
+            System.out.println("<< * " + stringify.apply(obj));
     }
 
     /**
