@@ -9,7 +9,9 @@ import Filters.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.function.Function;
 
 import Analysis.Analysis;
 
@@ -140,6 +142,10 @@ public class CommandLine {
     private void prettyPrintQuantity(double quantity) {
         System.out.println(quantity + " groceries.");
     }
+    private <E> void prettyPrintList(List<E> list, Function<E, String> stringify) {
+        for(E obj : list)
+            System.out.println(" * " + stringify.apply(obj));
+    }
 
     /**
      * Execute the given analysis type, based on the given filters.
@@ -183,7 +189,11 @@ public class CommandLine {
                 this.prettyPrintPrice(new Analysis(filters).getAveragePricePerDay());
                 return true;
             case "stores-matching":
-                this.
+                this.prettyPrintList(new Analysis(filters).getStoresMatching(), Store::getName);
+                return true;
+            case "groceries-matching":
+                this.prettyPrintList(new Analysis(filters).getGroceriesMatching(), Grocery::getName);
+                return true;
             case "help":
                 System.out.println("" +
                         ConsoleStyle.bold("analysis syntax: ") + "analysis-type [, grocery [filters...]] [, store [filters...]] [, receipt [filters...]]\n" +

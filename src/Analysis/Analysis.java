@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.TreeSet;
 
 public class Analysis {
@@ -118,7 +119,9 @@ public class Analysis {
         return quantity / totalPrice;
     }
     public long getNumberOfDays() {
-        return ChronoUnit.DAYS.between(firstDate, lastDate) + 1;
+        if(this.firstDate == null || this.lastDate == null)
+            return 1;
+        return ChronoUnit.DAYS.between(this.firstDate, this.lastDate) + 1;
     }
     public double getAverageQuantityPerDay() {
         return this.getTotalQuantity() / this.getNumberOfDays();
@@ -135,16 +138,22 @@ public class Analysis {
 
         return totalNutrition.multiply(1.0/numberOfDays);
     }
-    public int getStoresMatching() {
-        //Sort stores by name - we don't care about the sorting, only the uniqueness set elements.
-        TreeSet<Store> uniqueStores = new TreeSet<>(Comparator.comparing(Store::getName));
+    public List<Store> getStoresMatching() {
+        ArrayList<Store> stores = new ArrayList<>();
 
-        for(Result r : results)
-            uniqueStores.add(r.store);
+        for(Result r : this.results)
+            if(!stores.contains(r.store))
+                stores.add(r.store);
 
-        return uniqueStores.size();
+        return stores;
     }
-    public int getReceiptsMatching() {
-        return 0;
+    public List<Grocery> getGroceriesMatching() {
+        ArrayList<Grocery> groceries = new ArrayList<>();
+
+        for(Result r : this.results)
+            if(!groceries.contains(r.grocery))
+                groceries.add(r.grocery);
+
+        return groceries;
     }
 }
