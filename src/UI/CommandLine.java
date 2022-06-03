@@ -22,6 +22,11 @@ public class CommandLine {
 
     private String[] lines;
 
+    /**
+     * A string to help the user know what's possible within the custom command line syntax.
+     * Includes some helpful tips as well as the list of possible filters and analysis types.
+     * Has ANSI-styling built in for emphasis.
+     */
     private static final String HELP_MESSAGE =
         ConsoleStyle.bold("analysis syntax: ") + "analysis-type [, grocery [filters...]] [, store [filters...]] [, receipt [filters...]]\n" +
         ConsoleStyle.bold("analysis types:  \n") +
@@ -33,9 +38,6 @@ public class CommandLine {
         ConsoleStyle.bold("grocery filters: ") + "name <underscore_separated_name>\n" +
         ConsoleStyle.bold("store filters:   ") + "name <underscore_separated_name>\n" +
         ConsoleStyle.bold("receipt filters: ") + "between <start date> <end date>";
-
-    //Todo: allow quoted strings?
-    //private Pattern tokenSplit = Pattern.compile("[^\\s\"']*|\"([^\"]*)\"|'([^']*)'");
 
     /**
      * Construct the commandline - prints out helpful tips before starting.
@@ -142,30 +144,58 @@ public class CommandLine {
         return f;
     }
 
+    /**
+     * Print out a price within the command line session.
+     * @param d the price to show, unit being dollars
+     */
     private void prettyPrintPrice(double d) {
         System.out.println("<< $" + d);
     }
+
+    /**
+     * Print out a nutrition quantity in the command line session.
+     * @param n the nutrition object containing the data to print
+     */
     private void prettyPrintNutrition(Nutrition n) {
         System.out.println("<< " + n);
     }
+
+    /**
+     * Print out a number of servings within the command line session.
+     * @param servings the number to print, unit being servings
+     */
     private void prettyPrintServings(double servings) {
         System.out.println("<< " + servings + " servings.");
     }
+
+    /**
+     * Print out a quantity of groceries in the command line session.
+     * @param quantity the number to print, unit being groceries
+     */
     private void prettyPrintQuantity(double quantity) {
         System.out.println("<< " + quantity + " groceries.");
     }
+
+    /**
+     * Print out a list of objects in the command line session
+     * @param list the list of objects to print
+     * @param stringify a function to map the objects to strings. E::toString would work.
+     * @param <E> The type of object within the list
+     */
     private <E> void prettyPrintList(List<E> list, Function<E, String> stringify) {
         for(E obj : list)
             System.out.println("<< * " + stringify.apply(obj));
     }
 
     /**
-     * Execute the given analysis type, based on the given filters.
+     * Execute the given analysis type, based on the given filters. Defers to the Analysis module to do all the
+     * hard work.
      * @param filters the filters to use during analysis
      * @return true if the commandline should continue running, false if exit was requested.
      * @throws CommandSyntaxException on unrecognized command.
      */
     public boolean execute(FilterSet filters) {
+        //Match to the provided commands, with some aliases mapping to the same commands.
         switch(this.lines[0]) {
             case "nutrition":
             case "total-nutrition":
@@ -227,6 +257,7 @@ public class CommandLine {
                 System.out.println(HELP_MESSAGE);
                 return true;
             case "exit":
+                //Indicate to end the loop by returning false
                 return false;
             default:
                 throw new CommandSyntaxException("Unrecognized analysis type " + this.lines[0]);
