@@ -22,6 +22,18 @@ public class CommandLine {
 
     private String[] lines;
 
+    private static final String HELP_MESSAGE =
+        ConsoleStyle.bold("analysis syntax: ") + "analysis-type [, grocery [filters...]] [, store [filters...]] [, receipt [filters...]]\n" +
+        ConsoleStyle.bold("analysis types:  \n") +
+        "\t* totals:             total-nutrition,             total-servings,             total-quantity,             total-price\n" +
+        "\t* average by price:   average-nutrition-per-price, average-servings-per-price, average-quantity-per-price\n" +
+        "\t* average by time:    average-nutrition-per-day,   average-servings-per-day,   average-quantity-per-day,   average-price-per-day\n" +
+        "\t* lists:              list-groceries,              list-stores\n" +
+        "\t (" + ConsoleStyle.bold("Tip:").blue() + " Use abbreviations! \"nutrition/day\" works just like \"average-nutrition-per-day\")\n" +
+        ConsoleStyle.bold("grocery filters: ") + "name <underscore_separated_name>\n" +
+        ConsoleStyle.bold("store filters:   ") + "name <underscore_separated_name>\n" +
+        ConsoleStyle.bold("receipt filters: ") + "between <start date> <end date>";
+
     //Todo: allow quoted strings?
     //private Pattern tokenSplit = Pattern.compile("[^\\s\"']*|\"([^\"]*)\"|'([^']*)'");
 
@@ -212,12 +224,7 @@ public class CommandLine {
                 this.prettyPrintList(new Analysis(filters).getGroceriesMatching(), Grocery::getName);
                 return true;
             case "help":
-                System.out.println("" +
-                        ConsoleStyle.bold("analysis syntax: ") + "analysis-type [, grocery [filters...]] [, store [filters...]] [, receipt [filters...]]\n" +
-                        ConsoleStyle.bold("analysis types:  ") + "total-nutrition, average-nutrition, total-price, average-price\n" +
-                        ConsoleStyle.bold("grocery filters: ") + "name <grocery name>\n" +
-                        ConsoleStyle.bold("store filters:   ") + "name <store name>\n" +
-                        ConsoleStyle.bold("receipt filters: ") + "between <start date> <end date>");
+                System.out.println(HELP_MESSAGE);
                 return true;
             case "exit":
                 return false;
