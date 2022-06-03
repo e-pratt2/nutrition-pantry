@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A database class that creates a grocery object that holds the nutrition information and a name
+ * A database class that the nutrition information and a name of a grocery
  */
 public class Grocery implements Serializable {
 

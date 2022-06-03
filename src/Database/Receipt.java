@@ -7,7 +7,7 @@ import java.util.Set;
 
 
 /**
- * a database class that creates a Receipt object and holds a list of groceries
+ * a database class that holds a list of groceries
  */
 public class Receipt implements Serializable {
 

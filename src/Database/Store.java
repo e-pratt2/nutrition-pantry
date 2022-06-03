@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * a database class that creates a store object and holds a list of receipts and grocery prices
+ * a database class that holds a list of receipts and grocery prices
  */
 public class Store implements Serializable {
 

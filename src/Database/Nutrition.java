@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A database class that creates a nutrition object that holds the nutrition information of the grocery object
+ * A database class that holds the nutrition information of the grocery object
  */
 public class Nutrition implements Serializable {
     private double calories, fat, sugar, fiber, protein, sodium;
