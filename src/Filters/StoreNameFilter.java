@@ -2,6 +2,7 @@ package Filters;
 
 import Database.Store;
 
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -49,7 +50,8 @@ public class StoreNameFilter extends Filter<Store> {
         if(store == null)
             throw new IllegalArgumentException("bad param StoreNameFilter");
 
-        return store.getName().equalsIgnoreCase(name) && super.accepts(store);
+        return store.getName().toLowerCase(Locale.ROOT)
+                .contains(name.toLowerCase(Locale.ROOT)) && super.accepts(store);
     }
 
     @Override

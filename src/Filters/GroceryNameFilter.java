@@ -2,6 +2,7 @@ package Filters;
 
 import Database.Grocery;
 
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -48,7 +49,8 @@ public class GroceryNameFilter extends Filter<Grocery> {
         if(grocery == null)
             throw new IllegalArgumentException("bad param accepts grocery filter");
         String g1 = grocery.getName();
-        return (g1.equalsIgnoreCase(name)) && super.accepts(grocery);
+        return g1.toLowerCase(Locale.ROOT)
+                .contains(name.toLowerCase(Locale.ROOT)) && super.accepts(grocery);
     }
 
     @Override
