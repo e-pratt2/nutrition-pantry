@@ -25,24 +25,26 @@ public class ReceiptFactory {
         String groceryName;
 
         do{
-            groceryName = UIHelpers.promptString("Search for a grocery name: ");
-            if(groceryName.isBlank())
-                break;
+            Grocery chosenGrocery = null;
 
-            SearchResults<Grocery> results = FuzzySearch.search(groceryName, SerializableDatabase.getInstance().getGroceries(), Grocery::getName);
+            while(true) {
+                groceryName = UIHelpers.promptString("Search for a grocery name: ");
+                if (groceryName.isBlank())
+                    break;
 
-            SearchResults<Grocery>.Result chosen = UIHelpers.chooseObjectOrOther(
-                    results.getBestResults(5), SearchResults.Result::toString,
-                    "Create new"
-            );
 
-            Grocery chosenGrocery;
+                SearchResults<Grocery> results = FuzzySearch.search(groceryName, SerializableDatabase.getInstance().getGroceries(), Grocery::getName);
 
-            if(chosen == null) {
-                chosenGrocery = new ChooseGroceryFactory().createGrocery();
-                SerializableDatabase.getInstance().addGrocery(chosenGrocery);
-            } else {
-                chosenGrocery = chosen.getObject();
+                SearchResults<Grocery>.Result chosen = UIHelpers.chooseObjectOrOther(
+                        results.getBestResults(5), SearchResults.Result::toString,
+                        "Search Again"
+                );
+
+                //If null, they chose to search again
+                if(chosen != null) {
+                    chosenGrocery = chosen.getObject();
+                    break;
+                }
             }
 
             double groceryQuantity = UIHelpers.promptDouble("Quantity of " + ConsoleStyle.bold(chosenGrocery.getName()).green() + "? ");
