@@ -6,6 +6,8 @@ import java.util.Objects;
  * A class representing the decorator interface for a generic filter chain.
  * @param <E> The type of objects examined by this filter
  */
+
+//Combines all of the used filters into one nested filter
 public class Filter <E>{
     protected Filter<E> child;
 

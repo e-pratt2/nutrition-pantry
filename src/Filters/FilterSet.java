@@ -21,6 +21,8 @@ public class FilterSet {
         groceryFilter = Filter.AlwaysPass;
         receiptFilter = Filter.AlwaysPass;
     }
+
+    //Stores all of the used filters
     public FilterSet(Filter<Store> storeFilter, Filter<Grocery> groceryFilter, Filter<Receipt> receiptFilter) {
         if(storeFilter == null)
             this.storeFilter = Filter.AlwaysPass;

@@ -17,6 +17,8 @@ public class GroceryNameFilter extends Filter<Grocery> {
      * @param name the case-insensitive name to check for.
      * @throws IllegalArgumentException on null or empty name.
      */
+
+    //Creates a specific Grocery Name filter
     public GroceryNameFilter(String name) {
         if(name == null || name.isEmpty())
             throw new IllegalArgumentException("bad param in GroceryNameFilter");
@@ -30,6 +32,8 @@ public class GroceryNameFilter extends Filter<Grocery> {
      * @param name the case-insensitive name to check for.
      * @throws IllegalArgumentException on null or empty name.
      */
+
+    //Creates a specific Grocery Name filter and allows another filter to wrap around
     public GroceryNameFilter(Filter<Grocery> child, String name) {
         super(child);
         if( name == null || name.isEmpty())
@@ -44,6 +48,8 @@ public class GroceryNameFilter extends Filter<Grocery> {
      * @return true if this filter and all it's children accept the grocery, false otherwise.
      * @throws IllegalArgumentException if grocery is null
      */
+
+    //checks if the grocery passed into the filter is accepted
     @Override
     public boolean accepts(Grocery grocery) {
         if(grocery == null)

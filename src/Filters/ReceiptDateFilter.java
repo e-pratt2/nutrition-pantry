@@ -19,6 +19,8 @@ public class ReceiptDateFilter extends Filter<Receipt> {
      * @param end the ending of the date range, exclusive
      * @throws IllegalArgumentException start or end is null.
      */
+
+    //Creates a specific Receipt Date filter
     public ReceiptDateFilter(Filter<Receipt> child, LocalDate start, LocalDate end) {
         super(child);
 
@@ -34,6 +36,8 @@ public class ReceiptDateFilter extends Filter<Receipt> {
      * @param end the ending of the date range, exclusive
      * @throws IllegalArgumentException start or end is null.
      */
+
+    //Creates a specific Grocery Name filter and allows another filter to wrap around
     public ReceiptDateFilter(LocalDate start, LocalDate end) {
         if(start == null || end == null)
             throw new IllegalArgumentException("bad param ReceiptDateFilter");
@@ -48,6 +52,8 @@ public class ReceiptDateFilter extends Filter<Receipt> {
      * @return true if the receipt is within the given date range and this filter's children also accept it.
      * @throws IllegalArgumentException receipt is null.
      */
+
+    //checks if the receipt passed into the filter is accepted
     @Override
     public boolean accepts(Receipt receipt) {
         if(receipt == null)

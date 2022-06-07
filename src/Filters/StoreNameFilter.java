@@ -17,6 +17,8 @@ public class StoreNameFilter extends Filter<Store> {
      * @param name the name to check for, case-insensitive
      * @throws IllegalArgumentException if name is null or empty.
      */
+
+    //Creates a specific Store Name filter
     public StoreNameFilter(String name) {
         if(name == null || name.isEmpty())
             throw new IllegalArgumentException("bad param in StoreNameFilter");
@@ -31,6 +33,8 @@ public class StoreNameFilter extends Filter<Store> {
      * @param name the name to check for, case-insensitive.
      * @throws IllegalArgumentException if name is null or empty
      */
+
+    //Creates a specific Grocery Name filter and allows another filter to wrap around this filter
     public StoreNameFilter(Filter<Store> child, String name) {
         super(child);
 
@@ -45,6 +49,8 @@ public class StoreNameFilter extends Filter<Store> {
      * @return true if the store name matches, and the child filters also accept it.
      * @throws IllegalArgumentException if store is null
      */
+
+    //checks if the store object is accepted by the filter
     @Override
     public boolean accepts(Store store) {
         if(store == null)
