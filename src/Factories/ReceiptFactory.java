@@ -20,38 +20,44 @@ public class ReceiptFactory {
      * @return the parsed object.
      */
     public Receipt createReceipt() {
+        //Prompt for a date and create the base receipt
         LocalDate date = UIHelpers.promptDate("Receipt Date");
         Receipt r = new Receipt(date);
-        String groceryName;
 
+        //Loop as long as the user wishes to continue adding groceries
         do{
             Grocery chosenGrocery = null;
 
+            //Loop as long as the user wants to keep searching
             while(true) {
-                groceryName = UIHelpers.promptString("Search for a grocery name: ");
-                if (groceryName.isBlank())
-                    break;
+                //Ask for a search phrase
+                String groceryName = UIHelpers.promptString("Search for a grocery name: ");
 
-
+                //Execute the search, collect the results object
                 SearchResults<Grocery> results = FuzzySearch.search(groceryName, SerializableDatabase.getInstance().getGroceries(), Grocery::getName);
 
+                //Prompt to choose from a list of the best 5, or search again
                 SearchResults<Grocery>.Result chosen = UIHelpers.chooseObjectOrOther(
                         results.getBestResults(5), SearchResults.Result::toString,
                         "Search Again"
                 );
 
-                //If null, they chose to search again
+                //If null, they chose to search again, fallthrough and repeat
+                //Otherwise, assign the chosen grocery and break
                 if(chosen != null) {
                     chosenGrocery = chosen.getObject();
                     break;
                 }
             }
 
+            //Prompt for the quantity,
             double groceryQuantity = UIHelpers.promptDouble("Quantity of " + ConsoleStyle.bold(chosenGrocery.getName()).green() + "? ");
 
+            //Add it to the receipt!
             r.addGrocery(chosenGrocery, groceryQuantity);
         } while(UIHelpers.promptBoolean("Continue adding groceries to this receipt?", true));
 
+        //Return completed receipt
         return r;
     }
 }
