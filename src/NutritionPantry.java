@@ -42,6 +42,7 @@ public class NutritionPantry {
         //Not null - a file was chosen
         if(open != null) {
             try {
+                //Try to open, if it fails fallback to creating a new one
                 SerializableDatabase.loadInstance(open.getPath());
             } catch(IOException e) {
                 System.out.println(ConsoleStyle.bold("Could not open database:").red() + e.getMessage());
@@ -53,22 +54,27 @@ public class NutritionPantry {
 
         //Enter the main loop of the program, asking for actions to perform
         while(true)
+            //Try to execute a user command, scald them appropriately if they cause an error
             try {
+                //Switch on the user's choice from the menu....
                 switch (UIHelpers.promptMenu(menuOptions)) {
-                    case 1:
+                    case 1: //Add store
                         StoreFactory s = new StoreFactory();
                         SerializableDatabase.getInstance().addStore(s.createStore());
                         break;
-                    case 2:
+                    case 2: //Add receipts
                         addReceipts();
                         break;
-                    case 3:
+                    case 3: //Add Groceries
                         addGroceries();
                         break;
-                    case 4:
+                    case 4: //Analysis...
                         CommandLine cl = new CommandLine();
 
+                        //Continue to execute as long as the command line says to
                         while (true) {
+                            //Attempts to parse and execute. Will catch syntax errors, but allows
+                            //internal errors to propagate out.
                             try {
                                 if (!cl.fetchAndExecute())
                                     break;
@@ -140,28 +146,39 @@ public class NutritionPantry {
      * Requires that there be stores present in the database beforehand.
      */
     private static void addReceipts() {
+        //Create a receipt factory
         ReceiptFactory fact = new ReceiptFactory();
         SerializableDatabase database = SerializableDatabase.getInstance();
 
+        //Choose which store to add to...
         Store s = UIHelpers.chooseObject(database.getStores(), Store::getName);
         if(s == null) {
+            //No stores, show an error and exit
             System.out.println(ConsoleStyle.red("Please add some stores first!"));
             return;
         }
+
+        //Enter a loop - keep creating groceries until the user is done
         do {
+            //Prompt and create the receipt
             Receipt r = fact.createReceipt();
 
             //Find any groceries without an associated price, and prompt for their price.
             for(Grocery g : r.getGroceries()) {
                 if(!s.hasPrice(g)) {
+                    //Prompt for price,
                     double price = UIHelpers.promptDouble("Price of " + ConsoleStyle.bold(g.getName()).green()
                                     + " at " + ConsoleStyle.bold(s.getName()).green() + "? ");
 
+                    //Set the price within the store object
                     s.setPriceOf(g, price);
                 }
             }
 
+            //Add this receipt to the database
             database.addReceipt(r, s);
+
+            //Prompt if continue (default to true)
         } while(UIHelpers.promptBoolean("Continue adding receipts to " + ConsoleStyle.green(s.getName()) + "?", true));
     }
 
@@ -170,19 +187,12 @@ public class NutritionPantry {
      * continuously prompt for new groceries in that style until the user is done.
      */
     private static void addGroceries(){
-        String str = UIHelpers.promptString("Do you want to add the grocery manually or using a UPC? " + ConsoleStyle.bold("[DIY/UPC] ").blue());
-        GroceryFactory groceryFactory;
-        if(str.equalsIgnoreCase("DIY"))
-            groceryFactory = new DIYFactory();
-        else if(str.equalsIgnoreCase("UPC"))
-            groceryFactory = new UPCGroceryFactory();
-        else{
-            System.out.println("Invalid Choice! Returning to Main Menu.");
-            return;
-        }
+        //Make the factory that allows the user to choose input type
+        GroceryFactory factory = new ChooseGroceryFactory();
 
+        //Continuously ask for new groceries until the user exits
         do{
-            SerializableDatabase.getInstance().addGrocery(groceryFactory.createGrocery());
+            SerializableDatabase.getInstance().addGrocery(factory.createGrocery());
         }while(UIHelpers.promptBoolean("Continue adding groceries?", true));
     }
 
