@@ -10,6 +10,7 @@ import UI.UIHelpers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -197,27 +198,36 @@ public class NutritionPantry {
     }
 
     /**
-     * Prompts the user to choose a file to save/load to/from. Provides a list of files in the working directory to
-     * choose from, or allows the user to specify their own path.
-     * @return File - the chosen file object, which may or may not exist already.
+     * List all the files in the working directory
+     * @return a list of files, or an empty list if none are found.
      */
-    private static File chooseFile() {
+    private static List<File> enumerateFiles() {
         File folder = new File(".");
         File[] items = folder.listFiles();
 
         //If there are items in the folder...
         if(items != null) {
-            List<File> files = Arrays.stream(items).filter(File::isFile).collect(Collectors.toList());
-
-            File chosen = UIHelpers.chooseObjectOrOther(files, File::getName, "Other...");
-
-            if (chosen != null)
-                return chosen;
-
-            //If chosen was null, fallthrough and prompt
+            return Arrays.stream(items).filter(File::isFile).collect(Collectors.toList());
+        } else {
+            return new ArrayList<File>();
         }
+    }
 
-        //Prompt the user for a file if none was specified by the menu
+    /**
+     * Prompts the user to choose a file to save/load to/from. Provides a list of files in the working directory to
+     * choose from, or allows the user to specify their own path.
+     * @return File - the chosen file object, which may or may not exist already.
+     */
+    private static File chooseFile() {
+        List<File> files = enumerateFiles();
+
+        File chosen = UIHelpers.chooseObjectOrOther(files, File::getName, "Other...");
+
+        //File was chosen
+        if (chosen != null)
+            return chosen;
+
+        //File was not chosen, prompt for a custom path.
         return UIHelpers.promptFilepath("Enter path: ").toFile();
     }
 
@@ -227,20 +237,10 @@ public class NutritionPantry {
      * @return File - the chosen file object, which may or may not exist already.
      */
     private static File chooseFileOrNone() {
-        File folder = new File(".");
-        File[] items = folder.listFiles();
+        List<File> files = enumerateFiles();
 
-        //If there are items in the folder...
-        if(items != null) {
-            List<File> files = Arrays.stream(items).filter(File::isFile).collect(Collectors.toList());
+        File chosen = UIHelpers.chooseObjectOrOther(files, File::getName, "Create new...");
 
-            File chosen = UIHelpers.chooseObjectOrOther(files, File::getName, "Create new...");
-
-            return chosen;
-
-            //If chosen was null, fallthrough and prompt
-        }
-
-        return null;
+        return chosen;
     }
 }
