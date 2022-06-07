@@ -25,32 +25,45 @@ public class UPCGroceryFactory implements GroceryFactory {
      */
     @Override
     public Grocery createGrocery() {
+        //Get the name
         String name = promptName();
+
+        //Prompt and parse the nutrition...
         Nutrition n;
         do {
             n = promptAndParseUPC();
 
+            //It succeeded! continue
             if(n != null)
                 break;
+
+            //Prompt if they'd like to retry
         } while(UIHelpers.promptBoolean("Failed to get information. Try again?", true));
 
+        //If it failed and they decided to not retry, return no object.
         if(n == null){
             return null;
         }
 
+        //Ask the servings... (the online database servings are notably unreliable)
         double servings = UIHelpers.promptDouble("Servings per container: ");
 
+        //Compose the object and return
         return new Grocery(name, n, servings);
     }
 
     /**
      * prompts the user for the UPC, re-prompting if its invalid
-     * @return returns the string containing the UPC
+     * @return returns the string containing the valid UPC
      */
     private static String promptCode() {
+        //Get the user input...
         String upc;
         upc = UIHelpers.promptString("Enter the product UPC: ");
+
+        //While the code is not valid...
         while(!validateCode(upc)){
+            //prompt again!
             upc = UIHelpers.promptString("Invalid UPC, try again: ");
         }
         return upc;
@@ -67,18 +80,21 @@ public class UPCGroceryFactory implements GroceryFactory {
     /**
      * prompts the user for the code and parses the string.
      * gets the Nutrition information online
-     * @return the Nutrition object, or null if there is a server error
+     * @return the Nutrition object, or null if there is a server error or parsing error
      */
     private Nutrition promptAndParseUPC() {
+        //Prompt...
         String upc = promptCode();
+        //Download...
         String json = getOpenFoodFactsJSON(upc);
         if(json == null)
             return null;
+        //Parse!
         return parseJSON(json);
     }
 
     /**
-     * makes sure that the UPC is valid
+     * Validates the checksum of the given UPC or EAN.
      * @param upc A 12-digit numeric UPC or 13-digit EAN string to checksum for validity
      * @return whether the UPC represents a valid code according to the UPC-12 or EAN-13 standard
      */
@@ -127,27 +143,41 @@ public class UPCGroceryFactory implements GroceryFactory {
      */
     public static String getOpenFoodFactsJSON(String upc) {
         System.out.print("Downloading...");
+
         HttpURLConnection con = null;
+        //Begin a connection.
         try {
+            //Create a url to the openfoodfacts database, with the given product code, requesting JSON format.
             URL url = new URL("https://world.openfoodfacts.org/api/v0/product/" + upc + ".json");
+
+            //Open a synchronous HTTP GET connection
             con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 
+            //If the server replied in error,
             if(con.getResponseCode() != 200) {
+                //Print a message and return.
                 System.out.println("Failed to download information, check your internet connection.");
                 return null;
             }
+            //Get the raw input stream for the server's response
             InputStream is = con.getInputStream();
 
+            //Read it into a string and return.
             return new BufferedReader(new InputStreamReader(is))
                     .lines().collect(Collectors.joining("\n"));
+
+            //In the case of error...
         } catch(Exception e) {
-            e.printStackTrace();
+            //Rethrow as an unchecked exception.
+            throw new RuntimeException(e);
+
+            //Finally, in case of exception or not...
         } finally {
+            //Close the connection, if it's open
             if(con != null)
                 con.disconnect();
         }
-        return null;
     }
 
     /**
@@ -158,12 +188,16 @@ public class UPCGroceryFactory implements GroceryFactory {
      */
     public static Nutrition parseJSON(String json) {
         System.out.print("Parsing...");
+        //Use the JSON library to parse.
         JSONObject j = new JSONObject(json);
+        //If the server replied with a status of not found/other error, return nothing.
         if(j.getInt("status") != 1)
             return null;
 
+        //Get the nutriments property, holding the nutrition information
         JSONObject nutriments = j.getJSONObject("product").getJSONObject("nutriments");
 
+        //Get or 0, allowing for some or all of the fields to be defined.
         double calories = nutriments.optDouble("energy-kcal_serving", 0.0);
         double fat = nutriments.optDouble("fat_serving", 0.0);
         double sugar = nutriments.optDouble("sugars_serving", 0.0);
@@ -171,6 +205,7 @@ public class UPCGroceryFactory implements GroceryFactory {
         double protein = nutriments.optDouble("proteins_serving", 0.0);
         double sodium = nutriments.optDouble("sodium_serving", 0.0);
 
+        //Finish and compose the new object.
         System.out.println("Done!");
         return new Nutrition(calories, fat, sugar, fiber, protein, sodium);
     }
