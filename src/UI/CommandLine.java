@@ -52,9 +52,12 @@ public class CommandLine {
      * Prompt, get, and split the user's input from System.in.
      */
     public void fetchInput() {
+        //Print out a symbol to indicate command mode
         System.out.print(ConsoleStyle.bold(">> "));
+        //Get the user input
         Scanner kb = UIHelpers.getScanner();
         String str = kb.nextLine();
+        //Parse into lines, based on a comma prefixed and suffixed with zero or more spaces
         this.lines = str.split(" *, *");
     }
 
@@ -64,14 +67,17 @@ public class CommandLine {
      * @throws CommandSyntaxException on unrecognized user input
      */
     public FilterSet parseFilter(){
+        //Start with "empty" filters that always accept objects.
         Filter<Store> storeFilter = Filter.AlwaysPass;
         Filter<Grocery> groceryFilter = Filter.AlwaysPass;
         Filter<Receipt> receiptFilter = Filter.AlwaysPass;
 
+        //Starting from the *second* line, parse filters
         for(int i = 1; i < this.lines.length; i++){
-
+            //Parse into tokens, text separated by zero or more spaces
             String[] str = this.lines[i].split(" +");
 
+            //first token is "store", parse a store section, etc.
             if(str[0].equalsIgnoreCase("store"))
                 storeFilter = parseStoreFilter(str);
             else if(str[0].equalsIgnoreCase("grocery"))
@@ -79,8 +85,10 @@ public class CommandLine {
             else if(str[0].equalsIgnoreCase("receipt"))
                 receiptFilter = parseReceiptFilter(str);
             else
+                //Unknown filter section, throw a helpful error
                 throw new CommandSyntaxException("Unrecognized section " + str[0]);
         }
+        //Bind all three into a filterset and return
         return new FilterSet(storeFilter, groceryFilter, receiptFilter);
     }
 
@@ -91,9 +99,13 @@ public class CommandLine {
      * @throws CommandSyntaxException on unrecognized user input
      */
     private Filter<Store> parseStoreFilter(String[] str){
+        //Begin with an "empty" filter
         Filter<Store> f = Filter.AlwaysPass;
+        //For each token starting from the second...
         for(int i = 1; i < str.length; i += 2){
+            //Name filter - parse next token as the name to check against
             if(str[i].equalsIgnoreCase("name"))
+                //the "_" character serves as a placeholder for the space character, correct this here
                 f = new StoreNameFilter(f, str[i+1].replace('_', ' '));
             else
                 throw new CommandSyntaxException("Unrecognized filter " + str[i]);
@@ -108,9 +120,12 @@ public class CommandLine {
      * @throws CommandSyntaxException on unrecognized user input
      */
     private Filter<Grocery> parseGroceryFilter(String[] str){
+        //Begin with an "empty" filter
         Filter<Grocery> f = Filter.AlwaysPass;
+        //For each token starting from the second...
         for(int i = 1; i < str.length; i += 2){
             if(str[i].equalsIgnoreCase("name"))
+                //the "_" character serves as a placeholder for the space character, correct this here
                 f = new GroceryNameFilter(f, str[i+1].replace('_', ' '));
             else{
                 throw new CommandSyntaxException("Unrecognized filter " + str[i]);
@@ -126,14 +141,19 @@ public class CommandLine {
      * @throws CommandSyntaxException on unrecognized user input
      */
     private Filter<Receipt> parseReceiptFilter(String[] str) {
+        //Begin with an "empty" filter
         Filter<Receipt> f = Filter.AlwaysPass;
+        //For each token starting from the second...
         for(int i = 1; i < str.length; i += 3){
             if(str[i].equalsIgnoreCase("between")){
                 try {
+                    //Parse the next two tokens as dates. Will throw on bad format.
                     LocalDate begin = LocalDate.parse(str[i + 1], DateTimeFormatter.ISO_LOCAL_DATE);
                     LocalDate end = LocalDate.parse(str[i + 2], DateTimeFormatter.ISO_LOCAL_DATE);
 
+                    //Compose the filter
                     f = new ReceiptDateFilter(f, begin, end);
+                    //On bad format, throw a syntax exception.
                 } catch(DateTimeParseException e) {
                     throw new CommandSyntaxException(e.getMessage());
                 }
@@ -270,7 +290,9 @@ public class CommandLine {
      * @throws CommandSyntaxException if any stage of the execute cycle encountered bad syntax.
      */
     public boolean fetchAndExecute() {
+        //Get, split,
         this.fetchInput();
+        //parse, run!
         return this.execute(this.parseFilter());
     }
 }
