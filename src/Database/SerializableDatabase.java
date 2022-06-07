@@ -24,6 +24,7 @@ public class SerializableDatabase implements Serializable {
 
     }
 
+    //All of the methods that use the instance variable use the singleton pattern
     /**
      * this method crates SerializableDatabase object only once if its null
      * otherwise return the SerializableDatabase object
@@ -48,9 +49,12 @@ public class SerializableDatabase implements Serializable {
      * @throws IOException if the file writing failed.
      */
     public static void saveInstance(String filepath) throws IOException {
+        //tries to open a file output strean
+        //if fails closes the file
         try(FileOutputStream file = new FileOutputStream(filepath)) {
+            //does serialization
             ObjectOutputStream objStream = new ObjectOutputStream(file);
-
+            //reads the objects into the object stream
             objStream.writeObject(getInstance());
         }
     }
@@ -61,12 +65,17 @@ public class SerializableDatabase implements Serializable {
      * @throws IOException if loading failed due to an IO error.
      */
     public static void loadInstance(String filepath) throws IOException {
+        //trys to open a file input stream
+        //if an exception is thrown it will close the file
         try(FileInputStream file = new FileInputStream(filepath)) {
+            //does the deserialization
             ObjectInputStream objStream = new ObjectInputStream(file);
 
             try{
+                //reads the objects from the object stream
                 Object obj = objStream.readObject();
                 instance = (SerializableDatabase) obj;
+            //throws exception if reading from the object stream fails
             } catch(ClassNotFoundException | ClassCastException e) {
                 System.out.println("failed to load database :(");
             }
