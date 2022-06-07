@@ -13,7 +13,9 @@ public class StoreFactory {
      * @return the store object created
      */
     public Store createStore() {
+        //prompts the user for the name of the store
         String str = UIHelpers.promptString("Input Store Name: ");
+        //returns the store object
         return new Store(str);
     }
 }
