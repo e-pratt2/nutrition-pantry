@@ -34,6 +34,24 @@ public class NutritionPantry {
      * @param args - Unused, leave empty.
      */
     public static void main(String[] args) {
+        //At the start, prompt the user to open or create a database.
+        System.out.println(ConsoleStyle.bold("Choose a database to open!").green());
+
+        File open = chooseFileOrNone();
+
+        //Not null - a file was chosen
+        if(open != null) {
+            try {
+                SerializableDatabase.loadInstance(open.getPath());
+            } catch(IOException e) {
+                System.out.println(ConsoleStyle.bold("Could not open database:").red() + e.getMessage());
+                System.out.println("Creating new database.");
+            }
+        } else {
+            System.out.println("Creating new database.");
+        }
+
+        //Enter the main loop of the program, asking for actions to perform
         while(true)
             try {
                 switch (UIHelpers.promptMenu(menuOptions)) {
@@ -55,7 +73,7 @@ public class NutritionPantry {
                                 if (!cl.fetchAndExecute())
                                     break;
                             } catch (CommandSyntaxException e) {
-                                System.out.println("" + ConsoleStyle.bold("Command error: ").red() + e.getMessage());
+                                System.out.println(ConsoleStyle.bold("Command error: ").red() + e.getMessage());
                             }
                         }
 
@@ -69,7 +87,7 @@ public class NutritionPantry {
                                     System.out.println("Load cancelled.");
                             } else SerializableDatabase.loadInstance(chooseFile().toString());
                         } catch (IOException e) {
-                            System.out.println("Failed to load database.");
+                            System.out.println(ConsoleStyle.bold("Failed to open database:").red() + e.getMessage());
                         }
                         break;
                     case 6:
@@ -88,7 +106,7 @@ public class NutritionPantry {
                             }
 
                         } catch (IOException e) {
-                            System.out.println("Failed to save database.");
+                            System.out.println(ConsoleStyle.bold("Failed to save database:").red() + e.getMessage());
                         }
                         break;
                     case 7:
@@ -107,7 +125,8 @@ public class NutritionPantry {
                             }
                             return;
                         } catch (IOException e) {
-                            System.out.println("Failed to save database, refusing to exit.");
+                            System.out.println(ConsoleStyle.bold("Failed to save database:").red() + e.getMessage());
+                            System.out.println("Refusing to exit.");
                             break;
                         }
                 }
@@ -190,5 +209,28 @@ public class NutritionPantry {
 
         //Prompt the user for a file if none was specified by the menu
         return UIHelpers.promptFilepath("Enter path: ").toFile();
+    }
+
+    /**
+     * Prompts the user to choose a file to save/load to/from. Provides a list of files in the working directory to
+     * choose from, or allows the user to specify "none"
+     * @return File - the chosen file object, which may or may not exist already.
+     */
+    private static File chooseFileOrNone() {
+        File folder = new File(".");
+        File[] items = folder.listFiles();
+
+        //If there are items in the folder...
+        if(items != null) {
+            List<File> files = Arrays.stream(items).filter(File::isFile).collect(Collectors.toList());
+
+            File chosen = UIHelpers.chooseObjectOrOther(files, File::getName, "Create new...");
+
+            return chosen;
+
+            //If chosen was null, fallthrough and prompt
+        }
+
+        return null;
     }
 }
