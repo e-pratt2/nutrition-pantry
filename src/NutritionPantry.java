@@ -3,10 +3,7 @@ import Database.Receipt;
 import Database.SerializableDatabase;
 import Database.Store;
 import Factories.*;
-import UI.CommandLine;
-import UI.CommandSyntaxException;
-import UI.ConsoleStyle;
-import UI.UIHelpers;
+import UI.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +32,11 @@ public class NutritionPantry {
      * @param args - Unused, leave empty.
      */
     public static void main(String[] args) {
+        //Prompt if the user would like to disable styling characters
+        boolean useAnsi = UIHelpers.promptBoolean("Use ANSI Styling? ", true);
+
+        ConsoleStyleBuilder.setUseAnsi(useAnsi);
+
         //At the start, prompt the user to open or create a database.
         System.out.println(ConsoleStyle.bold("Choose a database to open!").green());
 

@@ -7,6 +7,16 @@ public class ConsoleStyleBuilder {
     private String text;
     private StringBuilder builder;
 
+    private static boolean useAnsi = true;
+
+    /**
+     * Set the global enable flag for ansi styling
+     * @param use whether to enable or not
+     */
+    public static void setUseAnsi(boolean use) {
+        useAnsi = use;
+    }
+
     /**
      * Create a new builder around the specified text.
      * @param s the text to style
@@ -125,6 +135,10 @@ public class ConsoleStyleBuilder {
      */
     @Override
     public String toString() {
-        return builder.append(text).append(RESET).toString();
+        //Style if enabled, otherwise return unstyled
+        if(useAnsi)
+            return builder.append(text).append(RESET).toString();
+        else
+            return text;
     }
 }
