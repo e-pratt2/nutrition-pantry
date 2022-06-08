@@ -32,6 +32,9 @@ public class NutritionPantry {
      * @param args - Unused, leave empty.
      */
     public static void main(String[] args) {
+        //Default to no styling
+        ConsoleStyleBuilder.setUseAnsi(false);
+
         //Prompt if the user would like to disable styling characters
         boolean useAnsi = UIHelpers.promptBoolean("Use ANSI Styling? ", true);
 
