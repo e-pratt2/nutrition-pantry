@@ -60,7 +60,7 @@ class UIHelpersTest {
 
         //Test with a valid double
         double value = UIHelpers.promptDouble("Double, if you please");
-        assertEquals(outputBuffer.toString(), "Double, if you please\r\n");
+        assertEquals(outputBuffer.toString(), "Double, if you please");
         assertEquals(12.34, value);
 
         //Reset user input
@@ -68,7 +68,7 @@ class UIHelpersTest {
 
         //Test with an invalid double, followed by a retry
         value = UIHelpers.promptDouble("Another, if you please");
-        assertEquals(outputBuffer.toString(), "Double, if you please\r\nAnother, if you please\r\nInvalid value, try again.\r\n");
+        assertEquals(outputBuffer.toString(), "Double, if you pleaseAnother, if you pleaseInvalid value, try again: ");
         assertEquals(33.33, value);
 
         //Reset in and out
@@ -87,7 +87,7 @@ class UIHelpersTest {
 
         //Test with a valid double
         String value = UIHelpers.promptString("String time");
-        assertEquals(outputBuffer.toString(), "String time\r\n");
+        assertEquals(outputBuffer.toString(), "String time");
         assertEquals("zoop f4", value);
 
         //Reset user input
@@ -95,7 +95,7 @@ class UIHelpersTest {
 
         //Test with an strange string
         value = UIHelpers.promptString("Another, if you please");
-        assertEquals(outputBuffer.toString(), "String time\r\nAnother, if you please\r\n");
+        assertEquals(outputBuffer.toString(), "String timeAnother, if you please");
         assertEquals("weird string \uD83D\uDC11", value);
 
         //Reset in and out
@@ -114,7 +114,7 @@ class UIHelpersTest {
 
         //Test with a valid date
         LocalDate value = UIHelpers.promptDate("Cool date");
-        assertEquals(outputBuffer.toString(), "Cool date (yyyy-mm-dd)\r\n");
+        assertEquals(outputBuffer.toString(), "Cool date (yyyy-mm-dd) ");
         assertEquals(LocalDate.of(2001, 12, 30), value);
 
         //Reset user input
@@ -122,7 +122,7 @@ class UIHelpersTest {
 
         //Test with two bad dates, and a good one
         value = UIHelpers.promptDate("Another, if you please");
-        assertEquals(outputBuffer.toString(), "Cool date (yyyy-mm-dd)\r\nAnother, if you please (yyyy-mm-dd)\r\nInvalid date, try again.\r\nInvalid date, try again.\r\n");
+        assertEquals(outputBuffer.toString(), "Cool date (yyyy-mm-dd) Another, if you please (yyyy-mm-dd) Invalid date, try again: Invalid date, try again: ");
         assertEquals(LocalDate.of(2022, 05, 24), value);
 
         //Reset in and out
@@ -141,14 +141,16 @@ class UIHelpersTest {
 
         //Test with a valid date
         boolean value = UIHelpers.promptBoolean("yes?", true);
-        assertEquals(outputBuffer.toString(), "yes? [Y/n]\r\n");
+        assertEquals(outputBuffer.toString(), "yes? " + ConsoleStyle.bold("[Y/n] ").blue());
         assertTrue(value);
 
         //Reset user input, a bad bool followed by blank input (take default value)
         setInput("this isn't an answer!\n\n");
 
         value = UIHelpers.promptBoolean("Another, if you please", false);
-        assertEquals(outputBuffer.toString(), "yes? [Y/n]\r\nAnother, if you please [y/N]\r\nUnrecognized value, try again.\r\n");
+        assertEquals(outputBuffer.toString(), "yes? " + ConsoleStyle.bold("[Y/n] ").blue()
+                + "Another, if you please " + ConsoleStyle.bold("[y/N] ").blue()
+                + "Unrecognized value, try again: ");
         assertFalse(value);
 
         //Reset in and out

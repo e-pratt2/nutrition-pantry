@@ -86,15 +86,14 @@ class NutritionTest {
     @Test
     void multiply() {
         Nutrition n = new Nutrition(1.0,1.0,1.0,1.0,1.0,1.0);
-        Nutrition n1 = new Nutrition(1.0,1.0,1.0,1.0,1.0,1.0);
-        n.multiply(2);
+        Nutrition n1 =  n.multiply(2);
 
-        assertEquals(2.0, n.getCalories());
-        assertEquals(2.0, n.getFat());
-        assertEquals(2.0, n.getSugar());
-        assertEquals(2.0, n.getFiber());
-        assertEquals(2.0, n.getProtein());
-        assertEquals(2.0, n.getSodium());
+        assertEquals(2.0, n1.getCalories());
+        assertEquals(2.0, n1.getFat());
+        assertEquals(2.0, n1.getSugar());
+        assertEquals(2.0, n1.getFiber());
+        assertEquals(2.0, n1.getProtein());
+        assertEquals(2.0, n1.getSodium());
     }
 
     @Test

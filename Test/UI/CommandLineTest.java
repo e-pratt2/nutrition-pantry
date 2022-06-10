@@ -90,7 +90,7 @@ class CommandLineTest {
             obj.execute(fs);
         });
 
-        setInput("avg-price, store name Safeway, grocery name cabbage, receipt between 2012-12-12 2020-12-12\n");
+        setInput("price/day, store name Safeway, grocery name cabbage, receipt between 2012-12-12 2020-12-12\n");
         obj.fetchInput();
         assertTrue(obj.execute(fs));
 
